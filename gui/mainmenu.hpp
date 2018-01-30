@@ -21,6 +21,8 @@ class Menu{
 	void goToPage(int page);
 	void setVertexPos(sf::Vertex *v, int x, int y, int w);
 	void setVertexRect(sf::Vertex *v, int x, int y, int w);
+	void update();
+	bool isPage(int buttonIndex);
 };
 
 extern Menu *menu;

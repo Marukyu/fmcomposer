@@ -1,4 +1,4 @@
-﻿#include "globalFunctions.hpp"
+ï»¿#include "globalFunctions.hpp"
 #include "input/noteInput.hpp"
 #include "views/instrument/instrEditor.hpp"
 #include "views/general/generalEditor.hpp"
@@ -59,31 +59,32 @@ string pathSeparator = "\\";
 string pathSeparator = "/";
 #endif
 
-string intervals[25] = { "Perfect unison",
-"Minor second",
-"Major second",
-"Minor third",
-"Major third",
-"Perfect fourth",
-"Tritone",
-"Perfect fifth",
-"Minor sixth",
-"Major sixth",
-"Minor seventh",
-"Major seventh",
-"Perfect octaveh",
-"Minor ninth",
-"Major ninth",
-"Minor tenth",
-"Major tenth",
-"Perfect eleventh",
-"Augmented eleventh",
-"Perfect twelfth",
-"Minor thirteenth",
-"Major thirteenth",
-"Minor fourteenth",
-"Major fourteenth",
-"Double octave"
+string intervals[25] = {
+	"Perfect unison",
+	"Minor second",
+	"Major second",
+	"Minor third",
+	"Major third",
+	"Perfect fourth",
+	"Tritone",
+	"Perfect fifth",
+	"Minor sixth",
+	"Major sixth",
+	"Minor seventh",
+	"Major seventh",
+	"Perfect octaveh",
+	"Minor ninth",
+	"Major ninth",
+	"Minor tenth",
+	"Major tenth",
+	"Perfect eleventh",
+	"Augmented eleventh",
+	"Perfect twelfth",
+	"Minor thirteenth",
+	"Major thirteenth",
+	"Minor fourteenth",
+	"Major fourteenth",
+	"Double octave"
 };
 
 int keyboard2note(int keyCode)

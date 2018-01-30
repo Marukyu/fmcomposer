@@ -23,7 +23,6 @@
 
 Uint32 textEntered[32];
 
-//char appDir[256];
 Texture *tileset;
 
 View patternView, patternTopView, borderView, globalView, patNumView, instrView;
@@ -43,9 +42,9 @@ int main(int argc, char *argv[])
 
 	gui_initialize();
 
+	/* Create main UI */
 	sidebar = new Sidebar();
 	menu = new Menu(14);
-
 
 	/* Create pages */
 	config = new ConfigEditor();
@@ -60,45 +59,12 @@ int main(int argc, char *argv[])
 	/* Start the app on the song editor */
 	menu->goToPage(PAGE_SONG);
 
-	/* Configure the sound output */
+	/* Select a default sound device or the previous selected one */
 	config->selectBestSoundDevice();
 
-	
-
-	// reads all GM-mapped instruments .. to do things on them
-
-	/*extern CSimpleIniA ini_gmlist;
-	int wstats[7]={0,0,0,0,0,0,0};
-	int icount=0;
-	for (int i = 0; i < 143; i++){
-	if (fm_loadInstrument(fm, string(string("instruments/") + ini_gmlist.GetValue("melodic", int2str[i].c_str(), "0") + string(".fmci")).c_str(), 0)<0){
-	printf(string(string(string("instruments/") + ini_gmlist.GetValue("melodic", int2str[i].c_str(), "0") + string(".fmci\n")).c_str()).c_str());
-	continue;
-	}
-	fm_saveInstrument(fm, string(string("instruments/")+ini_gmlist.GetValue("melodic", int2str[i].c_str(),"0")+string(".fmci")).c_str(),0);
-	for (int j = 0; j < 6; j++){
-	wstats[fm->instrument[0].waveform[j]]++;
-	if (fm->instrument[0].waveform[j]==4)
-	printf("%s\n",fm->instrument[0].name);
-	}
-	}
-
-	for (int i = 23; i < 88; i++){
-	if (fm_loadInstrument(fm, string(string("instruments/") + ini_gmlist.GetValue("percussion", int2str[i].c_str(), "0") + string(".fmci")).c_str(), 0)<0){
-	printf(string(string(string("instruments/") + ini_gmlist.GetValue("percussion", int2str[i].c_str(), "0") + string(".fmci\n")).c_str()).c_str());
-	continue;
-	}
-	fm_saveInstrument(fm, string(string("instruments/")+ini_gmlist.GetValue("percussion", int2str[i].c_str(),"0")+string(".fmci")).c_str(),0);
-	for (int j = 0; j < 6; j++){
-	wstats[fm->instrument[0].waveform[j]]++;
-	if (fm->instrument[0].waveform[j]==4)
-	printf("%s\n",fm->instrument[0].name);
-	}
-	}
-	return 0;*/
-	//printf("stats: %d %d %d %d %d %d %d\n",wstats[0],wstats[1],wstats[2],wstats[3],wstats[4],wstats[5],wstats[6]);
-
+	/* Load recent songs list */
 	config->loadRecentSongs();
+
 
 	if (argc > 1)
 	{
@@ -120,6 +86,7 @@ int main(int argc, char *argv[])
 
 
 
+		/* Don't respond to any input when window lose focus */
 
 		if (!windowFocus || mouse.clickLock2 > 0)
 		{
@@ -144,12 +111,8 @@ int main(int argc, char *argv[])
 		}
 		if (contextMenu == copyPasta)
 		{
-			
 			int value = contextMenu->clicked();
-			if (value >= 0)
-			{
-				
-			}
+
 			switch(value)
 			{
 				case 0:
@@ -164,119 +127,53 @@ int main(int argc, char *argv[])
 		if (!popup->visible)
 		{
 
-
-
-			if (!mouse.clickLock2)
+			static float dropdowntimer=0, dropdownclosetimer=0;
+			/* Recent songs menu */
+			if (menu->hovered() == 1)
 			{
-				static float dropdowntimer=0, dropdownclosetimer=0;
-				if (menu->hovered() == 1)
-				{
-					dropdowntimer+=frameTime60;
-					if (contextMenu!=recentSongs  && !mouse.clickg && dropdowntimer>20)
-						recentSongs->show(menu->items[1*4].position.x - 4, 28);
-				}
-				else if (menu->hovered() == 17)
-				{
-					if (state == songEditor)
-						songEditor->editTools.show(menu->items[17*4].position.x - 4, 28);
-					else if (state == instrEditor)
-						instrEditor->editTools.show(menu->items[17*4].position.x - 4, 28);
-				}
-				else if ( (contextMenu == recentSongs && !recentSongs->hover()
-					|| contextMenu == &songEditor->editTools && !songEditor->editTools.hover()
-					|| contextMenu == &instrEditor->editTools && !instrEditor->editTools.hover()
-					))
-				{
-					dropdownclosetimer+=frameTime60;
-					if (dropdownclosetimer > 15) {
-						contextMenu = NULL;
-						dropdownclosetimer=0;
-					}
-				}
-				else
-				{
-					dropdowntimer=0;
-					dropdownclosetimer=0;
-				}
-				int menuItem = menu->clicked();
-				if (menuItem > 0)
+				dropdowntimer+=frameTime60;
+				if (contextMenu!=recentSongs  && !mouse.clickg && dropdowntimer>20)
+					recentSongs->show(menu->items[1*4].position.x - 4, 28);
+			}
+			/* Edit tools menu */
+			else if (menu->hovered() == 17)
+			{
+				if (state == songEditor)
+					songEditor->editTools.show(menu->items[17*4].position.x - 4, 28);
+				else if (state == instrEditor)
+					instrEditor->editTools.show(menu->items[17*4].position.x - 4, 28);
+			}
+			/* Auto close those menus when mouse out */
+			else if ( (contextMenu == recentSongs && !recentSongs->hover()
+				|| contextMenu == &songEditor->editTools && !songEditor->editTools.hover()
+				|| contextMenu == &instrEditor->editTools && !instrEditor->editTools.hover()
+				))
+			{
+				dropdownclosetimer+=frameTime60;
+				if (dropdownclosetimer > 15)
 				{
 					contextMenu = NULL;
+					dropdownclosetimer=0;
 				}
-				switch (menuItem)
-				{
-					case 0: // new
-						isSongModified ? popup->show(POPUP_NEWFILE) : song_clear();
-						break;
-					case 1: // open
-						song_open();
-						break;
-					case 2: // save
-						song_save();
-						break;
-					case 3: // back
-						fm_setPosition(fm, 0, 0, 2);
-						songEditor->moveY(0);
-						break;
-					case 4: // top pattern
-						songEditor->moveY(0);
-						break;
-					case 5: // play
-						song_playPause();
-						break;
-					case 6: // stop
-						menu->button[5].setTextureRect(IntRect(100, 32, 32, 32));
-						fm_stop(fm, 1);
-						break;
-					case 10: // wave/mp3 export
-						popup->show(POPUP_STREAMEDEXPORT);
-						break;
-					case 9: // midi export
-						popup->show(POPUP_MIDIEXPORT);
-						break;
-					case 11: // save as
-						song_saveas();
-						break;
-					case 12: // general
-						menu->goToPage(PAGE_GENERAL);
-						break;
-					case 13: // song
-						menu->goToPage(PAGE_SONG);
-						break;
-					case 14: // instrument
-						menu->goToPage(PAGE_INSTRUMENT);
-						break;
-					case 7: // config
-						menu->goToPage(PAGE_CONFIG);
-						break;
-					case 15: // piano roll
-						menu->goToPage(PAGE_PIANOROLL);
-						break;
-					case 16: // piano roll
-						popup->show(POPUP_ABOUT);
-						break;
-
-				}
-				// re check clicklock in case it was set by a menu action
-				if (!mouse.clickLock2)
-				{
-
-					state->update();
-					instrEditor->handleGlobalEvents();
-					mouse.pos = input_getmouse(borderView);
-					sidebar->update();
-				}
-
-
 			}
-
+			else
+			{
+				dropdowntimer=0;
+				dropdownclosetimer=0;
+			}
+			menu->update();
+			// re check clicklock in case it was set by a menu action
+			if (!mouse.clickLock2)
+			{
+				state->update();
+				instrEditor->handleGlobalEvents();
+				mouse.pos = input_getmouse(borderView);
+				sidebar->update();
+			}
 		}
 
 		popup->handleEvents();
 
-
-
-		
 
 	drawing:
 		window->clear(colors[BACKGROUND]);
@@ -288,10 +185,12 @@ int main(int argc, char *argv[])
 
 		showInstrumentLights();
 
-		
 		popup->draw();
 
-		if (contextMenu) { contextMenu->draw(); }
+		if (contextMenu)
+		{
+			contextMenu->draw();
+		}
 
 
 		window->display();
@@ -301,8 +200,5 @@ int main(int argc, char *argv[])
 	}
 
 	global_exit();
-
-
-
 	return(0);
 }

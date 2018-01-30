@@ -5,8 +5,7 @@
 #include "../views/instrument/instrEditor.hpp"
 #include "../views/pattern/songEditor.hpp"
 #include "../views/pianoroll/pianoRoll.hpp"
-
-extern fmsynth* phanoo;
+#include "../gui/popup/popup.hpp"
 
 Menu *menu;
 
@@ -87,7 +86,7 @@ Menu::Menu(int def)
 			setVertexPos(&items[i*4],buttonPositions[i].x, buttonPositions[i].y,32 );
 	}
 
-	// fond dégradé
+	// fond dÃ©gradÃ©
 	bg.setPosition(0, 0);
 	bg.setSize(Vector2f(2280, 32));
 	bg.setFillColor(colors[MENUBG]);
@@ -109,8 +108,7 @@ void Menu::draw()
 	window->draw(bg);
 	window->draw(items, states);
 
-
-	if (selected == 12 || selected == 13 || selected == 14 || selected == 15 || selected == 7)
+	if (isPage(selected))
 	{
 		window->draw(select);
 	}
@@ -153,14 +151,21 @@ int Menu::hovered()
 	return -1;
 }
 
+bool isPage(int buttonIndex)
+{
+	return selected == PAGE_CONFIG || selected == PAGE_GENERAL || selected == PAGE_SONG || selected == PAGE_INSTRUMENT || selected == PAGE_PIANOROLL;
+}
+
 void Menu::goToPage(int page)
 {
-
-	if (page == 12 || page == 13 || page == 14 || page == 15 || page == 7)
+	/* Pages have a bar below them showing which is currently displayed */
+	if (isPage(page))
 	{
 		select.setPosition(items[page*4].position.x, 30);
 		selected = page;
-		if (page == 12 || page == 13 || page == 14)
+		
+		/* Some pages have bigger buttons */
+		if (page == PAGE_GENERAL || page == PAGE_SONG || page == PAGE_INSTRUMENT)
 		{
 			select.setSize(Vector2f(128, 2));
 		}
@@ -196,4 +201,70 @@ void Menu::goToPage(int page)
 	state->updateFromFM();
 
 
+}
+
+void Menu::update()
+{
+	if (!mouse.clickLock2)
+	{
+		int menuItem = menu->clicked();
+		if (menuItem > 0)
+		{
+			contextMenu = NULL;
+		}
+		switch (menuItem)
+		{
+			case 0: // new
+				isSongModified ? popup->show(POPUP_NEWFILE) : song_clear();
+				break;
+			case 1: // open
+				song_open();
+				break;
+			case 2: // save
+				song_save();
+				break;
+			case 3: // back
+				fm_setPosition(fm, 0, 0, 2);
+				songEditor->moveY(0);
+				break;
+			case 4: // top pattern
+				songEditor->moveY(0);
+				break;
+			case 5: // play
+				song_playPause();
+				break;
+			case 6: // stop
+				button[5].setTextureRect(IntRect(100, 32, 32, 32));
+				fm_stop(fm, 1);
+				break;
+			case 10: // wave/mp3 export
+				popup->show(POPUP_STREAMEDEXPORT);
+				break;
+			case 9: // midi export
+				popup->show(POPUP_MIDIEXPORT);
+				break;
+			case 11: // save as
+				song_saveas();
+				break;
+			case 12: // general
+				goToPage(PAGE_GENERAL);
+				break;
+			case 13: // song
+				goToPage(PAGE_SONG);
+				break;
+			case 14: // instrument
+				goToPage(PAGE_INSTRUMENT);
+				break;
+			case 7: // config
+				goToPage(PAGE_CONFIG);
+				break;
+			case 15: // piano roll
+				goToPage(PAGE_PIANOROLL);
+				break;
+			case 16:
+				show(POPUP_ABOUT);
+				break;
+	
+		}
+	}
 }
