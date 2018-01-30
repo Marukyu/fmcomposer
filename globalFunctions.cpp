@@ -1,4 +1,4 @@
-ï»¿#include "globalFunctions.hpp"
+#include "globalFunctions.hpp"
 #include "input/noteInput.hpp"
 #include "views/instrument/instrEditor.hpp"
 #include "views/general/generalEditor.hpp"
