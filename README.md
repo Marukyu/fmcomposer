@@ -14,3 +14,11 @@ The audio engine is written in pure C and was optimized for lowest CPU usage pos
 
 # Multi platform compatibility
 I chose only cross platform libraries for this project, and added #defines in my code when I called OS-specific functions. It should be *relatively* easy to make it work on Linux and MacOS. However I lack time for this stuff. If someone want to have fun with that, your help is welcome !
+
+# Compiling the project
+The project compiles fine under Visual Studio 2013. You'll need the following libraries :
+- SFML
+- PortAudio
+- LAME
+
+For the release I modified slightly the SFML library to support file drop, get a crispier font rendering and support a missing keyboard key. You should still be able to compile with the official version.
