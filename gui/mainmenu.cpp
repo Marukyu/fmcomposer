@@ -1,0 +1,199 @@
+#include "mainmenu.hpp"
+#include "../fmengine/fmlib.h"
+#include "../views/settings/configEditor.hpp"
+#include "../views/general/generalEditor.hpp"
+#include "../views/instrument/instrEditor.hpp"
+#include "../views/pattern/songEditor.hpp"
+#include "../views/pianoroll/pianoRoll.hpp"
+
+extern fmsynth* phanoo;
+
+Menu *menu;
+
+void Menu::setVertexRect(sf::Vertex *v, int x, int y, int w)
+{
+	v[0].texCoords.x = x;
+	v[0].texCoords.y = y;
+	v[1].texCoords.x = x + w;
+	v[1].texCoords.y = y;
+	v[2].texCoords.x = x + w;
+	v[2].texCoords.y = y+32;
+	v[3].texCoords.x = x;
+	v[3].texCoords.y = y+32;
+}
+
+void Menu::setVertexPos(sf::Vertex *v, int x, int y, int w)
+{
+	v[0].position = sf::Vector2f(x, y);
+    v[1].position = sf::Vector2f(x+w, y);
+    v[2].position = sf::Vector2f(x+w, y+32);
+    v[3].position = sf::Vector2f(x, y+32);
+}
+
+// create main menu bar and its buttons
+Menu::Menu(int def)
+{
+	items.setPrimitiveType(sf::Quads);
+	items.resize(4*MAX_MENUITEMS);
+	
+	states.texture=tileset;
+
+	select.setFillColor(colors[MENUITEMSELECT]);
+	hover.setFillColor(colors[MENUITEMHOVER]);
+	for (unsigned i = 0; i < MAX_MENUITEMS; ++i)
+		button[i].setTexture(*tileset);
+
+	for (unsigned i = 0; i < 12; ++i)
+	{
+		setVertexRect(&items[i*4], 68 + (i % 4) * 32, i / 4 * 32, 32);
+	}
+	last = def;
+
+	setVertexRect(&items[12*4], 68, 96, 128);
+	setVertexRect(&items[13*4], 68, 128, 128);
+	setVertexRect(&items[14*4], 68, 160, 128);
+	setVertexRect(&items[15*4], 196, 96, 32);
+	setVertexRect(&items[16*4], 36, 0, 32);// about
+	setVertexRect(&items[17*4], 196, 64, 32);// edit tools
+
+
+	Vector2f buttonPositions[18] = {
+		{0, 0},
+		{32, 0},
+		{64, 0},
+		{192, 0},
+		{224, 0},
+		{256, 0},
+		{288, 0},
+		{686 + 32 * 12, 0},
+		{-100, 0},
+		{964, 0},
+		{996, 0},
+		{96, 0},
+		{430 - 32, 0},
+		{558 - 32, 0},
+		{718 - 32, 0},
+		{686 - 32, 0},
+		{686 + 32 * 13, 0},
+		{32 * 27, 0}
+		
+	};
+
+	for (unsigned i = 0; i < MAX_MENUITEMS; i++)
+	{
+		if (i==12 || i==13 || i==14)
+			setVertexPos(&items[i*4],buttonPositions[i].x, buttonPositions[i].y,128 );
+		else
+			setVertexPos(&items[i*4],buttonPositions[i].x, buttonPositions[i].y,32 );
+	}
+
+	// fond dégradé
+	bg.setPosition(0, 0);
+	bg.setSize(Vector2f(2280, 32));
+	bg.setFillColor(colors[MENUBG]);
+
+	selected = 13;
+	select.setSize(Vector2f(128, 2));
+	select.setPosition(items[13*4].position.x, 30);
+
+}
+void Menu::draw()
+{
+
+	if (fm->playing)
+		setVertexRect(&items[5*4], 36, 32, 32);
+	else
+		setVertexRect(&items[5*4], 100, 32, 32);
+
+
+	window->draw(bg);
+	window->draw(items, states);
+
+
+	if (selected == 12 || selected == 13 || selected == 14 || selected == 15 || selected == 7)
+	{
+		window->draw(select);
+	}
+	if (oneHovered)
+		window->draw(hover);
+}
+int Menu::clicked()
+{
+	oneHovered = 0;
+	for (unsigned i = 0; i < MAX_MENUITEMS; ++i)
+	{
+
+		if (mouse.pos.y >= 0 && mouse.pos.y < 32 && mouse.pos.x >= items[i*4].position.x && mouse.pos.x < items[i*4+1].position.x)
+		{
+			
+			hover.setSize(Vector2f(items[i*4+1].position.x-items[i*4].position.x, 32));
+			hover.setPosition(items[i*4].position.x, 0);
+			oneHovered = 1;
+			if (mouse.clickg)
+			{ 
+				mouse.clickg = 0;
+				return i;
+			}
+		}
+		else
+		{
+		}
+	}
+
+	return -1;
+}
+
+int Menu::hovered()
+{
+	for (unsigned i = 0; i < MAX_MENUITEMS; ++i)
+	{
+		if (mouse.pos.y >= 0 && mouse.pos.y < 32 && mouse.pos.x >= items[i*4].position.x && mouse.pos.x < items[i*4+1].position.x)
+			return i;
+	}
+	return -1;
+}
+
+void Menu::goToPage(int page)
+{
+
+	if (page == 12 || page == 13 || page == 14 || page == 15 || page == 7)
+	{
+		select.setPosition(items[page*4].position.x, 30);
+		selected = page;
+		if (page == 12 || page == 13 || page == 14)
+		{
+			select.setSize(Vector2f(128, 2));
+		}
+		else
+		{
+			select.setSize(Vector2f(32, 2));
+		}
+	}
+
+	/* Avoid buffered keypresses to stay */
+	textEnteredCount = 0;
+
+
+	switch (page)
+	{
+		case PAGE_CONFIG:
+			state = config;
+			break;
+		case PAGE_GENERAL:
+			state = generalEditor;
+			break;
+		case PAGE_SONG:
+			state = songEditor;
+			break;
+		case PAGE_INSTRUMENT:
+			state = instrEditor;
+			break;
+		case PAGE_PIANOROLL:
+			state = pianoRoll;
+			break;
+	}
+
+	state->updateFromFM();
+
+
+}
