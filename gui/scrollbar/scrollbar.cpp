@@ -87,9 +87,9 @@ void Slider::setSize(int _size)
 {
 	size = _size;
 	if (horizontal)
-		bar.setSize(Vector2f(size, mini ? 8 : 16));
+		bar.setSize(Vector2f(size, mini ? 9 : 16));
 	else
-		bar.setSize(Vector2f(mini ? 8 : 16, size));
+		bar.setSize(Vector2f(mini ? 9 : 16, size));
 
 	setValue(value);
 

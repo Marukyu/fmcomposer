@@ -29,7 +29,7 @@ defNoteVol(1070, 220, 99, 0, "Volume", 70)
 	borderRight.setPosition(1065, 32);
 	borderRight.setFillColor(colors[SIDEBAR]);
 
-	instrList = new List(1070, 375, 18, 200, 16);
+	instrList = new List(1070, 375, 18, 209, 16);
 }
 
 void Sidebar::draw()

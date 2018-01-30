@@ -4,7 +4,7 @@ extern void *focusedElement;
 
 // very primitive text input, quite sucking atm
 TextInput::TextInput(int _x, int _y, int _max, string name, bool _multiline, int _lineMax, int width) : x(_x), y(_y), lineMax(_lineMax), multiline(_multiline)
-, bg(Vector2f(_max * 8 + 8, 20 * _lineMax)), text("", font, charSize), title(name, font, charSize), cursorBlink(0), cursor(Vector2f(2, 20)), editing(false), charCountLine(_lineMax), vmax(_max),
+, bg(Vector2f(_max * 8 + 8, max(font.getLineSpacing(charSize) * _lineMax,19))), text("", font, charSize), title(name, font, charSize), cursorBlink(0), cursor(Vector2f(2, 19)), editing(false), charCountLine(_lineMax), vmax(_max),
 mouseLock(0)
 {
 	if (name != "")
@@ -13,7 +13,7 @@ mouseLock(0)
 		bg.setPosition(x, y);
 
 	if (width != -1)
-		bg.setSize(Vector2f(width, 20 * _lineMax));
+		bg.setSize(Vector2f(width, 19 * _lineMax));
 
 	bg.setOutlineThickness(1.f);
 	bg.setOutlineColor(colors[TEXTINPUTOUTLINE]);
@@ -37,7 +37,10 @@ mouseLock(0)
 int TextInput::getSelectionStart()
 {
 	if (pos2 < selectionBegin)
+	{
+		
 		return max(0, selectionBegin - selectionCount);
+	}
 	else
 		return selectionBegin;
 }
@@ -46,9 +49,9 @@ void TextInput::cutSelection()
 	selectionCount = min(text.getString().toAnsiString().size(), selectionCount);
 
 	selectionBegin = getSelectionStart();
-
+	printf("cut %d %d\n", selectionBegin, selectionCount);
 	text.setString(string(text.getString()).erase(selectionBegin, selectionCount));
-	selection.setSize(Vector2f(0, 20));
+	selection.setSize(Vector2f(0, 19));
 	charCountLine[currentLine] -= selectionCount;
 	selectionCount = 0;
 }
@@ -60,10 +63,10 @@ int TextInput::getCursorIndex(int &stringPosLastLine)
 	{
 		stringPosLastLine += charCountLine[i];
 	}
-
+	
 	int pos22 = stringPosLastLine;
 	int pos = 0;
-	while (pos < mouse.pos.x - 8 && pos22 < stringPosLastLine + charCountLine[currentLine] && (int)round((text.findCharacterPos(pos22).y - y) / font.getLineSpacing(charSize)) == currentLine && text.getString()[pos22] != '\n')
+	while (pos < mouse.pos.x - 8 && pos22 < stringPosLastLine + charCountLine[currentLine] && (int)round((text.findCharacterPos(pos22+1).y - y) / font.getLineSpacing(charSize)) == currentLine && text.getString()[pos22] != '\n')
 	{
 		pos = text.findCharacterPos(pos22).x;
 		pos22++;
@@ -79,19 +82,25 @@ void TextInput::recalcCursorPos()
 
 void TextInput::removeLine()
 {
-	charCountLine[currentLine - 1] += charCountLine[currentLine] - 1;
+	int count = charCountLine[currentLine];
 	charCountLine.erase(charCountLine.begin() + currentLine);
 	currentLine--;
+	charCountLine[currentLine]--;
+	charCountLine[currentLine]+=count;
 }
 
 void TextInput::newLine()
 {
+
+	
 	currentLine++;
 	charCountLine.insert(charCountLine.begin() + currentLine, 0);
+	charCountLine[currentLine]++;
 	text.setString(string(text.getString()).insert(selectionBegin, "\n"));
 	selectionBegin++;
-	charCountLine[currentLine]++;
+	
 }
+
 
 bool TextInput::modified()
 {
@@ -119,22 +128,49 @@ bool TextInput::modified()
 			if (!mouseLock)
 			{
 				focusedElement = this;
-				selection.setSize(Vector2f(0, 20));
+				selection.setSize(Vector2f(0, 19));
 				textEnteredCount = 0;
 				editing = true;
 				cursorBlink = 0;
 				currentLine = min(charCountLine.size() - 1, (mouse.pos.y - bg.getPosition().y) / font.getLineSpacing(charSize));
-
+				
 				int stringPos = 0;
 
 				sIndex = getCursorIndex(stringPos);
-
+				
 				selectionBegin = mouse.pos.x < x + title.getLocalBounds().width + 8 ? stringPos : sIndex;
 				recalcCursorPos();
 				mouseLock = 1;
 			}
 			int stringPosLastLine;
 			pos2 = getCursorIndex(stringPosLastLine);
+
+			
+			
+			if (mouse.pos.x < text.getPosition().x)
+			{
+
+				selection.setSize(Vector2f(selectionBegin == stringPosLastLine ? 0 : text.getPosition().x - text.findCharacterPos(sIndex).x, 19));
+
+				cursor.setPosition(text.getPosition().x, text.findCharacterPos(selectionBegin).y);
+
+				
+				while (pos2 > 0 && text.getString()[pos2 - 1] != '\n') {
+					pos2--;
+				}
+
+
+
+				printf("pos %d \n", pos2);
+			}
+			else
+			{
+				cursor.setPosition(text.findCharacterPos(pos2).x, text.findCharacterPos(selectionBegin).y);
+				if (charCountLine[currentLine] > 1)
+					selection.setSize(Vector2f(cursor.getPosition().x - text.findCharacterPos(sIndex - 1 * ((selectionBegin>0 && text.getString()[selectionBegin-1]=='\n') || selectionBegin == 0)).x, 19));
+				else
+					selection.setSize(Vector2f(0, 19));
+			}
 
 			if (pos2 < selectionBegin)
 			{
@@ -149,25 +185,7 @@ bool TextInput::modified()
 				selectionCount = 0;
 			}
 
-			if (mouse.pos.x <= text.getPosition().x)
-			{
 
-				selection.setSize(Vector2f(selectionBegin == stringPosLastLine ? 0 : text.getPosition().x - text.findCharacterPos(sIndex).x, 20));
-
-				cursor.setPosition(text.getPosition().x, text.findCharacterPos(selectionBegin).y);
-
-				selectionCount++;
-				if (currentLine == 0)
-					pos2 = 0;
-			}
-			else
-			{
-				cursor.setPosition(text.findCharacterPos(pos2).x, text.findCharacterPos(selectionBegin).y);
-				if (charCountLine[currentLine] > 1)
-					selection.setSize(Vector2f(cursor.getPosition().x - text.findCharacterPos(sIndex - 1 * (selectionBegin == 0)).x, 20));
-				else
-					selection.setSize(Vector2f(0, 20));
-			}
 		}
 
 
@@ -231,51 +249,75 @@ bool TextInput::modified()
 				if (textEntered[textEnteredCount] == 8)
 				{ // backspace
 
-					if (selectionBegin > 0)
-					{
+					
 
 						if ((int)round(selection.getSize().x) == 0)
 						{
-							if (text.getString().toAnsiString()[selectionBegin - 1] == '\n')
-							{
-								removeLine();
-							}
-							else
-							{
-								charCountLine[currentLine]--;
-							}
-							selectionBegin--;
-							text.setString(string(text.getString()).erase(selectionBegin, 1));
+							
+							if (selectionBegin > 0) {
+								if (text.getString().toAnsiString()[selectionBegin - 1] == '\n')
+								{
+									int start=selectionBegin;
+									float ssize=0;
+									while (text.getString()[start] != '\n' && start < text.getString().toAnsiString().length())
+									{
+										start++;
+									}
+									int lineSize = text.findCharacterPos(start).x;
 
+									if (text.findCharacterPos(selectionBegin - 1).x - bg.getPosition().x + lineSize - bg.getPosition().x < bg.getSize().x || (currentLine>0 && charCountLine[currentLine-1]<=1)) {
+
+										removeLine();
+										selectionBegin--;
+										text.setString(string(text.getString()).erase(selectionBegin, 1));
+									}
+								}
+								else
+								{
+									charCountLine[currentLine]--;
+									selectionBegin--;
+									text.setString(string(text.getString()).erase(selectionBegin, 1));
+								}
+							}
+								
+							
 						}
 						else
 						{
 							cutSelection();
 						}
-					}
+					
 					recalcCursorPos();
+					for (int i = 0; i < charCountLine.size(); i++)
+						{
+							printf("line %d %d\n", i, charCountLine[i]);
+						}
 					return true;
 				}
 				else if (textEntered[textEnteredCount] != 9)
 				{ // don't allow tab
 					if (textEntered[textEnteredCount] == 13)
 					{ // enter
-						if (multiline && charCountLine.size() < lineMax)
+						if (multiline && charCountLine.size() <= lineMax)
 						{
-							selection.setSize(Vector2f(0, 20));
+							selection.setSize(Vector2f(0, 19));
 							cutSelection();
 							if (text.getString()[selectionBegin] != '\n')
 							{
+								
 
 								int cpt = selectionBegin;
 								while (cpt < text.getString().toAnsiString().size() && text.getString()[cpt] != '\n')
 								{
 									cpt++;
 								}
-								cpt -= selectionBegin;
+								if (text.getString()[cpt] == '\n')
+									cpt++;
 
+								cpt -= selectionBegin;
+								
 								charCountLine[currentLine] -= cpt;
-								charCountLine[currentLine]++;
+								charCountLine[currentLine]=max(0,charCountLine[currentLine]+1);
 								currentLine++;
 								charCountLine.insert(charCountLine.begin() + currentLine, cpt);
 								text.setString(string(text.getString()).insert(selectionBegin, "\n"));
@@ -288,6 +330,10 @@ bool TextInput::modified()
 							pos2++;
 							recalcCursorPos();
 						}
+						for (int i = 0; i < charCountLine.size(); i++)
+						{
+							printf("line %d %d\n", i, charCountLine[i]);
+						}
 					}
 					else if (textEntered[textEnteredCount] != 0)
 					{ // input characters
@@ -296,15 +342,30 @@ bool TextInput::modified()
 						if (text.getString().toAnsiString().length() < vmax)
 						{
 
-							if (text.findCharacterPos(selectionBegin).x >= bg.getPosition().x + bg.getSize().x - 8)
+							if (text.findCharacterPos(selectionBegin).x >= bg.getPosition().x + bg.getSize().x - 8 && charCountLine.size()<=lineMax)
 							{
 								newLine();
+							
 							}
-							text.setString(string(text.getString()).insert(selectionBegin, string(1, (textEntered[textEnteredCount]))));
-							charCountLine[currentLine]++;
-							selectionBegin++;
-							pos2++;
-							recalcCursorPos();
+							
+							int start=selectionBegin;
+							float ssize=0;
+							while (text.getString()[start] != '\n' && start < (int)text.getString().toAnsiString().length()-1)
+							{
+								start++;
+							}
+							int lineSize = text.findCharacterPos(start).x;
+							
+							if (lineSize - bg.getPosition().x < bg.getSize().x) {
+
+
+								text.setString(string(text.getString()).insert(selectionBegin, string(1, (textEntered[textEnteredCount]))));
+								charCountLine[currentLine]++;
+								selectionBegin++;
+								pos2++;
+								recalcCursorPos();
+							}
+							
 						}
 						return true;
 					}
@@ -338,7 +399,7 @@ bool TextInput::modified()
 			currentLine = max(0, currentLine - 1);
 			cursorBlink = 0;
 			recalcCursorPos();
-			selection.setSize(Vector2f(0, 20));
+			selection.setSize(Vector2f(0, 19));
 		}
 		if (keyboard.down)
 		{
@@ -353,7 +414,7 @@ bool TextInput::modified()
 
 			if (selectionBegin < text.getString().toAnsiString().size() && text.getString()[selectionBegin] != '\n')
 			{
-				while (text.findCharacterPos(selectionBegin).x < text.findCharacterPos(old).x)
+				while (text.findCharacterPos(selectionBegin).x < text.findCharacterPos(old).x && selectionBegin < text.getString().toAnsiString().size())
 				{
 					selectionBegin++;
 				}
@@ -361,7 +422,7 @@ bool TextInput::modified()
 
 			currentLine = min(charCountLine.size() - 1, currentLine + 1);
 			recalcCursorPos();
-			selection.setSize(Vector2f(0, 20));
+			selection.setSize(Vector2f(0, 19));
 		}
 		if (keyboard.left)
 		{
@@ -398,7 +459,9 @@ bool TextInput::modified()
 				if (current.length() + toInsert.length() <= vmax)
 				{
 					current.insert(selectionBegin, toInsert);
+
 					selectionBegin += toInsert.length();
+
 					setText(current);
 
 					return true;
@@ -426,7 +489,7 @@ void TextInput::moveCursorX(int delta)
 	pos2 = selectionBegin;
 
 	recalcCursorPos();
-	selection.setSize(Vector2f(0, 20));
+	selection.setSize(Vector2f(0, 19));
 }
 
 void TextInput::draw()
@@ -461,7 +524,7 @@ void TextInput::setText(string _text)
 		}
 		if (_text[i] == '\n')
 		{
-			if (charCountLine.size() + 1 >= lineMax)
+			if (charCountLine.size() >= lineMax)
 			{
 				_text = _text.substr(0, i);
 				text.setString(_text);
@@ -469,6 +532,7 @@ void TextInput::setText(string _text)
 			}
 			charCountLine.push_back(charCounter + 1);
 			charCounter = 0;
+			selectionBegin++;
 		}
 		else
 		{
@@ -494,5 +558,5 @@ void TextInput::unselect()
 	cursor.setScale(Vector2f(0, 0));
 	editing = false;
 	bg.setOutlineColor(colors[TEXTINPUTOUTLINE]);
-	selection.setSize(Vector2f(0, 20));
+	selection.setSize(Vector2f(0, 19));
 }

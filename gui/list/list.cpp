@@ -107,7 +107,7 @@ bool List::clicked(int mouseButton)
 
 
 
-	if (mouse.pos.y >= y &&mouse.pos.y < y + bg.getSize().y &&mouse.pos.x >= x && mouse.pos.x < x + bg.getSize().x )
+	if (hover())
 	{
 		
 			hovered = 1;
@@ -120,13 +120,12 @@ bool List::clicked(int mouseButton)
 				return true;
 			}
 
-			if (mouse.pos.x < x + bg.getSize().x &&
-				(mouse.clickg && (mouseButton == 0 || mouseButton == 1) && !contextMenu || mouse.clickd && (mouseButton == 0 || mouseButton == 2)))
+			if (mouse.clickg && (mouseButton == 0 || mouseButton == 1) && !contextMenu || mouse.clickd && (mouseButton == 0 || mouseButton == 2))
 			{
 				focusedElement = this;
 				prevScroll = scroll;
 
-				if (mouse.pos.x < x + bg.getSize().x - (text.size()>maxrows) * 8 )
+				if (mouse.pos.x < x + bg.getSize().x +1 - (text.size()>maxrows) * 8 )
 					select(min(text.size() - 1, (mouse.pos.y - y) / 17 + scroll), 0);
 
 				selected = 1;
@@ -157,7 +156,7 @@ void List::clear()
 
 int List::hover()
 {
-	return (mouse.pos.y >= y &&mouse.pos.y < y + text.size() * 17 && mouse.pos.x >= x &&mouse.pos.x < x + bg.getSize().x);
+	return (mouse.pos.y >= y &&mouse.pos.y < y + bg.getSize().y+1 &&mouse.pos.x >= x && mouse.pos.x < x + bg.getSize().x+1 );
 }
 
 void List::draw()
@@ -234,10 +233,9 @@ void List::setMaxRows(int rows)
 
 void List::movedElement(int *to, int *from)
 {
-	if (hovered && mouse.clickg)
+	if (hovered && mouse.clickg && mouse.pos.x < x + bg.getSize().x - (text.size()>maxrows) * 8)
 	{
 		pressed = 1;
-
 	}
 
 	if (mouse.clickd || contextMenu)

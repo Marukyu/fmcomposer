@@ -150,7 +150,7 @@ int main(int argc, char *argv[])
 				))
 			{
 				dropdownclosetimer+=frameTime60;
-				if (dropdownclosetimer > 15)
+				if (dropdownclosetimer > 10)
 				{
 					contextMenu = NULL;
 					dropdownclosetimer=0;

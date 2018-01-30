@@ -6,6 +6,7 @@
 #include "../views/pattern/songEditor.hpp"
 #include "../views/pianoroll/pianoRoll.hpp"
 #include "../gui/popup/popup.hpp"
+#include "../views/pattern/songFileActions.hpp"
 
 Menu *menu;
 
@@ -151,9 +152,9 @@ int Menu::hovered()
 	return -1;
 }
 
-bool isPage(int buttonIndex)
+bool Menu::isPage(int buttonIndex)
 {
-	return selected == PAGE_CONFIG || selected == PAGE_GENERAL || selected == PAGE_SONG || selected == PAGE_INSTRUMENT || selected == PAGE_PIANOROLL;
+	return buttonIndex == PAGE_CONFIG || buttonIndex == PAGE_GENERAL || buttonIndex == PAGE_SONG || buttonIndex == PAGE_INSTRUMENT || buttonIndex == PAGE_PIANOROLL;
 }
 
 void Menu::goToPage(int page)
@@ -262,7 +263,7 @@ void Menu::update()
 				goToPage(PAGE_PIANOROLL);
 				break;
 			case 16:
-				show(POPUP_ABOUT);
+				popup->show(POPUP_ABOUT);
 				break;
 	
 		}
