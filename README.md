@@ -1,10 +1,11 @@
 # FM Composer
 Music and sound creation tool, featuring a custom FM synthesizer engine and a tracker-like interface.
-Released with 150+ FM instruments and drums, ranging from synth sounds to realistic acoustic sounds, covering the whole MIDI instrument set.
+Released with 150+ FM instruments and drums, ranging from synth to acoustic sounds, covering the whole MIDI instrument set.
 
 # Why
-Modern world lacks modern trackers. And there is very few custom sound engines in the VST world, most of them are emulating old existing hardware.
-This is a attempt to make a good yet minimalistic FM synthesizer, with a very graphical, intuitive GUI.
+Modern world lacks modern trackers. And there is very few custom sound engines in the VST market, most of them are emulating old existing hardware.
+This is a attempt to make a good yet minimalistic FM synthesizer, with a very graphical, easy to use interface.
+This is also an attempt to provide real time sound synthesis for video games. Since the FM engine is a separate module with very few dependencies, it can be intergrated into other projects. Playback with real time modification of the song is possible for interactive content.
 
 # Technical overview
 GUI is written in C++ and using the SFML library to get low level access to the display, keyboard and mouse input. Each GUI element has its class. They are used by Views which are the actual program screens (Pattern screen, Instrument screen, Settings etc.). Views, for most of them, contain everything they need for providing the features to the user. This results in quite big classes, which are split in several files for readability.
