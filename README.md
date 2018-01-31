@@ -1,3 +1,7 @@
+![FM Composer logo](http://fmcomposer.org/img/icon256.png)
+
+http://fmcomposer.org
+
 # FM Composer
 Music and sound creation tool, featuring a custom FM synthesizer engine and a tracker-like interface.
 Released with 150+ FM instruments and drums, ranging from synth to acoustic sounds, covering the whole MIDI instrument set.
