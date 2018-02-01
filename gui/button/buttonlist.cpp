@@ -16,16 +16,10 @@ ButtonList::ButtonList(int _x, int _y) :selected(0), maxId(0)
 	bgfocus.setPosition(_x, _y);
 }
 
-void ButtonList::select(int index)
-{
-	selectedIndex = index;
-}
-
-void ButtonList::draw()
+void ButtonList::updateButtonPos()
 {
 
 	scroll = clamp(selectedIndex - 23, 0, (int)buttons.size());
-
 	int xpos = buttons[scroll].x;
 
 	for (unsigned i = scroll; i < min<int>(buttons.size(), scroll + 46); ++i)
@@ -36,6 +30,20 @@ void ButtonList::draw()
 	}
 
 	bgfocus.setSize(Vector2f(xpos - buttons[0].x, 19));
+	
+}
+
+void ButtonList::select(int index)
+{
+	selectedIndex = index;
+	updateButtonPos();
+	
+}
+
+void ButtonList::draw()
+{
+
+	updateButtonPos();
 
 	if (selected)
 	{
@@ -75,7 +83,7 @@ int ButtonList::getElementHovered()
 
 void ButtonList::update()
 {
-
+	mouse.pos = input_getmouse(globalView);
 	if (mouse.clickg || mouse.clickd)
 	{
 		if (mouse.pos.x >= x && mouse.pos.y >= y && mouse.pos.x < x + buttons.size() * 24 && mouse.pos.y < y + 19)
@@ -123,11 +131,7 @@ void ButtonList::clear()
 
 int ButtonList::isElementHovered(int index)
 {
-	for (unsigned i = scroll; i < min<int>(buttons.size(), scroll + 46); ++i)
-	{
-		buttons[i].selected = (selectedIndex == i);
-		buttons[i].setPosition(x + (i - scroll) * 24, y);
-	}
+
 	if (index < 0 || index >= buttons.size())
 		return 0;
 	return buttons[index].hover();

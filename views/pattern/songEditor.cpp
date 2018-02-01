@@ -220,7 +220,6 @@ void SongEditor::draw()
 	add.draw();
 	
 
-	patternList.select(fm->order);
 	patternList.draw();
 
 	window->draw(patText);
@@ -368,17 +367,19 @@ void SongEditor::update()
 		}
 	}
 
+	patternList.select(fm->order);
 
 	int patternListHovered = patternList.getElementHovered();
-	if (patternListHovered > -1 && Mouse::isButtonPressed(Mouse::Left) && movePat == -1)
+	if (!contextMenu && patternListHovered > -1 && Mouse::isButtonPressed(Mouse::Left) && movePat == -1)
 	{
 		movePat = patternListHovered;
 	}
-	if (patternListHovered > -1 && movePat != patternListHovered && movePat != -1)
+	if (Mouse::isButtonPressed(Mouse::Left) && patternList.selected && patternListHovered > -1 && movePat != patternListHovered && movePat != -1)
 	{
 		mouse.cursor = CURSOR_SWAP;
 	}
 
+	
 	patternList.update();
 
 

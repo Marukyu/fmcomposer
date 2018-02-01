@@ -535,7 +535,7 @@ void Popup::show(int _type, int param)
 
 			buttons.push_back(Button(w - 80, h - 50, "Close", -1, 8));
 			buttons.push_back(Button(490, 101, "Online tutorial", -1, 8));
-			texts.push_back(Text("Welcome to FM Composer !\n\nIt seems to be the first time you launch this program.\n\n\nClick here to learn the basics :\n\n\nA demo song was just loaded so you can see how a song is made and how\nsome FM Composer features are used.\n\n\nHave fun !", font, charSize));
+			texts.push_back(Text("Welcome to FM Composer !\n\nIt seems to be the first time you launch this program.\n\n\nClick here to learn the basics :\n\n\nA demo song was just loaded so you can see how a song is made and how\nsome FM Composer features are used.\nThere are other demos in the song folder.\n\n\nHave fun !", font, charSize));
 			texts[0].setColor(colors[BLOCKTEXT]);
 			texts[0].setPosition(276, 20);
 

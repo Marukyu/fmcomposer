@@ -29,6 +29,7 @@ class ButtonList{
 	void insert(int index, string text);
 	void update();
 	void selectAll();
+	void updateButtonPos();
 
 };
 

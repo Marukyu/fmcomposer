@@ -64,7 +64,7 @@ void SongEditor::multipleEdit(int action, patternSelection* copiedData, int para
 	int x1, x2, y1, y2;
 
 	selection.getBounds(&x1, &x2, &y1, &y2);
-
+	
 	for (unsigned i = x1; i < x2; ++i)
 	{
 		switch (action)
