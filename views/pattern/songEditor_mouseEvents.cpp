@@ -117,6 +117,7 @@ void SongEditor::doubleClick()
 
 void SongEditor::rightMouseEvents()
 {
+	patternList.update();
 	if (isMouseHoverPattern() && !fm->playing)
 	{
 
@@ -147,6 +148,7 @@ void SongEditor::rightMouseEvents()
 
 void SongEditor::leftMouseEvents()
 {
+	patternList.update();
 	/* Change cursor position on mouse click */
 	if (isMouseHoverPattern())
 	{
@@ -333,17 +335,16 @@ void SongEditor::leftMouseRelease()
 	/* Move patterns */
 	int patternListHovered = patternList.getElementHovered();
 
-	if (patternListHovered > -1)
+	if (patternListHovered > -1 && patternList.selected)
 	{
 		if (movePat > -1 && patternListHovered != movePat && !patternList.isElementHovered(movePat))
 		{
-
 			pattern_move(movePat, patternListHovered);
 		}
 
 		fm_setPosition(fm, patternListHovered, fm->playing ? 0 : fm->row, 2);
-		//selectionDisappear();
-		updateFromFM();
+		patternList.select(fm->order);
+		
 	}
 
 

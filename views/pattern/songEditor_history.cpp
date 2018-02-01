@@ -95,8 +95,11 @@ void SongEditor::saveToHistory(int _y, int size)
 
 void SongEditor::addHistory()
 {
-	saveToHistory(selectedRow, (int)round(selection.bg.getSize().y) / ROW_HEIGHT);
-	saveToHistory(selectedRow, (int)round(selection.bg.getSize().y) / ROW_HEIGHT);
+	int x1, x2, y1, y2;
+	selection.getBounds(&x1, &x2, &y1, &y2);
+
+	saveToHistory(y1, y2-y1);
+	saveToHistory(y1, y2-y1);
 }
 
 
