@@ -13,20 +13,20 @@ ListMenu::ListMenu() : scroll(0), relative(&globalView)
 void ListMenu::add(string elem)
 {
 	text.push_back(Text(elem, font, charSize));
-	updateSize();
+	updateSize(text.size()-1);
 	text[text.size() - 1].setPosition(x + 4, y + (text.size() - 1 - scroll) * 24 + 1);
 }
 
 void ListMenu::setElement(int index, string elem)
 {
 	text[index] = Text(elem, font, charSize);
-	updateSize();
+	updateSize(index);
 }
 
 void ListMenu::insert(string elem)
 {
 	text.insert(text.begin(), Text(elem, font, charSize));
-	updateSize();
+	updateSize(0);
 	text[0].setPosition(x + 4, y + (text.size() - 1 - scroll) * 24 + 1);
 }
 int ListMenu::clicked()
@@ -155,9 +155,12 @@ void ListMenu::setPosition(int _x, int _y)
 		text[i].setPosition(x + 4, y + i * 24 + 1);
 }
 
-void ListMenu::updateSize()
+void ListMenu::updateSize(int fromIndex)
 {
-	bg.setSize(Vector2f((bg.getSize().x < text.back().getLocalBounds().width + 8) ? text.back().getLocalBounds().width + 8 : bg.getSize().x, text.size() * 24));
+	if (fromIndex>=text.size())
+		return;
+
+	bg.setSize(Vector2f((bg.getSize().x < text[fromIndex].getLocalBounds().width + 8) ? text[fromIndex].getLocalBounds().width + 8 : bg.getSize().x, text.size() * 24));
 	s.setSize(Vector2f(bg.getSize().x, 24));
 	shadow.setSize(Vector2f(bg.getSize().x, bg.getSize().y));
 }
