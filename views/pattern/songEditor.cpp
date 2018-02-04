@@ -483,7 +483,7 @@ void SongEditor::setXscroll(int value, bool updateSlider)
 	scrollX2 = min(FM_ch, scrollX + (windowWidth - 231) / CH_WIDTH + 1);
 
 	patternView.setCenter((float)windowWidth / 2 + scrollXsmooth, patternView.getCenter().y);
-	patternTopView.setCenter((float)windowWidth / 2 + scrollXsmooth - 32 * zoom, (float)windowHeight / 2 - 85);
+	patternTopView.setCenter((float)windowWidth / 2 + scrollXsmooth - (int)(32 * zoom), (float)windowHeight / 2 - 85);
 
 
 	if (updateSlider)
