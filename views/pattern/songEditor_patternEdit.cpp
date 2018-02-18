@@ -296,7 +296,7 @@ void SongEditor::patPaste(patternSelection* copiedData, int channel, int ypos)
 	}
 
 
-	selection.bg.setPosition(selectedChannel*CH_WIDTH + selectedType*COL_WIDTH, selection.bg.getPosition().y);
+	selection.bg.setPosition(selectedChannel*CH_WIDTH +(copiedData->x1%4) *COL_WIDTH , selection.bg.getPosition().y);
 
 	if (selectedChannel * 4 + selectedType + copiedData->data.size() > 4 * FM_ch)
 	{
