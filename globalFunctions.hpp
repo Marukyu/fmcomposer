@@ -87,6 +87,10 @@ string forceExtension(string filename, string extension);
 
 void song_playPause();
 
+void song_pause();
+void song_stop();
+void song_play();
+
 void error(const std::string &text);
 
 /* Pre-compute note names (C-5,..) for every midi note number */

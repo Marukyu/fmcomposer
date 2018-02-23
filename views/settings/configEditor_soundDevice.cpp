@@ -50,7 +50,7 @@ int ConfigEditor::selectSoundDevice(int soundDeviceId, int _samplerate, int _lat
 		if (force || soundDeviceId != approvedDeviceId || _samplerate != approvedSampleRate || _latency != currentLatency || sampleRateError.getString() != "")
 		{
 			sampleRateError.setString("");
-			fm_stop(fm, 1);
+			song_stop();
 			Pa_StopStream(stream);
 
 			PaError err;
@@ -71,7 +71,7 @@ int ConfigEditor::selectSoundDevice(int soundDeviceId, int _samplerate, int _lat
 
 			Pa_StartStream(stream);
 			if (playing)
-				fm_play(fm);
+				song_play();
 			approvedDeviceId = soundDeviceId;
 			approvedSampleRate = _samplerate;
 			currentLatency = _latency;

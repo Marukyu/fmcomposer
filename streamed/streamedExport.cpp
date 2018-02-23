@@ -24,7 +24,7 @@ const int mp3_bitrates[16] = {8, 16, 24, 32, 40, 48, 64, 80, 96, 112, 128, 160, 
 
 void stopExport(){
 	exporting=0;
-	fm_stop(fm,1);
+	song_stop();
 }
 
 void exportFinished(){
@@ -41,7 +41,7 @@ void exportFinished(){
 void exportStart(){
 	exporting=1;
 	fm_setPosition(fm, exportFromPattern,0,2);
-	fm_play(fm);
+	song_play();
 	fm->looping=exportNbLoops; // disable loop points so we aren't stuck forever
 }
 
@@ -74,7 +74,7 @@ int waveExportFunc(){
 		size+=sizeof(short)*16384;// bits per sample * num samples
 		popup->sliders[0].setValue(((float)fm->order/fm->patternCount)*100);
 	}
-	fm_stop(fm,1);
+	song_stop();
 	fseek(fp,40,0);
 	fwrite(&size,sizeof(int),1,fp);
 	fseek(fp,4,0);

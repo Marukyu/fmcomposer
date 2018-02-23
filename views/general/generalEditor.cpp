@@ -1,4 +1,5 @@
 ﻿#include "generalEditor.hpp"
+#include "../../gui/drawBatcher.hpp"
 
 GeneralEditor* generalEditor;
 
@@ -27,17 +28,25 @@ rows("rows", font, charSize)
 void GeneralEditor::draw()
 {
 	window->setView(globalView);
-	tempo.draw();
-	songName.draw();
-	author.draw();
-	comments.draw();
-	diviseur.draw();
-	globalVolume.draw();
-	reverbLength.draw();
-	roomSize.draw();
-	transpose.draw();
-	window->draw(rows);
-	window->draw(diviseurText);
+
+	drawBatcher.initialize();
+
+	drawBatcher.addItem(&tempo);
+	
+	drawBatcher.addItem(&songName);
+	drawBatcher.addItem(&author);
+	drawBatcher.addItem(&comments);
+
+	drawBatcher.addItem(&diviseur);
+	drawBatcher.addItem(&globalVolume);
+	drawBatcher.addItem(&reverbLength);
+	drawBatcher.addItem(&roomSize);
+	drawBatcher.addItem(&transpose);
+
+	drawBatcher.addItem(&rows);
+	drawBatcher.addItem(&diviseurText);
+
+	drawBatcher.draw();
 }
 
 void GeneralEditor::update()

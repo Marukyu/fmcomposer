@@ -78,7 +78,7 @@ int main(int argc, char *argv[])
 	while (window->isOpen())
 	{
 
-		mouse.cursor = CURSOR_NORMAL;
+		
 		midi_getEvents();
 
 		input_update();
@@ -133,15 +133,15 @@ int main(int argc, char *argv[])
 			{
 				dropdowntimer+=frameTime60;
 				if (contextMenu!=recentSongs  && !mouse.clickg && dropdowntimer>20)
-					recentSongs->show(menu->items[1*4].position.x - 4, 28);
+					recentSongs->show(menu->items[2*4].position.x - 4, 28);
 			}
 			/* Edit tools menu */
 			else if (menu->hovered() == 17)
 			{
 				if (state == songEditor)
-					songEditor->editTools.show(menu->items[17*4].position.x - 4, 28);
+					songEditor->editTools.show(menu->items[18*4].position.x - 4, 28);
 				else if (state == instrEditor)
-					instrEditor->editTools.show(menu->items[17*4].position.x - 4, 28);
+					instrEditor->editTools.show(menu->items[18*4].position.x - 4, 28);
 			}
 			/* Auto close those menus when mouse out */
 			else if ( (contextMenu == recentSongs && !recentSongs->hover()
@@ -185,14 +185,17 @@ int main(int argc, char *argv[])
 
 		showInstrumentLights();
 
-		popup->draw();
+		if (popup->visible)
+		{
+			popup->draw();
+		}
 
 		if (contextMenu)
 		{
 			contextMenu->draw();
 		}
 
-
+	
 		window->display();
 
 		updateMouseCursor();

@@ -409,52 +409,51 @@ void Popup::handleEvents()
 
 void Popup::draw()
 {
-	if (visible)
+	
+	window->setView(view);
+
+	titlebar.setSize(Vector2f(bg.getSize().x + 2, 32));
+	titlebar.setPosition(bg.getPosition().x - 1, bg.getPosition().y - 32);
+	title.setPosition(bg.getPosition().x + 8, bg.getPosition().y - 32 + 8);
+	if (delay > 0)
 	{
-		window->setView(view);
-
-		titlebar.setSize(Vector2f(bg.getSize().x + 2, 32));
-		titlebar.setPosition(bg.getPosition().x - 1, bg.getPosition().y - 32);
-		title.setPosition(bg.getPosition().x + 8, bg.getPosition().y - 32 + 8);
-		if (delay > 0)
-		{
-			delay -= frameTime60;
-			if (delay <= 0)
-				visible = 0;
-		}
-
-		window->draw(shadow);
-		window->draw(bg);
-		for (int i = 0; i < sprites.size(); i++)
-			window->draw(sprites[i]);
-		for (int i = 0; i < texts.size(); i++)
-			window->draw(texts[i]);
-		for (int i = 0; i < buttons.size(); i++)
-		{
-			buttons[i].draw();
-		}
-		for (int i = 0; i < lists.size(); i++)
-		{
-			lists[i].draw();
-		}
-
-
-		for (int i = 0; i < sliders.size(); i++)
-		{
-			sliders[i].draw();
-		}
-
-		for (int i = 0; i < checkboxes.size(); i++)
-		{
-			checkboxes[i].draw();
-		}
-		for (int i = 0; i < shapes.size(); i++)
-		{
-			window->draw(shapes[i]);
-		}
-		window->draw(titlebar);
-		window->draw(title);
+		delay -= frameTime60;
+		if (delay <= 0)
+			visible = 0;
 	}
+
+	window->draw(shadow);
+	window->draw(bg);
+	for (int i = 0; i < sprites.size(); i++)
+		window->draw(sprites[i]);
+	for (int i = 0; i < texts.size(); i++)
+		window->draw(texts[i]);
+	for (int i = 0; i < buttons.size(); i++)
+	{
+		buttons[i].draw();
+	}
+	for (int i = 0; i < lists.size(); i++)
+	{
+		lists[i].draw();
+	}
+
+
+	for (int i = 0; i < sliders.size(); i++)
+	{
+		sliders[i].draw();
+	}
+
+	for (int i = 0; i < checkboxes.size(); i++)
+	{
+		checkboxes[i].draw();
+	}
+	for (int i = 0; i < shapes.size(); i++)
+	{
+		window->draw(shapes[i]);
+	}
+	window->draw(titlebar);
+	window->draw(title);
+	
 }
 
 void Popup::close(bool pressOK)

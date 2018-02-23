@@ -278,7 +278,7 @@ void Popup::buttonActions(int buttonID)
 					if (fileName)
 					{
 						string fileNameOk = forceExtension(fileName, "wav");
-						fm_stop(fm, 1);
+						song_stop();
 						Pa_StopStream(stream);
 						Pa_CloseStream(stream);
 						popup->show(POPUP_WORKING);
@@ -295,7 +295,7 @@ void Popup::buttonActions(int buttonID)
 					if (fileName)
 					{
 						string fileNameOk = forceExtension(fileName, "mp3");
-						fm_stop(fm, 1);
+						song_stop();
 						Pa_StopStream(stream);
 						Pa_CloseStream(stream);
 						popup->show(POPUP_WORKING);

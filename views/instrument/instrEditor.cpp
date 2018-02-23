@@ -5,6 +5,7 @@
 #include "../pattern/songEditor.hpp"
 #include "../settings/configEditor.hpp"
 #include "../../gui/sidebar.hpp"
+#include "../../gui/drawBatcher.hpp"
 
 extern CSimpleIniA ini_gmlist;
 extern void *focusedElement;
@@ -416,26 +417,28 @@ void InstrEditor::draw()
 	window->setView(instrView);
 
 	window->draw(connector);
-	for (unsigned i = 0; i < FM_op; ++i)
-	{
-		fmop[i].draw();
-	}
+	
 
 
+	drawBatcher.initialize();
 
-	save.draw();
-	load.draw();
-	algo.draw();
-	window->draw(lfoBG);
-	window->draw(newNote);
-	window->draw(kfx_text);
+
+	drawBatcher.addItem(&save);
+	drawBatcher.addItem(&load);
+	drawBatcher.addItem(&algo);
+	drawBatcher.addItem(&lfoBG);
+	drawBatcher.addItem(&lfoDelay);
+	drawBatcher.addItem(&lfoSpeed);
+	drawBatcher.addItem(&lfoA);
+	drawBatcher.addItem(&lfoWaveform);
+	drawBatcher.addItem(&lfoOffset);
+	drawBatcher.addItem(&temperament);
+	
+	drawBatcher.addItem(&newNote);
+	drawBatcher.addItem(&kfx_text);
+
 	instrName.draw();
-	lfoDelay.draw();
-	lfoSpeed.draw();
-	lfoA.draw();
-	lfoWaveform.draw();
-	lfoOffset.draw();
-	temperament.draw();
+
 	transposable.draw();
 
 	if (k_fx1.value == 0)
@@ -450,21 +453,33 @@ void InstrEditor::draw()
 		k_fx2.name.setString(kfx_operatorParams[k_fx2.value]);
 		k_fx1.name.setString("Op " + std::to_string(k_fx1.value));
 	}
-	k_fx1.draw();
-	k_fx2.draw();
 
+	drawBatcher.addItem(&k_fx1);
+	drawBatcher.addItem(&k_fx2);
+	drawBatcher.addItem(&lfo);
 
-	volume.draw();
-	transpose.draw();
-	tuning.draw();
-	window->draw(lfo);
-	smoothTransition.draw();
-	envReset.draw();
-	phaseReset.draw();
-	lfoReset.draw();
+	drawBatcher.addItem(&lfoOffsetBar);
+	drawBatcher.addItem(&volume);
+	drawBatcher.addItem(&transpose);
+	drawBatcher.addItem(&tuning);
+	drawBatcher.addItem(&smoothTransition);
+	drawBatcher.addItem(&envReset);
+	drawBatcher.addItem(&phaseReset);
+	drawBatcher.addItem(&lfoReset);
 
+	for (unsigned i = 0; i < FM_op; ++i)
+	{
+		drawBatcher.addItem(&fmop[i]);
+	}
+
+	drawBatcher.draw();
+
+	
+	for (unsigned i = 0; i < FM_op; ++i)
+	{
+		fmop[i].drawLines();
+	}
 	window->draw(waveform);
-	window->draw(lfoOffsetBar);
 }
 
 

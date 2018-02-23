@@ -4,10 +4,9 @@
 #include "../gui.hpp"
 
 class TextInput{
-	sf::RectangleShape bg, cursor, selection;
-	sf::Text title;
+	
 	int x, y, vmax, lineMax, currentLine, selectionBegin, selectionCount, pos2, sIndex, selected, mouseLock;
-	float cursorBlink;
+	
 	std::vector<int> charCountLine;
 	void recalcCursorPos();
 	void cutSelection();
@@ -17,6 +16,9 @@ class TextInput{
 	void newLine();
 	void removeLine();
 	public:
+	float cursorBlink;
+	sf::RectangleShape bg, cursor, selection;
+	sf::Text title;
 	bool multiline, editing;
 	sf::Text text;
 	TextInput(int x, int y, int max, std::string name, bool multiline = false, int lineMax = 1, int width = -1);

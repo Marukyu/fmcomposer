@@ -190,7 +190,7 @@ void Pianoroll::update()
 
 			if (fm->playing)
 			{
-				fm_stop(fm, 0);
+				song_pause();
 				wasPlaying = 1;
 			}
 			y = mouse.pos.y - deltaY;
@@ -298,7 +298,7 @@ void Pianoroll::handleEvents()
 				isScrolling=false;
 				if (wasPlaying)
 				{
-					fm_play(fm);
+					song_play();
 					wasPlaying = 0;
 				}
 				if (moveNote)

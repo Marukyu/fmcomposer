@@ -7,8 +7,8 @@
 
 class Menu{
 
-	sf::RectangleShape bg, select, hover;
-	int last, selected, oneHovered;
+	sf::RectangleShape select, hover;
+	int last, selected;
 	
 	RenderStates states;
 	public:
@@ -20,7 +20,7 @@ class Menu{
 	int hovered();
 	void goToPage(int page);
 	void setVertexPos(sf::Vertex *v, int x, int y, int w);
-	void setVertexRect(sf::Vertex *v, int x, int y, int w);
+	void setVertexRect(int vertexId, int x, int y, int w);
 	void update();
 	bool isPage(int buttonIndex);
 };

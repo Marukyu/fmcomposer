@@ -3,6 +3,8 @@
 
 #include "../../gui/gui.hpp"
 
+#define OP_SIZE 24
+
 class Operator{
 
 	int dx, dy;
@@ -26,6 +28,7 @@ class Operator{
 	void cleanupBottomLinks();
 	int hasParents();
 	void updatePosition();
+	void drawLines();
 };
 
 #endif

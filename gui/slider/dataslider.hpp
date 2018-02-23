@@ -5,10 +5,11 @@
 
 class DataSlider : public GuiElement{
 	int vmin, type, number, updated;
-	sf::RectangleShape bg, bgValue;
+	
 
 	bool selected;
 	public:
+	sf::RectangleShape bg, bgValue;
 	bool focused;
 	int x, y, hovered;
 	int width;

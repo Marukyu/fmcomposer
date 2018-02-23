@@ -1,8 +1,8 @@
 #include "scrollbar.hpp"
 
 
-Slider::Slider(float def, float _max, float _min, float _step, int x, int y, int _size, bool _mini, bool _horizontal) :
-size(_size), vmax(_max), step(_step), vmin(_min), mini(_mini), value(def), active(false), delta(0), horizontal(_horizontal)
+Slider::Slider(float def, float _max, float _min, float _step, int _x, int _y, int _size, bool _mini, bool _horizontal) :
+x(_x),y(_y),size(_size), vmax(_max), step(_step), vmin(_min), mini(_mini), value(def), active(false), delta(0), horizontal(_horizontal)
 {
 
 	bar.setPosition(x, y);

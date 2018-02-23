@@ -209,8 +209,6 @@ bool TextInput::modified()
 	if (editing)
 	{
 
-		cursor.setScale(Vector2f(cursorBlink < 32, 1));
-
 		cursorBlink += frameTime60;
 
 		if (cursorBlink >= 60)
@@ -498,7 +496,9 @@ void TextInput::draw()
 	window->draw(text);
 	window->draw(title);
 	window->draw(selection);
-	window->draw(cursor);
+
+	if(cursorBlink < 32)
+		window->draw(cursor);
 
 }
 

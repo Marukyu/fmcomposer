@@ -1,5 +1,5 @@
 #include "opgui.hpp"
-
+#include "../drawBatcher.hpp"
 
 // GUI for one operator in the instrument editor
 OpGUI::OpGUI(int _x, int _y, string _name) :
@@ -174,16 +174,30 @@ void OpGUI::draw()
 {
 	window->setView(view);
 	bg.setOutlineThickness(selected);
-	window->draw(bg);
-	window->draw(name);
+	
+
+
+	drawBatcher.initialize();
+	drawBatcher.addItem(&bg);
+
 	for (unsigned i = 0; i < slider.size(); ++i)
-		slider[i].draw();
+		drawBatcher.addItem(&slider[i]);
+
+	
+	drawBatcher.addItem(&fixedFreq);
+	drawBatcher.addItem(&mute);
+	drawBatcher.addItem(&envLoop);
+
+	drawBatcher.draw();
+
+	
+	window->draw(name);
+	
 	window->draw(waveform);
 	window->draw(lfoOffsetBar);
-	fixedFreq.draw();
+
 	window->draw(mode);
-	mute.draw();
-	envLoop.draw();
+
 	window->draw(pitchEnv);
 	window->draw(volEnv);
 	window->draw(scalings);

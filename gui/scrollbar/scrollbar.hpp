@@ -7,10 +7,12 @@ class Slider
 {
 	private:
 	float vmax, vmin, delta, step;
-	sf::RectangleShape bar, background;
+	
 	bool active, mini, horizontal;
 
 	public:
+	int x, y;
+	sf::RectangleShape bar;
 	sf::RectangleShape cursor;
 	int size;
 	bool upd_cursor;

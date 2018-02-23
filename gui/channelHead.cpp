@@ -1,6 +1,7 @@
 ﻿#include "channelHead.hpp"
 #include "../fmengine/fmlib.h"
 #include "contextmenu/contextmenu.hpp"
+#include "drawBatcher.hpp"
 
 extern fmsynth *phanoo;
 
@@ -24,15 +25,28 @@ channelName(std::to_string(_channelIndex + 1), font, charSize), pressed(false), 
 void ChannelHead::draw()
 {
 
-	pan.draw();
-	vol.draw();
-	rev.draw();
-	vu.draw();
-	mute.draw();
-	solo.draw();
-	record.draw();
-	window->draw(channelName);
+	vu.update();
 
+	
+
+	drawBatcher.addItem(&mute);
+
+	
+
+
+	drawBatcher.addItem(&pan);
+	drawBatcher.addItem(&vol);
+	drawBatcher.addItem(&rev);
+	drawBatcher.addItem(&vu);
+
+	drawBatcher.addItem(&mute);
+	drawBatcher.addItem(&solo);
+	drawBatcher.addItem(&record);
+
+	drawBatcher.addItem(&channelName);
+	//window->draw(channelName);
+
+	
 	if (selected)
 		window->draw(channelSelector);
 
@@ -44,6 +58,8 @@ void ChannelHead::update(unsigned *paramChanged, int *mutedChanged, int *channel
 	{
 		return;
 	}
+
+	
 
 	if (pan.update())
 	{

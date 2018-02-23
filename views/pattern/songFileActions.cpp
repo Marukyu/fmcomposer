@@ -80,7 +80,7 @@ void song_load(const char* filename, bool fromAutoReload)
 	int playing = fm->playing;
 	int opened = 0;
 
-	fm_stop(fm, 1);
+	song_stop();
 	if (checkExtension(filename, "fmcs"))
 	{
 		if ((opened = fm_loadSong(fm, filename)) == 0)
@@ -121,7 +121,7 @@ void song_load(const char* filename, bool fromAutoReload)
 
 		fm_setPosition(fm, 0, 0, 2);
 		if (playing)
-			fm_play(fm);
+			song_play();
 
 		setWindowTitle(filename);
 
@@ -154,7 +154,7 @@ void song_open()
 void song_clear()
 {
 	mouse.clickLock2 = 1;
-	fm_stop(fm, 1);
+	song_stop();
 	fm_clearSong(fm);
 	fm_setVolume(fm, config->defaultVolume.value);
 	fm_insertPattern(fm, config->patternSize.value, 0);

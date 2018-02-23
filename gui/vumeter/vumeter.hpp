@@ -5,16 +5,17 @@
 
 
 class VuMeter{
+public:
 	sf::RectangleShape bar, topbar;
 	sf::VertexArray quad, quad2;
 	int x;
 	sf::Text db, title;
-	public:
 	int value;
 	float topValue;
 	int topTimer;
 	int saturationTimer;
 	VuMeter(int x, int y, std::string title);
+	void update();
 	void draw();
 };
 
@@ -22,6 +23,7 @@ class MiniVuMeter{
 	sf::RectangleShape bar;
 
 	public:
+	int x, y, w, h;
 	int value;
 	float topValue;
 	int topTimer;
@@ -29,6 +31,7 @@ class MiniVuMeter{
 	MiniVuMeter();
 	MiniVuMeter(int x, int y);
 	void draw();
+	void update();
 	void setValue(int value);
 	void forceValue(int value);
 	void setPosition(int x, int y);
@@ -36,13 +39,15 @@ class MiniVuMeter{
 
 
 class StereoVuMeter{
+	public:
 	VuMeter vuLeft, vuRight;
 	sf::RectangleShape dbBars[5];
 	sf::Text dbValues[6];
-	public:
+	
 	StereoVuMeter(int x, int y);
 	void setValue(int left, int right);
 	void draw();
+	void update();
 };
 
 #endif

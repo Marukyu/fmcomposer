@@ -28,6 +28,13 @@ void StereoVuMeter::setValue(int left, int right)
 	if (abs(right) > vuRight.value)
 		vuRight.value = abs(right);
 }
+
+void StereoVuMeter::update()
+{
+	vuLeft.update();
+	vuRight.update();
+}
+
 void StereoVuMeter::draw()
 {
 	vuLeft.draw();

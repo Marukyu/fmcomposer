@@ -4,14 +4,15 @@
 #include "../gui.hpp"
 
 class Button{
-	int h, padding, width;
+	int padding, width;
 	int textYpadding;
 	bool click;
-	sf::VertexArray bg2;
+	
 	void updatePosition();
 	public:
+	sf::VertexArray bg2;
 	bool hovered, selected;
-	int x, y, w;
+	int x, y, w, h;
 	sf::Text text;
 	Button();
 	Button(int x, int y, std::string text, int width = -1, int padding = 0);

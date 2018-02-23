@@ -2,7 +2,7 @@
 #include "../views/instrument/instrEditor.hpp"
 #include "../views/pattern/songEditor.hpp"
 #include "mainmenu.hpp"
-
+#include "drawBatcher.hpp"
 
 Sidebar *sidebar;
 
@@ -37,28 +37,40 @@ void Sidebar::draw()
 
 	/* Update timer in the menu bar */
 
+	static float prevTime=-1;
+	static float prevlength=-1;
+
 	float time = fm_getTime(fm);
 	float length = fm_getSongLength(fm);
 
-
-	string currentTime = "";
-	/* Do we REALLY need hours ? */
-	if (time / 60 >= 60)
+	if (time != prevTime || length != prevlength)
 	{
-		currentTime = std::to_string((int)time / 3600) + ":";
+		prevTime = time;
+		prevlength = length;
+
+		string currentTime = "";
+
+		/* Do we REALLY need hours ? */
+		if (time / 60 >= 60)
+		{
+			currentTime = std::to_string((int)time / 3600) + ":";
+		}
+		currentTime += std::to_string(((int)time / 60) % 60) + ":" + std::to_string((int)time % 60) + "'" + std::to_string((int)(time * 100) % 100);
+
+		string totalTime = "";
+		/* Do we REALLY need hours ? */
+		if (length / 60 >= 60)
+		{
+			totalTime = std::to_string((int)length / 3600) + ":";
+		}
+		totalTime += std::to_string(((int)length / 60) % 60) + ":" + std::to_string((int)length % 60) + "'" + std::to_string((int)(length * 100) % 100);
+
+
+		timer.setString(currentTime + "\n" + totalTime + "\n\n" + to_string(fm->tempo) + " BPM");
+
 	}
-	currentTime += std::to_string(((int)time / 60) % 60) + ":" + std::to_string((int)time % 60) + "'" + std::to_string((int)(time * 100) % 100);
 
-	string totalTime = "";
-	/* Do we REALLY need hours ? */
-	if (length / 60 >= 60)
-	{
-		totalTime = std::to_string((int)length / 3600) + ":";
-	}
-	totalTime += std::to_string(((int)length / 60) % 60) + ":" + std::to_string((int)length % 60) + "'" + std::to_string((int)(length * 100) % 100);
-
-
-	timer.setString(currentTime + "\n" + totalTime + "\n\n" + to_string(fm->tempo) + " BPM");
+	
 
 	sf::Time elapsed = mclock.restart();
 	frameTime60 = elapsed.asMilliseconds() /15.0;
@@ -70,35 +82,45 @@ void Sidebar::draw()
 	menu->draw();
 	window->setView(borderView);
 
-	window->draw(borderRight);
-	window->draw(currentInstr);
-	if (state == songEditor)
-	{
-		songEditor->patSlider.draw();
-	}
-	octave.draw();
-	defNoteVol.draw();
-	instrList->draw();
-	if (state == songEditor)
-	{
-		songEditor->patSize.draw();
-		songEditor->resize.draw();
-		songEditor->expand.draw();
-		songEditor->shrink.draw();
-	}
-	if (state == instrEditor)
-	{
-		instrEditor->add.draw();
-		instrEditor->instrCleanup.draw();
-	}
-	vuMeter->draw();
 
-	window->draw(timer);
-	window->draw(notePreview);
+	drawBatcher.initialize();
+	drawBatcher.addItem(&borderRight);
+	drawBatcher.addItem(&currentInstr);
+	drawBatcher.addItem(&octave);
+
+	drawBatcher.addItem(&defNoteVol);
+
+	if (state == songEditor)
+	{
+		drawBatcher.addItem(&songEditor->patSize);
+		drawBatcher.addItem(&songEditor->resize);
+		drawBatcher.addItem(&songEditor->expand);
+		drawBatcher.addItem(&songEditor->shrink);
+		drawBatcher.addItem(&songEditor->patSlider);
+	}
+	else if (state == instrEditor)
+	{
+		drawBatcher.addItem(&instrEditor->add);
+		drawBatcher.addItem(&instrEditor->instrCleanup);
+	}
+
+	drawBatcher.addItem(&timer);
+	drawBatcher.addItem(&notePreview);
+
+	drawBatcher.addItem(vuMeter);
+
+	drawBatcher.draw();
+
+
+	
+
+	instrList->draw();
+
 }
 
 void Sidebar::update()
 {
 	octave.update();
 	defNoteVol.update();
+	vuMeter->update();
 }

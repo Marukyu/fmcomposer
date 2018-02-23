@@ -52,58 +52,7 @@ Button::Button(int _x, int _y, wstring _text, int _width, int _padding,int fontS
 void Button::draw()
 {
 
-	if (hovered)
-	{
-		if (click)
-		{
-			bg2[0].color = colors[BUTTONBGCLICKEDA];
-			bg2[1].color = colors[BUTTONBGCLICKEDA];
-			bg2[2].color = colors[BUTTONBGCLICKEDB];
-			bg2[3].color = colors[BUTTONBGCLICKEDB];
-		}
-		else if (selected)
-		{
-			bg2[0].color = colors[BUTTONTOGGLEBGHOVER];
-			bg2[1].color = colors[BUTTONTOGGLEBGHOVER];
-			bg2[2].color = colors[BUTTONTOGGLEBGHOVER];
-			bg2[3].color = colors[BUTTONTOGGLEBGHOVER];
-		}
-		else
-		{
-
-
-			bg2[0].color = colors[BUTTONBGHOVERA];
-			bg2[1].color = colors[BUTTONBGHOVERA];
-			bg2[2].color = colors[BUTTONBGHOVERB];
-			bg2[3].color = colors[BUTTONBGHOVERB];
-
-
-
-		}
-		hovered = false;
-	}
-	else
-	{
-		if (selected)
-		{
-			bg2[0].color = colors[BUTTONTOGGLEDBG];
-			bg2[1].color = colors[BUTTONTOGGLEDBG];
-			bg2[2].color = colors[BUTTONTOGGLEDBG];
-			bg2[3].color = colors[BUTTONTOGGLEDBG];
-		}
-		else
-		{
-			bg2[0].color = colors[BUTTONBGA];
-			bg2[1].color = colors[BUTTONBGA];
-			bg2[2].color = colors[BUTTONBGB];
-			bg2[3].color = colors[BUTTONBGB];
-		}
-	}
-
-
-
-	text.setColor((colors[selected ? BUTTONTOGGLEDTEXT : BUTTONTEXT]));
-
+	
 	window->draw(bg2);
 	window->draw(text);
 
@@ -169,15 +118,58 @@ void Button::setText(wstring _text)
 
 bool Button::hover()
 {
+	text.setColor((colors[selected ? BUTTONTOGGLEDTEXT : BUTTONTEXT]));
 
 	if (mouse.pos.x >= x - padding && mouse.pos.x - padding <= x - 2 * padding + w && mouse.pos.y >= y - padding && mouse.pos.y <= y - padding + h)
 	{
 		if (!contextMenu)
-			hovered = 1;
+		{
+			if (click)
+			{
+				bg2[0].color = colors[BUTTONBGCLICKEDA];
+				bg2[1].color = colors[BUTTONBGCLICKEDA];
+				bg2[2].color = colors[BUTTONBGCLICKEDB];
+				bg2[3].color = colors[BUTTONBGCLICKEDB];
+			}
+			else if (selected)
+			{
+				bg2[0].color = colors[BUTTONTOGGLEBGHOVER];
+				bg2[1].color = colors[BUTTONTOGGLEBGHOVER];
+				bg2[2].color = colors[BUTTONTOGGLEBGHOVER];
+				bg2[3].color = colors[BUTTONTOGGLEBGHOVER];
+			}
+			else
+			{
+
+
+				bg2[0].color = colors[BUTTONBGHOVERA];
+				bg2[1].color = colors[BUTTONBGHOVERA];
+				bg2[2].color = colors[BUTTONBGHOVERB];
+				bg2[3].color = colors[BUTTONBGHOVERB];
+
+
+
+			}
+			hovered = false;
+		}
 		return true;
 	}
 	else
 	{
+		if (selected)
+		{
+			bg2[0].color = colors[BUTTONTOGGLEDBG];
+			bg2[1].color = colors[BUTTONTOGGLEDBG];
+			bg2[2].color = colors[BUTTONTOGGLEDBG];
+			bg2[3].color = colors[BUTTONTOGGLEDBG];
+		}
+		else
+		{
+			bg2[0].color = colors[BUTTONBGA];
+			bg2[1].color = colors[BUTTONBGA];
+			bg2[2].color = colors[BUTTONBGB];
+			bg2[3].color = colors[BUTTONBGB];
+		}
 		hovered = 0;
 	}
 	return false;

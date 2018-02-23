@@ -107,17 +107,37 @@ string& noteName(int note)
 	return note2name[clamp(note, 0, 128)];
 }
 
+void song_pause()
+{
+	fm_stop(fm, 0);
+	menu->setVertexRect(6*4, 100, 32, 32);
+}
+
+void song_stop()
+{
+	fm_stop(fm, 1);
+	menu->setVertexRect(6*4, 100, 32, 32);
+	
+}
+
+void song_play()
+{
+	songEditor->updateMutedChannels();
+	fm_play(fm);
+	menu->setVertexRect(6*4, 36, 32, 32);
+}
+
 void song_playPause()
 {
 	if (fm->playing)
 	{
-		fm_stop(fm, 0);
+		song_pause();
 	}
 	else
 	{
-		songEditor->updateMutedChannels();
-		fm_play(fm);
+		song_play();
 	}
+
 }
 
 bool appInFocus(sf::RenderWindow* app)

@@ -7,7 +7,7 @@ extern Vector2i mouseSidebar;
 extern fmsynth *phanoo;
 extern List* instrList;
 
-Operator::Operator() : bg(Vector2f(24, 24)), number("", font, charSize), active(0), active2(0), muted(0)
+Operator::Operator() : bg(Vector2f(OP_SIZE, OP_SIZE)), number("", font, charSize), active(0), active2(0), muted(0)
 {
 	bg.setFillColor(colors[OPERATORBG]);
 	bg.setOutlineThickness(1);
@@ -27,6 +27,38 @@ Operator::Operator() : bg(Vector2f(24, 24)), number("", font, charSize), active(
 
 int Operator::update()
 {
+
+	mouse.pos = input_getmouse(instrView);
+
+	if (active || highlighted || hovered)
+	{
+		bg.setFillColor(colors[OPERATORBGHOVER]);
+		number.setColor(colors[muted ? OPERATORBGMUTED : OPERATORTEXTHOVER]);
+	}
+	else
+	{
+		bg.setFillColor(colors[muted ? OPERATORBGMUTED : OPERATORBG]);
+		number.setColor(colors[muted ? OPERATORTEXTHOVER : OPERATORTEXT]);
+	}
+
+	bgValue.setPosition(bg.getPosition().x, bg.getPosition().y + bg.getSize().y);
+
+	float maxVol = 0;
+
+	for (int i = 0; i < FM_ch; i++)
+	{
+		if (fm->ch[i].instrNumber == instrList->value && fm->ch[i].active)
+		{
+			if (fm->ch[i].op[id].env>maxVol)
+			{
+				maxVol = fm->ch[i].op[id].env;
+			}
+		}
+	}
+
+	bgValue.setSize(Vector2f(bg.getSize().x, -(bg.getSize().y)*(maxVol)));
+	number.setPosition(bg.getPosition().x + 7, bg.getPosition().y + 2);
+
 	if (mouse.pos.x >= position.x && mouse.pos.x < position.x + bg.getSize().x && mouse.pos.y >= position.y&& mouse.pos.y <= position.y + bg.getSize().y)
 	{
 
@@ -74,27 +106,23 @@ void Operator::updatePosition()
 }
 void Operator::draw()
 {
-	mouse.pos = input_getmouse(instrView);
+	
+	window->draw(bg);
+	window->draw(bgValue);
+	window->draw(number);
+}
 
-	if (active || highlighted || hovered)
-	{
-		bg.setFillColor(colors[OPERATORBGHOVER]);
-		number.setColor(colors[muted ? OPERATORBGMUTED : OPERATORTEXTHOVER]);
-	}
-	else
-	{
-		bg.setFillColor(colors[muted ? OPERATORBGMUTED : OPERATORBG]);
-		number.setColor(colors[muted ? OPERATORTEXTHOVER : OPERATORTEXT]);
-	}
 
+void Operator::drawLines()
+{
 	for (int i = 0; i < 5; i++)
 	{
-		line[0].position.x = bg.getPosition().x + 10;
+		line[0].position.x = bg.getPosition().x + OP_SIZE/2;
 		line[0].position.y = bg.getPosition().y;
 		if (top[i] && !top[i]->active)
 		{
-			line[1].position.x = top[i]->bg.getPosition().x + 10;
-			line[1].position.y = top[i]->bg.getPosition().y + 24;
+			line[1].position.x = top[i]->bg.getPosition().x + OP_SIZE/2;
+			line[1].position.y = top[i]->bg.getPosition().y + OP_SIZE;
 			window->draw(line, 2, Lines);
 		}
 		else if (active2)
@@ -104,32 +132,7 @@ void Operator::draw()
 			window->draw(line, 2, Lines);
 		}
 	}
-
-	bgValue.setPosition(bg.getPosition().x, bg.getPosition().y + bg.getSize().y);
-
-	float maxVol = 0;
-
-	for (int i = 0; i < FM_ch; i++)
-	{
-		if (fm->ch[i].instrNumber == instrList->value && fm->ch[i].active)
-		{
-			if (fm->ch[i].op[id].env>maxVol)
-			{
-				maxVol = fm->ch[i].op[id].env;
-			}
-		}
-	}
-
-	bgValue.setSize(Vector2f(bg.getSize().x, -(bg.getSize().y)*(maxVol)));
-	number.setPosition(bg.getPosition().x + 7, bg.getPosition().y + 2);
-
-	window->draw(bg);
-
-	window->draw(bgValue);
-
-	window->draw(number);
 }
-
 
 int recurFind(Operator* o, Operator* compare)
 {

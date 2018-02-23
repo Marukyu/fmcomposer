@@ -10,8 +10,9 @@
 
 Menu *menu;
 
-void Menu::setVertexRect(sf::Vertex *v, int x, int y, int w)
+void Menu::setVertexRect(int vertexId, int x, int y, int w)
 {
+	sf::Vertex *v = &items[vertexId];
 	v[0].texCoords.x = x;
 	v[0].texCoords.y = y;
 	v[1].texCoords.x = x + w;
@@ -19,7 +20,7 @@ void Menu::setVertexRect(sf::Vertex *v, int x, int y, int w)
 	v[2].texCoords.x = x + w;
 	v[2].texCoords.y = y+32;
 	v[3].texCoords.x = x;
-	v[3].texCoords.y = y+32;
+	v[3].texCoords.y = y + 32;
 }
 
 void Menu::setVertexPos(sf::Vertex *v, int x, int y, int w)
@@ -34,27 +35,35 @@ void Menu::setVertexPos(sf::Vertex *v, int x, int y, int w)
 Menu::Menu(int def)
 {
 	items.setPrimitiveType(sf::Quads);
-	items.resize(4*MAX_MENUITEMS);
+	items.resize(4*(MAX_MENUITEMS+1));
 	
 	states.texture=tileset;
 
 	select.setFillColor(colors[MENUITEMSELECT]);
-	hover.setFillColor(colors[MENUITEMHOVER]);
+
 	for (unsigned i = 0; i < MAX_MENUITEMS; ++i)
 		button[i].setTexture(*tileset);
 
+	sf::Vertex *v = &items[0];
+	v[0].position = sf::Vector2f(0,0);
+    v[1].position = sf::Vector2f(8000,0);
+    v[2].position = sf::Vector2f(8000,32);
+    v[3].position = sf::Vector2f(0,32);
+
+	setVertexRect(0, 0, 27, 32);
+
 	for (unsigned i = 0; i < 12; ++i)
 	{
-		setVertexRect(&items[i*4], 68 + (i % 4) * 32, i / 4 * 32, 32);
+		setVertexRect(4+i*4, 68 + (i % 4) * 32, i / 4 * 32, 32);
 	}
 	last = def;
 
-	setVertexRect(&items[12*4], 68, 96, 128);
-	setVertexRect(&items[13*4], 68, 128, 128);
-	setVertexRect(&items[14*4], 68, 160, 128);
-	setVertexRect(&items[15*4], 196, 96, 32);
-	setVertexRect(&items[16*4], 36, 0, 32);// about
-	setVertexRect(&items[17*4], 196, 64, 32);// edit tools
+	setVertexRect(13*4, 68, 96, 128);
+	setVertexRect(14*4, 68, 128, 128);
+	setVertexRect(15*4, 68, 160, 128);
+	setVertexRect(16*4, 196, 96, 32);
+	setVertexRect(17*4, 36, 0, 32);// about
+	setVertexRect(18*4, 196, 64, 32);// edit tools
 
 
 	Vector2f buttonPositions[18] = {
@@ -82,60 +91,53 @@ Menu::Menu(int def)
 	for (unsigned i = 0; i < MAX_MENUITEMS; i++)
 	{
 		if (i==12 || i==13 || i==14)
-			setVertexPos(&items[i*4],buttonPositions[i].x, buttonPositions[i].y,128 );
+			setVertexPos(&items[4+i*4],buttonPositions[i].x, buttonPositions[i].y,128 );
 		else
-			setVertexPos(&items[i*4],buttonPositions[i].x, buttonPositions[i].y,32 );
+			setVertexPos(&items[4+i*4],buttonPositions[i].x, buttonPositions[i].y,32 );
 	}
-
-	// fond dégradé
-	bg.setPosition(0, 0);
-	bg.setSize(Vector2f(2280, 32));
-	bg.setFillColor(colors[MENUBG]);
 
 	selected = 13;
 	select.setSize(Vector2f(128, 2));
-	select.setPosition(items[13*4].position.x, 30);
+	select.setPosition(items[14*4].position.x, 30);
 
 }
 void Menu::draw()
 {
-
-	if (fm->playing)
-		setVertexRect(&items[5*4], 36, 32, 32);
-	else
-		setVertexRect(&items[5*4], 100, 32, 32);
-
-
-	window->draw(bg);
 	window->draw(items, states);
 
 	if (isPage(selected))
 	{
 		window->draw(select);
 	}
-	if (oneHovered)
-		window->draw(hover);
+
 }
 int Menu::clicked()
 {
-	oneHovered = 0;
-	for (unsigned i = 0; i < MAX_MENUITEMS; ++i)
-	{
 
+	for (unsigned i = 1; i < MAX_MENUITEMS+1; ++i)
+	{
+		sf::Vertex *v = &items[i*4];
 		if (mouse.pos.y >= 0 && mouse.pos.y < 32 && mouse.pos.x >= items[i*4].position.x && mouse.pos.x < items[i*4+1].position.x)
 		{
 			
-			hover.setSize(Vector2f(items[i*4+1].position.x-items[i*4].position.x, 32));
-			hover.setPosition(items[i*4].position.x, 0);
-			oneHovered = 1;
+	
+			 v[0].color = colors[MENUITEMHOVER];
+			 v[1].color = colors[MENUITEMHOVER];
+			 v[2].color = colors[MENUITEMHOVER];
+			 v[3].color = colors[MENUITEMHOVER];
+
 			if (mouse.clickg)
 			{ 
 				mouse.clickg = 0;
-				return i;
+				return i-1;
 			}
 		}
 		else
 		{
+			v[0].color = Color(255,255,255,255);
+			v[1].color = Color(255,255,255,255);
+			v[2].color = Color(255,255,255,255);
+			v[3].color = Color(255,255,255,255);
 		}
 	}
 
@@ -144,10 +146,10 @@ int Menu::clicked()
 
 int Menu::hovered()
 {
-	for (unsigned i = 0; i < MAX_MENUITEMS; ++i)
+	for (unsigned i = 1; i < MAX_MENUITEMS+1; ++i)
 	{
 		if (mouse.pos.y >= 0 && mouse.pos.y < 32 && mouse.pos.x >= items[i*4].position.x && mouse.pos.x < items[i*4+1].position.x)
-			return i;
+			return i-1;
 	}
 	return -1;
 }
@@ -162,7 +164,7 @@ void Menu::goToPage(int page)
 	/* Pages have a bar below them showing which is currently displayed */
 	if (isPage(page))
 	{
-		select.setPosition(items[page*4].position.x, 30);
+		select.setPosition(items[4+page*4].position.x, 30);
 		selected = page;
 		
 		/* Some pages have bigger buttons */
@@ -235,8 +237,7 @@ void Menu::update()
 				song_playPause();
 				break;
 			case 6: // stop
-				button[5].setTextureRect(IntRect(100, 32, 32, 32));
-				fm_stop(fm, 1);
+				song_stop();
 				break;
 			case 10: // wave/mp3 export
 				popup->show(POPUP_STREAMEDEXPORT);

@@ -56,9 +56,10 @@ enum pages{ PAGE_CONFIG = 7, PAGE_GENERAL = 12, PAGE_SONG = 13, PAGE_INSTRUMENT 
 
 class GuiElement{
 	protected:
-	bool visible;
+	
 
 	public:
+	bool visible;
 	GuiElement();
 	void setVisible(bool visible);
 

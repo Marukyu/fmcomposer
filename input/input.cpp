@@ -23,7 +23,7 @@ void input_update()
 
 	memset(&keyboard, 0, sizeof(keyboard));
 	mouse.scroll = mouse.hscroll = mouse.clickg = mouse.clickd = mouse.clickgReleased = mouse.clickdReleased = 0;
-
+	mouse.cursor = CURSOR_NORMAL;
 
 
 	mouse.pos = input_getmouse(globalView);

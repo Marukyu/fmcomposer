@@ -1,7 +1,7 @@
 #include "songEditor.hpp"
 #include "../settings/configEditor.hpp"
 #include <ctype.h>
-
+#include "../../gui/drawBatcher.hpp"
 
 SongEditor *songEditor;
 
@@ -186,11 +186,12 @@ void SongEditor::draw()
 
 	window->setView(patternTopView);
 
+	drawBatcher.initialize();
 	for (unsigned ch = scrollX; ch < scrollX2; ++ch)
 	{
 		channelHead[ch].draw();
 	}
-	
+	drawBatcher.draw();
 
 
 	window->setView(patternView);

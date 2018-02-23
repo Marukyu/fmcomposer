@@ -3,19 +3,24 @@
 
 MiniVuMeter::MiniVuMeter() {};
 
-MiniVuMeter::MiniVuMeter(int x, int y) :bar(Vector2f(0, 0)), value(0)
+MiniVuMeter::MiniVuMeter(int _x, int _y) :bar(Vector2f(0, 0)), value(0), x(_x), y(_y), w(4)
 {
 
 	bar.setFillColor(colors[VUMETERBARLOW]);
 	bar.setPosition(x, y + 79);
 }
 
-void MiniVuMeter::draw()
+
+void MiniVuMeter::update()
 {
-	bar.setSize(Vector2f(4, -min(79, abs(value / (32768 / 512)))));
+	h = -min(79, abs(value / (32768 / 512)));
+	bar.setSize(Vector2f(w, h));
 	// value *= 0.85, but better going for an FPS-independant function
 	value *= pow(0.85, frameTime60);
+}
 
+void MiniVuMeter::draw()
+{
 	window->draw(bar);
 }
 
@@ -25,8 +30,10 @@ void MiniVuMeter::setValue(int _value)
 		value = abs(_value);
 }
 
-void MiniVuMeter::setPosition(int x, int y)
+void MiniVuMeter::setPosition(int _x, int _y)
 {
+	x=_x;
+	y=_y;
 	bar.setPosition(x, y + 79);
 }
 
@@ -71,7 +78,7 @@ VuMeter::VuMeter(int x, int y, string _title) :bar(Vector2f(30, 0)), topbar(Vect
 	db.setColor(colors[VUMETERTEXT]);
 }
 
-void VuMeter::draw()
+void VuMeter::update()
 {
 	bar.setSize(Vector2f(30, 128 - abs(value / (32768 / 128))));
 
@@ -114,6 +121,10 @@ void VuMeter::draw()
 	// value *= 0.85, but better going for an FPS-independant function
 	value *= pow(0.85, frameTime60);
 
+}
+
+void VuMeter::draw()
+{
 	window->draw(title);
 	window->draw(quad);
 	window->draw(quad2);
