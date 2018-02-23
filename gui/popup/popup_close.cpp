@@ -204,9 +204,11 @@ void Popup::buttonActions(int buttonID)
 					close();
 					break;
 				case 2: // save
-					song_save();
-					song_load(songLoadedRequest.c_str(), false);
-					close();
+					if (song_save())
+					{
+						song_load(songLoadedRequest.c_str(), false);
+						close();
+					}
 					break;
 			}
 			break;
