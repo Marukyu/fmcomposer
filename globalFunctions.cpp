@@ -204,7 +204,6 @@ void updateViews(int width, int height)
 	windowHeight = height;
 
 	globalView.reset(FloatRect(0.f, 0.f, width, height));
-
 	
 	pianoRoll->resetView(width, height);
 

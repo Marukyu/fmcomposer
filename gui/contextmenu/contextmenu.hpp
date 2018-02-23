@@ -21,7 +21,7 @@ class ListMenu{
 	void show(int x = mouseGlobal.x, int y = mouseGlobal.y);
 	void show(View *relative);
 	void remove(int index);
-	void updateSize();
+	void updateSize(int fromIndex);
 	void update();
 };
 
