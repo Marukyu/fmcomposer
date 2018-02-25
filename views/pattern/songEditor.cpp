@@ -2,6 +2,8 @@
 #include "../settings/configEditor.hpp"
 #include <ctype.h>
 #include "../../gui/drawBatcher.hpp"
+#include "../../gui/sidebar.hpp"
+
 
 SongEditor *songEditor;
 
@@ -531,6 +533,11 @@ void SongEditor::recordFromKeyboard(int note, int volume, int channel, int isFro
 			saveToHistory(fm->row, 1);
 			songModified(1);
 
+			if (sidebar->editingStep.value != 0)
+			{
+				moveY( fm->row+sidebar->editingStep.value);
+			}
+
 		}
 
 		updateChannelData(channel);
@@ -568,6 +575,7 @@ void SongEditor::moveY(int pos)
 	fm_setPosition(fm, fm->order, pos, fm->playing ? 2 : 0);
 
 	selectedRow = fm->row;
+	mouseYpat = selectedRow;
 	selection.bg.setPosition(mouseXpat*COL_WIDTH, selectedRow*ROW_HEIGHT);
 	selection.bg.setSize(Vector2f(COL_WIDTH, ROW_HEIGHT));
 	setScroll(fm->row);

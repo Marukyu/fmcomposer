@@ -7,10 +7,8 @@
 
 class Sidebar
 {
-	private:
-
 	public:
-	DataSlider octave, defNoteVol;
+	DataSlider octave, defNoteVol, editingStep;
 	Text currentInstr;
 	StereoVuMeter *vuMeter;
 	RectangleShape borderRight;

@@ -12,7 +12,8 @@ octave(1070, 240, 7, 0, "Octave", 4),
 currentInstr("Instrument list", font, charSize),
 timer("", font, charSize),
 notePreview("", font, charSize),
-defNoteVol(1070, 220, 99, 0, "Volume", 70)
+defNoteVol(1070, 220, 99, 0, "Volume", 70),
+editingStep(1070, 270, 16, 0, "Editing step",0)
 {
 	vuMeter = new StereoVuMeter(1100, 50);
 
@@ -32,6 +33,19 @@ defNoteVol(1070, 220, 99, 0, "Volume", 70)
 	instrList = new List(1070, 375, 18, 209, 16);
 }
 
+string formatTime(float time)
+{
+	string formattedTime = "";
+
+	/* Do we really need hours ? */
+	if (time / 60 >= 60)
+	{
+		formattedTime = std::to_string((int)time / 3600) + ":";
+	}
+
+	return formattedTime + std::to_string(((int)time / 60) % 60) + ":" + std::to_string((int)time % 60) + "'" + std::to_string((int)(time * 100) % 100);
+}
+
 void Sidebar::draw()
 {
 
@@ -48,34 +62,15 @@ void Sidebar::draw()
 		prevTime = time;
 		prevlength = length;
 
-		string currentTime = "";
-
-		/* Do we REALLY need hours ? */
-		if (time / 60 >= 60)
-		{
-			currentTime = std::to_string((int)time / 3600) + ":";
-		}
-		currentTime += std::to_string(((int)time / 60) % 60) + ":" + std::to_string((int)time % 60) + "'" + std::to_string((int)(time * 100) % 100);
-
-		string totalTime = "";
-		/* Do we REALLY need hours ? */
-		if (length / 60 >= 60)
-		{
-			totalTime = std::to_string((int)length / 3600) + ":";
-		}
-		totalTime += std::to_string(((int)length / 60) % 60) + ":" + std::to_string((int)length % 60) + "'" + std::to_string((int)(length * 100) % 100);
-
+		string currentTime = formatTime(time);
+		string totalTime = formatTime(length);
 
 		timer.setString(currentTime + "\n" + totalTime + "\n\n" + to_string(fm->tempo) + " BPM");
 
 	}
 
-	
-
 	sf::Time elapsed = mclock.restart();
 	frameTime60 = elapsed.asMilliseconds() /15.0;
-
-
 
 
 	window->setView(globalView);
@@ -87,6 +82,7 @@ void Sidebar::draw()
 	drawBatcher.addItem(&borderRight);
 	drawBatcher.addItem(&currentInstr);
 	drawBatcher.addItem(&octave);
+	
 
 	drawBatcher.addItem(&defNoteVol);
 
@@ -97,6 +93,7 @@ void Sidebar::draw()
 		drawBatcher.addItem(&songEditor->expand);
 		drawBatcher.addItem(&songEditor->shrink);
 		drawBatcher.addItem(&songEditor->patSlider);
+		drawBatcher.addItem(&editingStep);
 	}
 	else if (state == instrEditor)
 	{
@@ -123,4 +120,5 @@ void Sidebar::update()
 	octave.update();
 	defNoteVol.update();
 	vuMeter->update();
+	editingStep.update();
 }

@@ -87,7 +87,7 @@ display("Display", font, charSize)
 	defaultPreloadedSound = ini_config.GetValue("config", "defaultPreloadedSound", "keyboards/piano");
 
 	sidebar->defNoteVol.setValue(atoi(ini_config.GetValue("config", "defaultNoteVolume", "70")));
-
+	sidebar->editingStep.setValue(atoi(ini_config.GetValue("config", "editingStep", "0")));
 
 
 	diviseur.setValue(atoi(ini_config.GetValue("config", "rowsPerQuarterNote", "8")));
@@ -419,6 +419,7 @@ void ConfigEditor::save()
 	ini_config.SetValue("config", "notePreviewReverb", std::to_string(previewReverb.value).c_str());
 	ini_config.SetValue("config", "defaultPreloadedSound", defaultPreloadedSound.c_str());
 	ini_config.SetValue("config", "defaultVolume", std::to_string(defaultVolume.value).c_str());
+	ini_config.SetValue("config", "editingStep", std::to_string(sidebar->editingStep.value).c_str());
 
 	ini_config.SetValue("config", "patternZoomLevel", std::to_string((int)round(songEditor->zoom * 10)).c_str());
 	ini_config.SetValue("config", "theme", themeFile.text.getString().toAnsiString().c_str());
