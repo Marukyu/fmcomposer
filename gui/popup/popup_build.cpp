@@ -87,7 +87,7 @@ void Popup::show(int _type, int param)
 							 buttons.push_back(Button(w - 50, h - 50, "OK", -1, 8));
 							 buttons.push_back(Button(20, h - 50, "Go to the website", -1, 8));
 							 buttons.push_back(Button(180, h - 50, "Check for updates", -1, 8));
-							 texts.push_back(Text(L"FM Composer, © 2017-2018 Stéphane Damo\n\n•-,¸¸.•*¨*•-,¸¸.•*¨*•-,¸¸.• Many thanks to •-,¸¸.•*¨*•-,¸¸.•*¨*•-,¸¸.•\n\n	Masami Komuro (demo and some FM sounds)\n	Klairzaki Fil-Xter (quality testing)\n\n	Laurent Gomila & SFML contributors (SFML lib)\n	Guillaume Vareille (tinyfiledialogs lib)\n	Brodie Thiesfield (SimpleIni lib)\n	Ross Bencina/Phil Burk/Roger B. Dannenberg (PortMidi/Audio lib)\n	Yann Collet (LZ4)\n	The LAME MP3 encoder team\nThe Google team (Material Icons)", font, charSize));
+							 texts.push_back(Text(L"FM Composer, © 2017-2018 Stéphane Damo\n\n•-,¸¸.•*¨*•-,¸¸.•*¨*•-,¸¸.• Many thanks to •-,¸¸.•*¨*•-,¸¸.•*¨*•-,¸¸.•\n\n	Masami Komuro (demo and some FM sounds)\n	Klairzaki Fil-Xter (quality testing)\n\n	Laurent Gomila & SFML contributors (SFML lib)\n	Guillaume Vareille (tinyfiledialogs lib)\n	Brodie Thiesfield (SimpleIni lib)\n	Ross Bencina/Phil Burk/Roger B. Dannenberg (PortMidi/Audio lib)\n	Yann Collet (LZ4)\n	The LAME MP3 encoder team\n	The Google team (Material Icons)\n	Josh Coalson & Xiph.org foundation (FLAC encoder)", font, charSize));
 							 texts[0].setColor(colors[BLOCKTEXT]);
 							 texts[0].setPosition(276, 20);
 
@@ -451,7 +451,7 @@ void Popup::show(int _type, int param)
 
 			checkboxes[0].checked = 1;
 
-			sliders.push_back(DataSlider(270, 170, 10, 0, "Quality (0=best, 9=worst)", 0, 200));
+			sliders.push_back(DataSlider(240, 170, 10, 0, "Quality (0=best, 9=worst)", 0, 200));
 
 
 			sliders.push_back(DataSlider(60, 20, fm->patternCount, 0, "Pattern", 0, 150));
@@ -463,7 +463,8 @@ void Popup::show(int _type, int param)
 			texts[2].setColor(colors[BLOCKTEXT]);
 			texts[2].setPosition(150, 50);
 
-
+			checkboxes.push_back(Checkbox(20, 240, "Export as FLAC"));
+			sliders.push_back(DataSlider(170, 242, 8, 0, "Compression level", 0, 200));
 
 			buttons.push_back(Button(w - 90, h - 50, "Export", -1, 8));
 			buttons.push_back(Button(50, h - 50, "Cancel", -1, 8));

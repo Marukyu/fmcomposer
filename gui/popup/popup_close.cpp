@@ -15,6 +15,7 @@ extern SongEditor* songEditor;
 
 sf::Thread waveExportThread(&waveExportFunc);
 sf::Thread mp3ExportThread(&mp3ExportFunc);
+sf::Thread flacExportThread(&flacExportFunc);
 int exporting = 0;
 
 extern string exportFileName;
@@ -271,10 +272,12 @@ void Popup::buttonActions(int buttonID)
 				exportToPattern = sliders[2].value;
 				exportNbLoops = sliders[3].value;
 
+				mouse.clickLock2 = 1;
+
+				// WAVE
 				if (checkboxes[0].checked)
 				{
-					mouse.clickLock2 = 1;
-
+					
 					static const char * filters[1] = { "*.wav" };
 					const char *fileName = tinyfd_saveFileDialog("Export as wave", NULL, 1, filters, "Wave file");
 					if (fileName)
@@ -288,10 +291,10 @@ void Popup::buttonActions(int buttonID)
 						waveExportThread.launch();
 					}
 				}
-				else
+				// MP3
+				else if (checkboxes[1].checked)
 				{
-					mouse.clickLock2 = 1;
-					vbr_quality = (sliders[0].value) + checkboxes[3].checked * 100;
+					export_param = (sliders[0].value) + checkboxes[3].checked * 100;
 					static const char * filters[1] = { "*.mp3" };
 					const char *fileName = tinyfd_saveFileDialog("Export as MP3", NULL, 1, filters, "MP3 file");
 					if (fileName)
@@ -304,6 +307,24 @@ void Popup::buttonActions(int buttonID)
 						exportFileName = fileNameOk;
 
 						mp3ExportThread.launch();
+					}
+				}
+				// FLAC
+				else
+				{
+					export_param = sliders[4].value;
+					static const char * filters[1] = { "*.flac" };
+					const char *fileName = tinyfd_saveFileDialog("Export as FLAC", NULL, 1, filters, "FLAC file");
+					if (fileName)
+					{
+						string fileNameOk = forceExtension(fileName, "flac");
+						song_stop();
+						Pa_StopStream(stream);
+						Pa_CloseStream(stream);
+						popup->show(POPUP_WORKING);
+						exportFileName = fileNameOk;
+
+						flacExportThread.launch();
 					}
 				}
 			}

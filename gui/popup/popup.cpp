@@ -158,9 +158,10 @@ void Popup::handleEvents()
 							checkboxes[i].checked = 1;
 
 						// mp3
-						if (i == 1 && checkboxes[0].checked)
+						if (i == 1 && (checkboxes[0].checked || checkboxes[4].checked) )
 						{
 							checkboxes[0].checked = 0;
+							checkboxes[4].checked = 0;
 							// pre select vbr
 							if (!checkboxes[2].checked && !checkboxes[3].checked)
 							{
@@ -174,6 +175,7 @@ void Popup::handleEvents()
 							checkboxes[1].checked = 0;
 							checkboxes[2].checked = 0;
 							checkboxes[3].checked = 0;
+							checkboxes[4].checked = 0;
 						}
 
 						// cbr : auto select mp3
@@ -182,6 +184,7 @@ void Popup::handleEvents()
 							checkboxes[2].checked = 0;
 							checkboxes[0].checked = 0;
 							checkboxes[1].checked = 1;
+							checkboxes[4].checked = 0;
 						}
 						// vbr : auto select mp3
 						if (i == 2)
@@ -189,6 +192,16 @@ void Popup::handleEvents()
 							checkboxes[3].checked = 0;
 							checkboxes[0].checked = 0;
 							checkboxes[1].checked = 1;
+							checkboxes[4].checked = 0;
+						}
+
+						// flac
+						if (i == 4)
+						{
+							checkboxes[3].checked = 0;
+							checkboxes[0].checked = 0;
+							checkboxes[1].checked = 0;
+							checkboxes[2].checked = 0;
 						}
 
 
@@ -372,16 +385,18 @@ void Popup::handleEvents()
 						updateEffectDescription();
 						break;
 					case POPUP_STREAMEDEXPORT:
+						/* MP3 bitrate/quality */
 						if (i == 0)
 						{
 							checkboxes[0].checked = 0;
 							checkboxes[1].checked = 1;
-
+							checkboxes[4].checked = 0;
 							if (checkboxes[3].checked)
 							{
 								sliders[0].setDisplayedValueOnly(std::to_string(mp3_bitrates[sliders[0].value]));
 							}
 						}
+						/* Pattern : from */
 						else if (i == 1)
 						{
 							if (sliders[1].value > sliders[2].value)
@@ -389,12 +404,23 @@ void Popup::handleEvents()
 								sliders[2].setValue(sliders[1].value);
 							}
 						}
-						else
+						/* Pattern : to */
+						else if (i==2)
 						{
+
 							if (sliders[1].value > sliders[2].value)
 							{
 								sliders[1].setValue(sliders[2].value);
 							}
+						}
+						/* FLAC compression level */
+						else
+						{
+							checkboxes[4].checked = 1;
+							checkboxes[0].checked = 0;
+							checkboxes[1].checked = 0;
+							checkboxes[3].checked = 0;
+							checkboxes[0].checked = 0;
 						}
 						break;
 
