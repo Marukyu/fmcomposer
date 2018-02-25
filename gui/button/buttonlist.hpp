@@ -4,6 +4,7 @@
 #include "../gui.hpp"
 #include "button.hpp"
 
+
 class ButtonList{
 	vector<Button> buttons;
 	int maxId;

@@ -14,7 +14,7 @@ channelName(std::to_string(_channelIndex + 1), font, charSize), pressed(false), 
 	channelIndex = _channelIndex;
 	channelSelector.setOutlineColor(colors[FOCUSOUTLINE]);
 	channelSelector.setOutlineThickness(1.f);
-	channelSelector.setFillColor(Color(0, 0, 0, 0));
+	channelSelector.setFillColor(colors[TOPBARBG]);
 	channelSelector.setPosition(100 * channelIndex + 5, 3);
 
 	channelName.setPosition(3 * 18 + 4 + 100 * channelIndex + 5, 4);
@@ -28,6 +28,8 @@ void ChannelHead::draw()
 	vu.update();
 
 	
+	if (selected)
+		drawBatcher.addItem(&channelSelector);
 
 	drawBatcher.addItem(&mute);
 
@@ -47,9 +49,7 @@ void ChannelHead::draw()
 	//window->draw(channelName);
 
 	
-	if (selected)
-		window->draw(channelSelector);
-
+	
 }
 
 void ChannelHead::update(unsigned *paramChanged, int *mutedChanged, int *channelSwapped)
@@ -126,7 +126,7 @@ void ChannelHead::update(unsigned *paramChanged, int *mutedChanged, int *channel
 			pressed = 0;
 			if (!hover() && *paramChanged == 0 && (mouse.pos.x < channelSelector.getPosition().x || mouse.pos.x > channelSelector.getPosition().x + channelSelector.getSize().x))
 			{
-				*channelSwapped = clamp(mouse.pos.x / 100, 0, FM_ch - 1);
+				*channelSwapped = clamp(mouse.pos.x / CH_WIDTH, 0, FM_ch - 1);
 			}
 		}
 	}

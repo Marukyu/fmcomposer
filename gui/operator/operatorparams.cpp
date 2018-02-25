@@ -188,21 +188,19 @@ void OpGUI::draw()
 	drawBatcher.addItem(&mute);
 	drawBatcher.addItem(&envLoop);
 
+	drawBatcher.addItem(&name);
+	drawBatcher.addItem(&mode);
+	drawBatcher.addItem(&pitchEnv);
+	drawBatcher.addItem(&volEnv);
+	drawBatcher.addItem(&scalings);
+	drawBatcher.addItem(&lfo);
 	drawBatcher.draw();
 
-	
-	window->draw(name);
-	
 	window->draw(waveform);
 	window->draw(lfoOffsetBar);
 
-	window->draw(mode);
-
-	window->draw(pitchEnv);
-	window->draw(volEnv);
-	window->draw(scalings);
-	window->draw(lfo);
 }
+
 
 void OpGUI::setZoom(float zoom)
 {

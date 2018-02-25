@@ -1,6 +1,7 @@
 #include "buttonlist.hpp"
 #include "../../fmengine/fmlib.h"
 #include "../contextmenu/contextmenu.hpp"
+#include "../drawBatcher.hpp"
 
 extern fmsynth *phanoo;
 extern ListMenu *contextMenu;
@@ -45,15 +46,21 @@ void ButtonList::draw()
 
 	updateButtonPos();
 
+	
+
+	drawBatcher.initialize();
+	
 	if (selected)
 	{
-		window->draw(bgfocus);
+		drawBatcher.addItem(&bgfocus);
 	}
 
 	for (unsigned i = scroll; i < min<int>(buttons.size(), scroll + 46); ++i)
 	{
-		buttons[i].draw();
+		drawBatcher.addItem(&buttons[i]);
 	}
+	drawBatcher.draw();
+
 }
 
 void ButtonList::add(string text)

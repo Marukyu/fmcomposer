@@ -57,9 +57,24 @@ void DrawBatcher::addItemBicolor(float x, float y, float w, float h, sf::Color c
 
 void DrawBatcher::addItem(Operator *o)
 {
+	
+
 	addItemSingleColor(o->bg.getPosition().x-1, o->bg.getPosition().y-1, OP_SIZE+2, OP_SIZE+2, o->bg.getOutlineColor());
-	addItemSingleColor(o->bg.getPosition().x, o->bg.getPosition().y, OP_SIZE, OP_SIZE, o->bg.getFillColor());
+
+	addItemSingleColor(o->bg.getPosition().x, o->bg.getPosition().y, OP_SIZE, OP_SIZE, (o->active || o->highlighted || o->hovered ) ? colors[OPERATORBGHOVER] : colors[o->muted ? OPERATORBGMUTED : OPERATORBG]);
+
 	addItemSingleColor(o->bgValue.getPosition().x, o->bgValue.getPosition().y, OP_SIZE, o->bgValue.getSize().y, o->bgValue.getFillColor());
+	
+
+	if (o->active || o->highlighted || o->hovered)
+	{
+		o->number.setColor(colors[o->muted ? OPERATORBGMUTED : OPERATORTEXTHOVER]);
+	}
+	else
+	{
+		o->number.setColor(colors[o->muted ? OPERATORTEXTHOVER : OPERATORTEXT]);
+	}
+
 	addItem(&o->number);
 }
 
