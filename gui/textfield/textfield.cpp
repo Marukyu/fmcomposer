@@ -159,9 +159,6 @@ bool TextInput::modified()
 					pos2--;
 				}
 
-
-
-				printf("pos %d \n", pos2);
 			}
 			else
 			{
@@ -203,6 +200,7 @@ bool TextInput::modified()
 			unselect();
 		}
 		bg.setFillColor(colors[TEXTINPUTBG]);
+		
 	}
 
 
@@ -467,6 +465,10 @@ bool TextInput::modified()
 
 			}
 		}
+	}
+	else
+	{
+		cursorBlink=60;
 	}
 	selectionBegin == 0 ? selection.setPosition(x + title.getLocalBounds().width + 8, y + currentLine*font.getLineSpacing(charSize)) : selection.setPosition(text.findCharacterPos(selectionBegin).x, y + currentLine*font.getLineSpacing(charSize));
 	return false;
