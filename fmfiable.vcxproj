@@ -1,0 +1,251 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{89F2D825-87AE-4028-A802-338E33FC5024}</ProjectGuid>
+    <RootNamespace>fmfiable</RootNamespace>
+    <ProjectName>fmcomposer</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v120_xp</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <UseOfMfc>false</UseOfMfc>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v120_xp</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>12.0.21005.1</_ProjectFileVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
+    <IncludePath>C:\Program Files %28x86%29\lame-3.100\include;C:\Users\Stéphane\Downloads\SFML-master (1)\SFML-master\include;C:\Program Files (x86)\portaudio_v19\portaudio\include;C:\Program Files %28x86%29\flac-master\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files %28x86%29\flac-master\objs\release\lib;C:\Program Files %28x86%29\lame-3.100\output\Release;C:\Program Files %28x86%29\Microsoft SDKs\Windows\v7.1A\Lib;C:\Users\Stéphane\Downloads\SFML-master (1)\SFML-master\extlibs\libs-msvc\x86;C:\Users\Stéphane\Downloads\SFML-master (1)\SFML-master\build\lib\Debug;C:\Program Files (x86)\portaudio_v19\portaudio\build\Release;$(LibraryPath)</LibraryPath>
+    <GenerateManifest>false</GenerateManifest>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
+    <IncludePath>C:\Program Files %28x86%29\lame-3.100\include;C:\Users\Stéphane\Downloads\SFML-master (1)\SFML-master\include;C:\Program Files (x86)\portaudio_v19\portaudio\include;C:\Program Files %28x86%29\flac-master\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files %28x86%29\flac-master\objs\release\lib;C:\Program Files %28x86%29\lame-3.100\output\Release;C:\Users\Stéphane\Downloads\SFML-master (1)\SFML-master\extlibs\libs-msvc\x86;C:\Program Files (x86)\portaudio_v19\portaudio\build\Release;C:\Program Files %28x86%29\Microsoft SDKs\Windows\v7.1A\Lib;C:\Users\Stéphane\Downloads\SFML-master (1)\SFML-master\build\lib\Release;$(LibraryPath)</LibraryPath>
+    <GenerateManifest>false</GenerateManifest>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <WarningLevel>Level4</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <PreprocessorDefinitions>SFML_STATIC;FLAC__NO_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <DisableSpecificWarnings>4244;4800;4018;4996;4091</DisableSpecificWarnings>
+      <EnableEnhancedInstructionSet>NoExtensions</EnableEnhancedInstructionSet>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <FloatingPointExceptions>false</FloatingPointExceptions>
+      <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <TargetMachine>MachineX86</TargetMachine>
+      <AdditionalDependencies>portaudio_static_x86.lib;comctl32.lib;sfml-main-d.lib;glu32.lib;freetype.lib;gdi32.lib;opengl32.lib;openal32.lib;sfml-graphics-s-d.lib;sfml-window-s-d.lib;sfml-system-s-d.lib;libmpghip-static.lib;libmp3lame-static.lib;libFLAC_static.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalOptions>/NODEFAULTLIB:LIBCMT %(AdditionalOptions)</AdditionalOptions>
+      <GenerateMapFile>true</GenerateMapFile>
+      <MapExports>true</MapExports>
+      <SubSystem>Console</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <AdditionalOptions>/EHsc /QIfist %(AdditionalOptions)</AdditionalOptions>
+      <Optimization>Full</Optimization>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <OmitFramePointers>true</OmitFramePointers>
+      <PreprocessorDefinitions>SFML_STATIC;FLAC__NO_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ExceptionHandling>false</ExceptionHandling>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <WarningLevel>TurnOffAllWarnings</WarningLevel>
+      <DebugInformationFormat />
+      <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
+      <MinimalRebuild>true</MinimalRebuild>
+      <EnableEnhancedInstructionSet>StreamingSIMDExtensions</EnableEnhancedInstructionSet>
+      <FloatingPointExceptions>false</FloatingPointExceptions>
+      <ErrorReporting>None</ErrorReporting>
+      <StringPooling>true</StringPooling>
+      <OmitDefaultLibName>true</OmitDefaultLibName>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <OpenMPSupport>true</OpenMPSupport>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>libFLAC_static.lib;portaudio_static_x86.lib;sfml-graphics-s.lib;sfml-window-s.lib;sfml-system-s.lib;sfml-main.lib;glu32.lib;freetype.lib;gdi32.lib;opengl32.lib;libmpghip-static.lib;libmp3lame-static.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <TargetMachine>MachineX86</TargetMachine>
+      <GenerateMapFile>false</GenerateMapFile>
+      <MapExports>false</MapExports>
+      <AssemblyDebug>false</AssemblyDebug>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ResourceCompile Include="fmfiable.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\Debug\icon96.ico" />
+    <Image Include="icon64.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\fmengine\fmlib.c" />
+    <ClCompile Include="src\fmengine\lz4\lz4.c" />
+    <ClCompile Include="src\fmengine\lz4\lz4hc.c" />
+    <ClCompile Include="src\globalFunctions.cpp" />
+    <ClCompile Include="src\gui\button\button.cpp" />
+    <ClCompile Include="src\gui\button\buttonlist.cpp" />
+    <ClCompile Include="src\gui\channelHead.cpp" />
+    <ClCompile Include="src\gui\checkbox\checkbox.cpp" />
+    <ClCompile Include="src\gui\contextmenu\contextmenu.cpp" />
+    <ClCompile Include="src\gui\drawBatcher.cpp" />
+    <ClCompile Include="src\gui\gui.cpp" />
+    <ClCompile Include="src\gui\list\list.cpp" />
+    <ClCompile Include="src\gui\mainmenu.cpp" />
+    <ClCompile Include="src\gui\operator\operator.cpp" />
+    <ClCompile Include="src\gui\operator\operatorparams.cpp" />
+    <ClCompile Include="src\gui\popup\popup.cpp" />
+    <ClCompile Include="src\gui\popup\popup_build.cpp" />
+    <ClCompile Include="src\gui\popup\popup_close.cpp" />
+    <ClCompile Include="src\gui\popup\popup_effectInfos.cpp" />
+    <ClCompile Include="src\gui\scrollbar\scrollbar.cpp" />
+    <ClCompile Include="src\gui\sidebar.cpp" />
+    <ClCompile Include="src\gui\slider\dataslider.cpp" />
+    <ClCompile Include="src\gui\textfield\textfield.cpp" />
+    <ClCompile Include="src\gui\vumeter\stereovumeter.cpp" />
+    <ClCompile Include="src\gui\vumeter\vumeter.cpp" />
+    <ClCompile Include="src\input\input.cpp" />
+    <ClCompile Include="src\input\noteInput.cpp" />
+    <ClCompile Include="src\libs\portmidi\pmutil.c" />
+    <ClCompile Include="src\libs\portmidi\pmwin.c" />
+    <ClCompile Include="src\libs\portmidi\pmwinmm.c" />
+    <ClCompile Include="src\libs\portmidi\portmidi.c" />
+    <ClCompile Include="src\libs\portmidi\porttime.c" />
+    <ClCompile Include="src\libs\portmidi\ptwinmm.c" />
+    <ClCompile Include="src\libs\simpleini\ConvertUTF.c" />
+    <ClCompile Include="src\libs\tinyfiledialogs\tinyfiledialogs.c" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\midi\midiInstrNames.cpp" />
+    <ClCompile Include="src\midi\midi_export.cpp" />
+    <ClCompile Include="src\midi\midi_import.cpp" />
+    <ClCompile Include="src\midi\midi_realtime.cpp" />
+    <ClCompile Include="src\streamed\streamedExport.cpp" />
+    <ClCompile Include="src\views\general\generalEditor.cpp" />
+    <ClCompile Include="src\views\instrument\algoPresets.cpp" />
+    <ClCompile Include="src\views\instrument\instrEditor.cpp" />
+    <ClCompile Include="src\views\instrument\instrEditor_algorithms.cpp" />
+    <ClCompile Include="src\views\instrument\instrEditor_fileActions.cpp" />
+    <ClCompile Include="src\views\instrument\instrEditor_fmSync.cpp" />
+    <ClCompile Include="src\views\instrument\instrEditor_global.cpp" />
+    <ClCompile Include="src\views\instrument\instrEditor_history.cpp" />
+    <ClCompile Include="src\views\pattern\patternSelection.cpp" />
+    <ClCompile Include="src\views\pattern\songEditor.cpp" />
+    <ClCompile Include="src\views\pattern\songEditor_channelHeads.cpp" />
+    <ClCompile Include="src\views\pattern\songEditor_contextMenu.cpp" />
+    <ClCompile Include="src\views\pattern\songEditor_history.cpp" />
+    <ClCompile Include="src\views\pattern\songEditor_mouseEvents.cpp" />
+    <ClCompile Include="src\views\pattern\songEditor_patternEdit.cpp" />
+    <ClCompile Include="src\views\pattern\songEditor_patternList.cpp" />
+    <ClCompile Include="src\views\pattern\songEditor_search.cpp" />
+    <ClCompile Include="src\views\pattern\songEditor_shortcuts.cpp" />
+    <ClCompile Include="src\views\pattern\songEditor_updateDisplay.cpp" />
+    <ClCompile Include="src\views\pattern\songFileActions.cpp" />
+    <ClCompile Include="src\views\pianoroll\pianoRoll.cpp" />
+    <ClCompile Include="src\views\pianoroll\pianoRoll_contextMenu.cpp" />
+    <ClCompile Include="src\views\pianoroll\pianoRoll_draw.cpp" />
+    <ClCompile Include="src\views\settings\configEditor.cpp" />
+    <ClCompile Include="src\views\settings\configEditor_keyboard.cpp" />
+    <ClCompile Include="src\views\settings\configEditor_recentSongs.cpp" />
+    <ClCompile Include="src\views\settings\configEditor_soundDevice.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\fmengine\fmlib.h" />
+    <ClInclude Include="src\fmengine\lz4\lz4.h" />
+    <ClInclude Include="src\fmengine\lz4\lz4hc.h" />
+    <ClInclude Include="src\fmengine\lz4\lz4opt.h" />
+    <ClInclude Include="src\globalFunctions.hpp" />
+    <ClInclude Include="src\gui\button\button.hpp" />
+    <ClInclude Include="src\gui\button\buttonlist.hpp" />
+    <ClInclude Include="src\gui\channelHead.hpp" />
+    <ClInclude Include="src\gui\checkbox\checkbox.hpp" />
+    <ClInclude Include="src\gui\contextmenu\contextmenu.hpp" />
+    <ClInclude Include="src\gui\drawBatcher.hpp" />
+    <ClInclude Include="src\gui\gui.hpp" />
+    <ClInclude Include="src\gui\IconsMaterialDesign.h" />
+    <ClInclude Include="src\gui\list\list.hpp" />
+    <ClInclude Include="src\gui\mainmenu.hpp" />
+    <ClInclude Include="src\gui\operator\operator.hpp" />
+    <ClInclude Include="src\gui\operator\opgui.hpp" />
+    <ClInclude Include="src\gui\popup\popup.hpp" />
+    <ClInclude Include="src\gui\scrollbar\scrollbar.hpp" />
+    <ClInclude Include="src\gui\sidebar.hpp" />
+    <ClInclude Include="src\gui\slider\dataslider.hpp" />
+    <ClInclude Include="src\gui\textfield\textfield.hpp" />
+    <ClInclude Include="src\gui\vumeter\vumeter.hpp" />
+    <ClInclude Include="src\input\input.hpp" />
+    <ClInclude Include="src\input\noteInput.hpp" />
+    <ClInclude Include="src\libs\portmidi\pminternal.h" />
+    <ClInclude Include="src\libs\portmidi\pmutil.h" />
+    <ClInclude Include="src\libs\portmidi\pmwinmm.h" />
+    <ClInclude Include="src\libs\portmidi\portmidi.h" />
+    <ClInclude Include="src\libs\portmidi\porttime.h" />
+    <ClInclude Include="src\libs\simpleini\ConvertUTF.h" />
+    <ClInclude Include="src\libs\simpleini\SimpleIni.h" />
+    <ClInclude Include="src\libs\tinyfiledialogs\tinyfiledialogs.h" />
+    <ClInclude Include="src\midi\midi.h" />
+    <ClInclude Include="src\midi\midiInstrNames.h" />
+    <ClInclude Include="src\state.hpp" />
+    <ClInclude Include="src\streamed\streamedExport.h" />
+    <ClInclude Include="src\views\general\generalEditor.hpp" />
+    <ClInclude Include="src\views\instrument\algoPresets.hpp" />
+    <ClInclude Include="src\views\instrument\instrEditor.hpp" />
+    <ClInclude Include="src\views\pattern\patternSelection.hpp" />
+    <ClInclude Include="src\views\pattern\songEditor.hpp" />
+    <ClInclude Include="src\views\pattern\songFileActions.hpp" />
+    <ClInclude Include="src\views\pianoroll\pianoRoll.hpp" />
+    <ClInclude Include="src\views\settings\configEditor.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Debug\gmlist.ini" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

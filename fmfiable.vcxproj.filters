@@ -1,0 +1,416 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Fichiers d%27en-tête">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Fichiers de ressources">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+    <Filter Include="gui">
+      <UniqueIdentifier>{6c026194-e3c9-4422-9229-1c47549f3195}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="views">
+      <UniqueIdentifier>{87eca81f-c43d-46e8-a615-70015f534d8f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="views\instrument">
+      <UniqueIdentifier>{e8c84e79-b69e-4514-a28e-80260b1be49e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="views\general">
+      <UniqueIdentifier>{15766dcc-f51f-4078-b1e2-8fe108ecca3d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="views\settings">
+      <UniqueIdentifier>{70cede24-6792-4891-a482-ba7e346e1ea8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="views\pianoroll">
+      <UniqueIdentifier>{74dfa1ba-831e-4b01-a27d-15c5dbf4814a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="views\pattern">
+      <UniqueIdentifier>{eabf7f5b-1c6a-4c78-ba75-a496cf0162ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libs">
+      <UniqueIdentifier>{214541f2-4bf2-4ecf-b42e-4fcb558fa823}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libs\portmidi">
+      <UniqueIdentifier>{4ddddd13-ed3f-4954-bcdc-c95f25148aad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libs\simpleini">
+      <UniqueIdentifier>{9cd45e81-2a95-46d4-bc8c-691d12b4d1d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="midi">
+      <UniqueIdentifier>{163f7bb1-cff9-46a8-9bc5-36e4f4b7fcd9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libs\tinyfiledialogs">
+      <UniqueIdentifier>{d61c5bb2-5e2d-48d1-85f3-e3ccc0c8e9d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gui\popup">
+      <UniqueIdentifier>{97853cae-11d4-4350-8b50-958ce7ffc5c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gui\button">
+      <UniqueIdentifier>{cea07818-61b7-4f77-b3d4-361a66dcc633}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gui\scrollbar">
+      <UniqueIdentifier>{701471cd-98b9-48ee-a62b-666178acb84b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gui\list">
+      <UniqueIdentifier>{b80a6afd-f1ed-49a9-9b56-6f59b9c6e9bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gui\vumeter">
+      <UniqueIdentifier>{95cc3a2f-375e-450e-b049-e463aa0dac09}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gui\textfield">
+      <UniqueIdentifier>{07d214a4-e7e1-486e-843f-24a2fc0fe386}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gui\operator">
+      <UniqueIdentifier>{b7eceebf-ef3d-4288-99de-d5cdaabd4f67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gui\slider">
+      <UniqueIdentifier>{a2cdc16d-c4b4-4b9c-97c9-1a201f2ee004}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="fmfiable.rc">
+      <Filter>Fichiers de ressources</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\Debug\icon96.ico">
+      <Filter>Fichiers de ressources</Filter>
+    </Image>
+    <Image Include="icon64.ico">
+      <Filter>Fichiers de ressources</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\fmengine\fmlib.c" />
+    <ClCompile Include="src\fmengine\lz4\lz4.c" />
+    <ClCompile Include="src\fmengine\lz4\lz4hc.c" />
+    <ClCompile Include="src\globalFunctions.cpp" />
+    <ClCompile Include="src\input\input.cpp" />
+    <ClCompile Include="src\input\noteInput.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\streamed\streamedExport.cpp" />
+    <ClCompile Include="src\views\instrument\algoPresets.cpp" />
+    <ClCompile Include="src\gui\channelHead.cpp">
+      <Filter>gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\contextmenu\contextmenu.cpp">
+      <Filter>gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\gui.cpp">
+      <Filter>gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\mainmenu.cpp">
+      <Filter>gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\sidebar.cpp">
+      <Filter>gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\checkbox\checkbox.cpp">
+      <Filter>gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\views\instrument\instrEditor.cpp">
+      <Filter>views\instrument</Filter>
+    </ClCompile>
+    <ClCompile Include="src\views\instrument\instrEditor_algorithms.cpp">
+      <Filter>views\instrument</Filter>
+    </ClCompile>
+    <ClCompile Include="src\views\instrument\instrEditor_fileActions.cpp">
+      <Filter>views\instrument</Filter>
+    </ClCompile>
+    <ClCompile Include="src\views\instrument\instrEditor_fmSync.cpp">
+      <Filter>views\instrument</Filter>
+    </ClCompile>
+    <ClCompile Include="src\views\instrument\instrEditor_global.cpp">
+      <Filter>views\instrument</Filter>
+    </ClCompile>
+    <ClCompile Include="src\views\instrument\instrEditor_history.cpp">
+      <Filter>views\instrument</Filter>
+    </ClCompile>
+    <ClCompile Include="src\views\settings\configEditor.cpp">
+      <Filter>views\settings</Filter>
+    </ClCompile>
+    <ClCompile Include="src\views\settings\configEditor_keyboard.cpp">
+      <Filter>views\settings</Filter>
+    </ClCompile>
+    <ClCompile Include="src\views\settings\configEditor_recentSongs.cpp">
+      <Filter>views\settings</Filter>
+    </ClCompile>
+    <ClCompile Include="src\views\settings\configEditor_soundDevice.cpp">
+      <Filter>views\settings</Filter>
+    </ClCompile>
+    <ClCompile Include="src\views\pattern\songFileActions.cpp">
+      <Filter>views\pattern</Filter>
+    </ClCompile>
+    <ClCompile Include="src\views\pattern\songEditor.cpp">
+      <Filter>views\pattern</Filter>
+    </ClCompile>
+    <ClCompile Include="src\views\pattern\songEditor_channelHeads.cpp">
+      <Filter>views\pattern</Filter>
+    </ClCompile>
+    <ClCompile Include="src\views\pattern\songEditor_contextMenu.cpp">
+      <Filter>views\pattern</Filter>
+    </ClCompile>
+    <ClCompile Include="src\views\pattern\songEditor_history.cpp">
+      <Filter>views\pattern</Filter>
+    </ClCompile>
+    <ClCompile Include="src\views\pattern\songEditor_mouseEvents.cpp">
+      <Filter>views\pattern</Filter>
+    </ClCompile>
+    <ClCompile Include="src\views\pattern\songEditor_patternEdit.cpp">
+      <Filter>views\pattern</Filter>
+    </ClCompile>
+    <ClCompile Include="src\views\pattern\songEditor_patternList.cpp">
+      <Filter>views\pattern</Filter>
+    </ClCompile>
+    <ClCompile Include="src\views\pattern\songEditor_search.cpp">
+      <Filter>views\pattern</Filter>
+    </ClCompile>
+    <ClCompile Include="src\views\pattern\songEditor_shortcuts.cpp">
+      <Filter>views\pattern</Filter>
+    </ClCompile>
+    <ClCompile Include="src\views\pattern\songEditor_updateDisplay.cpp">
+      <Filter>views\pattern</Filter>
+    </ClCompile>
+    <ClCompile Include="src\views\pattern\patternSelection.cpp">
+      <Filter>views\pattern</Filter>
+    </ClCompile>
+    <ClCompile Include="src\views\pianoroll\pianoRoll_draw.cpp">
+      <Filter>views\pianoroll</Filter>
+    </ClCompile>
+    <ClCompile Include="src\views\pianoroll\pianoRoll.cpp">
+      <Filter>views\pianoroll</Filter>
+    </ClCompile>
+    <ClCompile Include="src\views\pianoroll\pianoRoll_contextMenu.cpp">
+      <Filter>views\pianoroll</Filter>
+    </ClCompile>
+    <ClCompile Include="src\views\general\generalEditor.cpp">
+      <Filter>views\general</Filter>
+    </ClCompile>
+    <ClCompile Include="src\libs\portmidi\ptwinmm.c">
+      <Filter>libs\portmidi</Filter>
+    </ClCompile>
+    <ClCompile Include="src\libs\portmidi\pmutil.c">
+      <Filter>libs\portmidi</Filter>
+    </ClCompile>
+    <ClCompile Include="src\libs\portmidi\pmwin.c">
+      <Filter>libs\portmidi</Filter>
+    </ClCompile>
+    <ClCompile Include="src\libs\portmidi\pmwinmm.c">
+      <Filter>libs\portmidi</Filter>
+    </ClCompile>
+    <ClCompile Include="src\libs\portmidi\portmidi.c">
+      <Filter>libs\portmidi</Filter>
+    </ClCompile>
+    <ClCompile Include="src\libs\portmidi\porttime.c">
+      <Filter>libs\portmidi</Filter>
+    </ClCompile>
+    <ClCompile Include="src\libs\simpleini\ConvertUTF.c">
+      <Filter>libs\simpleini</Filter>
+    </ClCompile>
+    <ClCompile Include="src\midi\midi_export.cpp">
+      <Filter>midi</Filter>
+    </ClCompile>
+    <ClCompile Include="src\midi\midi_import.cpp">
+      <Filter>midi</Filter>
+    </ClCompile>
+    <ClCompile Include="src\midi\midi_realtime.cpp">
+      <Filter>midi</Filter>
+    </ClCompile>
+    <ClCompile Include="src\midi\midiInstrNames.cpp">
+      <Filter>midi</Filter>
+    </ClCompile>
+    <ClCompile Include="src\libs\tinyfiledialogs\tinyfiledialogs.c">
+      <Filter>libs\tinyfiledialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\popup\popup_effectInfos.cpp">
+      <Filter>gui\popup</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\popup\popup.cpp">
+      <Filter>gui\popup</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\popup\popup_build.cpp">
+      <Filter>gui\popup</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\popup\popup_close.cpp">
+      <Filter>gui\popup</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\button\button.cpp">
+      <Filter>gui\button</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\button\buttonlist.cpp">
+      <Filter>gui\button</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\scrollbar\scrollbar.cpp">
+      <Filter>gui\scrollbar</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\list\list.cpp">
+      <Filter>gui\list</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\vumeter\vumeter.cpp">
+      <Filter>gui\vumeter</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\vumeter\stereovumeter.cpp">
+      <Filter>gui\vumeter</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\textfield\textfield.cpp">
+      <Filter>gui\textfield</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\operator\operator.cpp">
+      <Filter>gui\operator</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\operator\operatorparams.cpp">
+      <Filter>gui\operator</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\drawBatcher.cpp">
+      <Filter>gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\slider\dataslider.cpp">
+      <Filter>gui\slider</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\fmengine\fmlib.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="src\fmengine\lz4\lz4.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="src\fmengine\lz4\lz4hc.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="src\fmengine\lz4\lz4opt.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="src\globalFunctions.hpp">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\channelHead.hpp">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\contextmenu\contextmenu.hpp">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\IconsMaterialDesign.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="src\input\input.hpp">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="src\input\noteInput.hpp">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="src\libs\simpleini\ConvertUTF.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="src\libs\simpleini\SimpleIni.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="src\midi\midi.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="src\midi\midiInstrNames.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="src\state.hpp">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="src\streamed\streamedExport.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="src\views\instrument\algoPresets.hpp">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="src\views\pattern\patternSelection.hpp">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="src\views\pattern\songFileActions.hpp">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="src\views\pattern\songEditor.hpp">
+      <Filter>views\pattern</Filter>
+    </ClInclude>
+    <ClInclude Include="src\views\instrument\instrEditor.hpp">
+      <Filter>views\instrument</Filter>
+    </ClInclude>
+    <ClInclude Include="src\views\pianoroll\pianoRoll.hpp">
+      <Filter>views\pianoroll</Filter>
+    </ClInclude>
+    <ClInclude Include="src\views\general\generalEditor.hpp">
+      <Filter>views\general</Filter>
+    </ClInclude>
+    <ClInclude Include="src\views\settings\configEditor.hpp">
+      <Filter>views\settings</Filter>
+    </ClInclude>
+    <ClInclude Include="src\libs\tinyfiledialogs\tinyfiledialogs.h">
+      <Filter>libs\tinyfiledialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\popup\popup.hpp">
+      <Filter>gui\popup</Filter>
+    </ClInclude>
+    <ClInclude Include="src\libs\portmidi\porttime.h">
+      <Filter>libs\portmidi</Filter>
+    </ClInclude>
+    <ClInclude Include="src\libs\portmidi\pminternal.h">
+      <Filter>libs\portmidi</Filter>
+    </ClInclude>
+    <ClInclude Include="src\libs\portmidi\pmutil.h">
+      <Filter>libs\portmidi</Filter>
+    </ClInclude>
+    <ClInclude Include="src\libs\portmidi\pmwinmm.h">
+      <Filter>libs\portmidi</Filter>
+    </ClInclude>
+    <ClInclude Include="src\libs\portmidi\portmidi.h">
+      <Filter>libs\portmidi</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\checkbox\checkbox.hpp">
+      <Filter>gui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\gui.hpp">
+      <Filter>gui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\sidebar.hpp">
+      <Filter>gui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\mainmenu.hpp">
+      <Filter>gui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\button\buttonlist.hpp">
+      <Filter>gui\button</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\button\button.hpp">
+      <Filter>gui\button</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\scrollbar\scrollbar.hpp">
+      <Filter>gui\scrollbar</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\list\list.hpp">
+      <Filter>gui\list</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\vumeter\vumeter.hpp">
+      <Filter>gui\vumeter</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\textfield\textfield.hpp">
+      <Filter>gui\textfield</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\operator\operator.hpp">
+      <Filter>gui\operator</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\operator\opgui.hpp">
+      <Filter>gui\operator</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\drawBatcher.hpp">
+      <Filter>gui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\slider\dataslider.hpp">
+      <Filter>gui\slider</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Debug\gmlist.ini">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </None>
+  </ItemGroup>
+</Project>

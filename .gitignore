@@ -1,1 +1,6 @@
 .project
+Debug
+Release
+fmfiable.vcproj.*
+fmfiable.vccproj.*
+fmfiable.aps
