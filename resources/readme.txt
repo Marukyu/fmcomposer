@@ -41,14 +41,20 @@ This software is free and contains no ads nor intrusive features.
 	- Yann Collet (LZ4 lib)
 	- The LAME MP3 encoder team
  	- The Google team (Material Icons)
+	- Josh Coalson & Xiph.org foundation (FLAC encoder)
 
 *** Changelog ***
 
-v1.1 (2018-01-31)
-	- [Feature] Added some new demo songs, mostly from imported MIDIs
-	- [Fix] Crash on Undo action under certain circumstances 
-	- [Fix] Pattern list was selected on mouse release even if it wasn't focused
-	- [Fix] small 1-frame graphical glitch when scrolling in pattern list
+v1.4 (2018-02-18)
+	- [Feature] FLAC export
+	- [Feature] Editing step : entering a note automatically skips 0...16 rows for fast beat making (see 'Editing step' slider on the right side of the Pattern view)
+	- [Optimization] Reduced CPU usage
+	- [Fix] Export bugs : 'stop to pattern xxx' was ignored for MP3 exports / song kept playing after exporting
+
+v1.3 (2018-02-18)
+	- [Fix] Selection cursor was misplaced/missized after a Paste action 
+	- [Fix] Player engine : notes without volume used the previous note volume, but ignored volumes changes inbetween
+	- [Fix] Minor graphical glitch : channel header on the right side sometimes needs the user to scroll a bit more to show up
 
 v1.2 (2018-02-04)
 	- [Fix] 'Remove rows' function did nothing
@@ -56,7 +62,8 @@ v1.2 (2018-02-04)
 	- [Fix] Recent songs menu width not immediately updated
 	- [Fix] Blurry pattern top (channel params)
 
-v1.3 (2018-02-18)
-	- [Fix] Selection cursor was misplaced/missized after a Paste action 
-	- [Fix] Player engine : notes without volume used the previous note volume, but ignored volumes changes inbetween
-	- [Fix] Minor graphical glitch : channel header on the right side sometimes needs the user to scroll a bit more to show up
+v1.1 (2018-01-31)
+	- [Feature] Added some new demo songs, mostly from imported MIDIs
+	- [Fix] Crash on Undo action under certain circumstances 
+	- [Fix] Pattern list was selected on mouse release even if it wasn't focused
+	- [Fix] small 1-frame graphical glitch when scrolling in pattern list
