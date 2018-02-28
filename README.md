@@ -7,14 +7,14 @@ Released with 150+ FM instruments and drums, ranging from synth to acoustic soun
 
 # Features
 - 6 operator, 24 voice polyphony FM sound engine
-- Tracker-style sequencer, max 254 patterns of 1-255 rows.
+- Tracker-style sequencer
 - Lots of effects available : vibrato, tremolo, arpeggio, pitch slides, real time FM parameter modification, loop points...
 - MIDI integration : MIDI file import with partial XG/GS support, MIDI keyboard support
-- Wave and MP3 exports
+- Wave, MP3 and FLAC exports
 - Piano roll view
 
 # Why
-Modern world lacks modern trackers. And there is very few custom sound engines in the VST market, most of them are emulating old existing hardware.
+Modern world lacks modern trackers. There is very few custom FM engines in the VST market, most of them are emulating old existing hardware.
 This is a attempt to make a good yet minimalistic FM synthesizer, with a very graphical, easy to use interface.
 This is also an attempt to provide real time sound synthesis for video games. Since the FM engine is a separate module with very few dependencies, it can be intergrated into other projects. Playback with real time modification of the song is possible for interactive content.
 
@@ -37,5 +37,19 @@ The project compiles fine under Visual Studio 2013. You'll need the following ad
 - SFML
 - PortAudio
 - LAME
+- Xiph.org FLAC
 
 For the release I modified slightly the SFML library to support file drop, get a crispier font rendering and support a missing keyboard key. You should still be able to compile with the official version if you comment the lines relative to file drop (the other changes i did doesn't impact the API)
+
+# Thanks
+
+- Masami Komuro (demo song and some FM sounds)
+- Klairzaki Fil-Xter (quality testing)
+- Laurent Gomila & contributors ([SFML lib](https://www.sfml-dev.org/))
+- Guillaume Vareille ([tinyfiledialogs lib](https://sourceforge.net/projects/tinyfiledialogs/))
+- Brodie Thiesfield ([SimpleIni lib](https://github.com/brofield/simpleini))
+- Ross Bencina/Phil Burk/Roger B. Dannenberg ([PortMidi](http://portmedia.sourceforge.net/portmidi/)/[PortAudio lib](http://portaudio.com/))
+- Yann Collet ([LZ4 lib](https://github.com/lz4/lz4))
+- The LAME MP3 encoder team
+- The Google team (Material Icons)
+- Josh Coalson & Xiph.org foundation ([FLAC encoder](https://github.com/xiph/flac))
