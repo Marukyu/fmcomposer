@@ -75,25 +75,25 @@ void Popup::show(int _type, int param)
 			buttons.push_back(Button(50, h - 50, "Abort", -1, 8));
 			break;
 		case POPUP_ABOUT:{
-							 setSize(740, 400);
-							 title.setString("About");
+			setSize(740, 400);
+			title.setString("About");
 
-							 Sprite s;
-							 s.setTexture(*tileset);
-							 s.setTextureRect({ 260, 0, 256, 256 });
-							 sprites.push_back(s);
-							 sprites[0].setPosition(10, 10);
+			Sprite s;
+			s.setTexture(*tileset);
+			s.setTextureRect({ 260, 0, 256, 256 });
+			sprites.push_back(s);
+			sprites[0].setPosition(10, 10);
 
-							 buttons.push_back(Button(w - 50, h - 50, "OK", -1, 8));
-							 buttons.push_back(Button(20, h - 50, "Go to the website", -1, 8));
-							 buttons.push_back(Button(180, h - 50, "Check for updates", -1, 8));
-							 texts.push_back(Text(L"FM Composer, © 2017-2018 Stéphane Damo\n\n•-,¸¸.•*¨*•-,¸¸.•*¨*•-,¸¸.• Many thanks to •-,¸¸.•*¨*•-,¸¸.•*¨*•-,¸¸.•\n\n	Masami Komuro (demo and some FM sounds)\n	Klairzaki Fil-Xter (quality testing)\n\n	Laurent Gomila & SFML contributors (SFML lib)\n	Guillaume Vareille (tinyfiledialogs lib)\n	Brodie Thiesfield (SimpleIni lib)\n	Ross Bencina/Phil Burk/Roger B. Dannenberg (PortMidi/Audio lib)\n	Yann Collet (LZ4)\n	The LAME MP3 encoder team\n	The Google team (Material Icons)\n	Josh Coalson & Xiph.org foundation (FLAC encoder)", font, charSize));
-							 texts[0].setColor(colors[BLOCKTEXT]);
-							 texts[0].setPosition(276, 20);
+			buttons.push_back(Button(w - 50, h - 50, "OK", -1, 8));
+			buttons.push_back(Button(20, h - 50, "Go to the website", -1, 8));
+			buttons.push_back(Button(180, h - 50, "Check for updates", -1, 8));
+			texts.push_back(Text(L"FM Composer, © 2017-2018 Stéphane Damo\n\n--------- Many thanks to ---------\n\nMasami Komuro (demo and some FM sounds)\nKlairzaki Fil-Xter (quality testing)\n\nLaurent Gomila & SFML contributors (SFML lib)\nGuillaume Vareille (tinyfiledialogs lib)\nBrodie Thiesfield (SimpleIni lib)\nRoss Bencina/Phil Burk/Roger B. Dannenberg (PortMidi/Audio lib)\nYann Collet (LZ4)\nThe LAME MP3 encoder team\nThe Google team (Material Icons)\nJosh Coalson & Xiph.org foundation (FLAC encoder)", font, charSize));
+			texts[0].setColor(colors[BLOCKTEXT]);
+			texts[0].setPosition(286, 20);
 
-							 texts.push_back(Text(string("Version ") + VERSION + " (" + VERSION_DATE + ")", font, charSize));
-							 texts[1].setColor(colors[BLOCKTEXT]);
-							 texts[1].setPosition(100, 276);
+			texts.push_back(Text(string("Version ") + VERSION + " (" + VERSION_DATE + ")", font, charSize));
+			texts[1].setColor(colors[BLOCKTEXT]);
+			texts[1].setPosition(100, 276);
 
 		}
 			break;

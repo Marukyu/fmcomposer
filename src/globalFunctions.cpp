@@ -35,7 +35,7 @@ string appdir, appconfigdir, instrDir, songDir;
 PaStream *stream;
 PaStreamParameters out;
 
-int windowWidth, windowHeight;
+int windowWidth, windowHeight, windowDpi=96;
 
 RenderWindow *window;
 fmsynth *fm;
@@ -161,10 +161,13 @@ int isWindowMaximized(){
 
 void updateViews(int width, int height)
 {
+	float dpiRatio = windowDpi / 96.0;
+
+
 	int oldX = window->getPosition().x;
 	int oldY = window->getPosition().y;
 	/* Small window with resized sf::View needs anti-aliasing to look good */
-	if (width < 1300 || height < 700)
+	if (width < 1300 * dpiRatio || height < 700 * dpiRatio)
 	{
 		if (!windowTooSmall){
 			windowTooSmall = true;
@@ -190,6 +193,14 @@ void updateViews(int width, int height)
 		}
 	}
 
+	/* Scaling for high DPI monitors */
+	if (windowDpi != 96)
+	{
+		width = width * dpiRatio;
+		height = height * dpiRatio;
+	}
+
+
 	if(isWindowMaximized()){
 #ifdef _WIN32
 		ShowWindow(GetActiveWindow(), SW_MAXIMIZE);
@@ -202,6 +213,8 @@ void updateViews(int width, int height)
 
 	windowWidth = width;
 	windowHeight = height;
+
+
 
 	globalView.reset(FloatRect(0.f, 0.f, width, height));
 	

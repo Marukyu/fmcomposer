@@ -107,7 +107,7 @@
       <OpenMPSupport>true</OpenMPSupport>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>libFLAC_static.lib;portaudio_static_x86.lib;sfml-graphics-s.lib;sfml-window-s.lib;sfml-system-s.lib;sfml-main.lib;glu32.lib;freetype.lib;gdi32.lib;opengl32.lib;libmpghip-static.lib;libmp3lame-static.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libFLAC_static.lib;portaudio_static_x86.lib;sfml-graphics-s.lib;sfml-window-s.lib;sfml-system-s.lib;sfml-main.lib;glu32.lib;freetype.lib;gdi32.lib;opengl32.lib;libmp3lame.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
@@ -241,9 +241,6 @@
     <ClInclude Include="src\views\pattern\songFileActions.hpp" />
     <ClInclude Include="src\views\pianoroll\pianoRoll.hpp" />
     <ClInclude Include="src\views\settings\configEditor.hpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\Debug\gmlist.ini" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

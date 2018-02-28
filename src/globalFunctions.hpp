@@ -53,7 +53,7 @@ extern string pathSeparator;
 extern bool audioInitialized;
 extern string kfx_globalParams[8];
 extern string kfx_operatorParams[32];
-extern int windowWidth, windowHeight;
+extern int windowWidth, windowHeight, windowDpi;
 extern bool windowTooSmall;
 
 extern int copiedSliderValue, copiedSliderValueOk;

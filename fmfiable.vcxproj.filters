@@ -408,9 +408,4 @@
       <Filter>gui\slider</Filter>
     </ClInclude>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="..\Debug\gmlist.ini">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </None>
-  </ItemGroup>
 </Project>

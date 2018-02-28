@@ -425,7 +425,7 @@ extern "C"{
 	float fm_volumeToExp(int volume);
 
 	int fm_isInstrumentUsed(fmsynth *f, unsigned id);
-
+	void fm_createDefaultInstrument(fmsynth* f, unsigned slot);
 #endif
 
 #ifdef __cplusplus

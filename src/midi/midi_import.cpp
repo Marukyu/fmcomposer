@@ -143,12 +143,7 @@ int addInstrument(int id, unsigned char type)
 		}
 		if (fm_loadInstrument(fm, string(string(appdir + "/instruments/") + instrumentFile + string(".fmci")).c_str(), fm->instrumentCount) < 0)
 		{
-			printf(string("Cant load " + string(appdir + "/instruments/") + (type == 0 ? ini_gmlist.GetValue("melodic", int2str[id].c_str(), "0") : ini_gmlist.GetValue("percussion", int2str[id].c_str(), "0")) + string(".fmci") + " !\n").c_str());
-			if (fm_loadInstrument(fm, type == 0 ? string(string(appdir + "/instruments/") + ini_gmlist.GetValue("melodic", "default", "0") + string(".fmci")).c_str() : string(string(appdir + "/instruments/") + ini_gmlist.GetValue("percussion", "default", "0") + string(".fmci")).c_str(), fm->instrumentCount) < 0)
-			{
-				printf("Cant load any instrument!\n");
-				return 0;
-			}
+			fm_resizeInstrumentList(fm, fm->instrumentCount+1);
 		}
 
 		sprintf(&fm->instrument[fm->instrumentCount - 1].name[0], "%s", instrumentName.c_str());
@@ -1257,7 +1252,7 @@ int midiImport(const char* filename)
 	{
 		if (fm_loadInstrument(fm, "instruments/keyboards/piano.fmci", 0) < 0)
 		{
-			fm_loadInstrument(fm, string(string("instruments/") + ini_gmlist.GetValue("melodic", "default", "0") + string(".fmci")).c_str(), 0);
+			fm_resizeInstrumentList(fm, 1);
 		}
 	}
 	instrList->select(0);

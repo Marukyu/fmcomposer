@@ -1724,6 +1724,25 @@ void fm_clearSong(fmsynth* f)
 	memset(f->comments, 0, 256);
 }
 
+void fm_createDefaultInstrument(fmsynth* f, unsigned slot)
+{
+	strncpy((char*)&f->instrument[slot].name[0], "Default", 7);
+	strncpy((char*)&f->instrument[slot].magic[0], "FMCI", 4);
+	f->instrument[slot].dummy = 0;
+	f->instrument[slot].version = FMCI_version;
+	for (unsigned op = 0; op < FM_op; ++op)
+	{
+		f->instrument[slot].op[op].connectOut = op;
+		f->instrument[slot].op[op].connect = -1;
+		f->instrument[slot].op[op].connect2 = -1;
+	}
+	f->instrument[slot].volume = 99;
+	f->instrument[slot].op[0].a = 99;
+	f->instrument[slot].op[0].mult = 1;
+	f->instrument[slot].op[0].vol = 99;
+	f->instrument[slot].op[0].r = 99;
+}
+
 int fm_resizeInstrumentList(fmsynth* f, unsigned size)
 {
 	if (size > 255)
@@ -1750,21 +1769,7 @@ int fm_resizeInstrumentList(fmsynth* f, unsigned size)
 		memset((char*)&f->instrument[f->instrumentCount], 0, (size - f->instrumentCount)*sizeof(fm_instrument));
 		for (unsigned i = f->instrumentCount; i < size; i++)
 		{
-			strncpy((char*)&f->instrument[i].name[0], "Default", 7);
-			strncpy((char*)&f->instrument[i].magic[0], "FMCI", 4);
-			f->instrument[i].dummy = 0;
-			f->instrument[i].version = FMCI_version;
-			for (unsigned op = 0; op < FM_op; ++op)
-			{
-				f->instrument[i].op[op].connectOut = op;
-				f->instrument[i].op[op].connect = -1;
-				f->instrument[i].op[op].connect2 = -1;
-			}
-			f->instrument[i].volume = 99;
-			f->instrument[i].op[0].a = 99;
-			f->instrument[i].op[0].mult = 1;
-			f->instrument[i].op[0].vol = 99;
-			f->instrument[i].op[0].r = 99;
+			fm_createDefaultInstrument(f,i);
 		}
 	}
 	f->instrumentCount = size;

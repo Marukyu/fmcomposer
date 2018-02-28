@@ -83,7 +83,17 @@ void gui_initialize()
 	cursors[3].loadFromSystem(sf::Cursor::SizeAll);
 	cursors[4].loadFromSystem(sf::Cursor::SizeHorizontal);
 
+
+
 	window = new RenderWindow(VideoMode(WindowWidth, WindowHeight), "FM Composer - New song");
+
+	
+#ifdef _WIN32
+	/* Get display DPI for scaling appropriately. Thx Saga Musix for this code */
+	HDC dc = ::GetDC(window->getSystemHandle());
+	windowDpi = ::GetDeviceCaps(dc, LOGPIXELSY);
+	ReleaseDC(window->getSystemHandle(), dc);	printf("dpi %d\n",windowDpi);
+#endif
 
 	window->setVerticalSyncEnabled(true);
 

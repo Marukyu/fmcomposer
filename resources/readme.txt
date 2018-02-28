@@ -3,7 +3,7 @@
  ,-/-,   / / /    /   __ ______  _   __ _   _  __ 
 (_/     / ' (_   (__/(_)/ / / <_/_)_(_)/_)_</_/ (_
                                / 
-                              '  v1.4 (2018-02-18)
+                              '  v1.4 (2018-02-28)
 
      by Stéphane Damo -- http://fmcomposer.org
 
@@ -45,7 +45,7 @@ This software is free and contains no ads nor intrusive features.
 
 *** Changelog ***
 
-v1.4 (2018-02-18)
+v1.4 (2018-02-28)
 	- [Feature] FLAC export
 	- [Feature] Editing step : entering a note automatically skips 0...16 rows for fast beat making (see 'Editing step' slider on the right side of the Pattern view)
 	- [Optimization] Reduced CPU usage
