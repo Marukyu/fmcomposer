@@ -3,7 +3,7 @@
  ,-/-,   / / /    /   __ ______  _   __ _   _  __ 
 (_/     / ' (_   (__/(_)/ / / <_/_)_(_)/_)_</_/ (_
                                / 
-                              '  v1.4 (2018-02-28)
+                              '  v1.4 (2018-03-03)
 
      by Stéphane Damo -- http://fmcomposer.org
 
@@ -45,12 +45,13 @@ This software is free and contains no ads nor intrusive features.
 
 *** Changelog ***
 
-v1.4 (2018-02-28)
+v1.4 (2018-03-03)
 	- [Feature] FLAC export
 	- [Feature] Editing step : entering a note automatically skips 0...16 rows for fast beat making (see 'Editing step' slider on the right side of the Pattern view)
 	- [Feature] Support for high-DPI monitors
 	- [Optimization] Reduced CPU usage
 	- [Fix] Export bugs : 'stop to pattern xxx' was ignored for MP3 exports / song kept playing after exporting
+	- [Fix] LAME MP3 is now used as dynamic library (needed by its license)
 
 v1.3 (2018-02-18)
 	- [Fix] Selection cursor was misplaced/missized after a Paste action 
