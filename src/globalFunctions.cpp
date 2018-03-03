@@ -196,8 +196,8 @@ void updateViews(int width, int height)
 	/* Scaling for high DPI monitors */
 	if (windowDpi != 96)
 	{
-		width = width * dpiRatio;
-		height = height * dpiRatio;
+		width = width / dpiRatio;
+		height = height / dpiRatio;
 	}
 
 

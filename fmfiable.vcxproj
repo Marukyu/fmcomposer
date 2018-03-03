@@ -73,7 +73,7 @@
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <TargetMachine>MachineX86</TargetMachine>
-      <AdditionalDependencies>portaudio_static_x86.lib;comctl32.lib;sfml-main-d.lib;glu32.lib;freetype.lib;gdi32.lib;opengl32.lib;openal32.lib;sfml-graphics-s-d.lib;sfml-window-s-d.lib;sfml-system-s-d.lib;libmpghip-static.lib;libmp3lame-static.lib;libFLAC_static.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>portaudio_static_x86.lib;comctl32.lib;sfml-main-d.lib;glu32.lib;freetype.lib;gdi32.lib;opengl32.lib;openal32.lib;sfml-graphics-s-d.lib;sfml-window-s-d.lib;sfml-system-s-d.lib;libmp3lame.lib;libFLAC_static.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalOptions>/NODEFAULTLIB:LIBCMT %(AdditionalOptions)</AdditionalOptions>
       <GenerateMapFile>true</GenerateMapFile>
       <MapExports>true</MapExports>

@@ -48,6 +48,7 @@ This software is free and contains no ads nor intrusive features.
 v1.4 (2018-02-28)
 	- [Feature] FLAC export
 	- [Feature] Editing step : entering a note automatically skips 0...16 rows for fast beat making (see 'Editing step' slider on the right side of the Pattern view)
+	- [Feature] Support for high-DPI monitors
 	- [Optimization] Reduced CPU usage
 	- [Fix] Export bugs : 'stop to pattern xxx' was ignored for MP3 exports / song kept playing after exporting
 

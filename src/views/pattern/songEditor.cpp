@@ -116,6 +116,9 @@ void SongEditor::updatePatternLines()
 
 void SongEditor::draw()
 {
+
+	patternList.select(fm->order);
+
 	static unsigned wasPlaying = 0;
 
 	if (fm->playing != wasPlaying)
@@ -335,7 +338,7 @@ void SongEditor::update()
 		}
 	}
 
-	patternList.select(fm->order);
+	
 
 	int patternListHovered = patternList.getElementHovered();
 	if (!contextMenu && patternListHovered > -1 && Mouse::isButtonPressed(Mouse::Left) && movePat == -1)
