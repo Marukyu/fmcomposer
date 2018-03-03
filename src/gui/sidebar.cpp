@@ -48,6 +48,7 @@ string formatTime(float time)
 
 void Sidebar::draw()
 {
+	vuMeter->update();
 
 	/* Update timer in the menu bar */
 
@@ -119,6 +120,5 @@ void Sidebar::update()
 {
 	octave.update();
 	defNoteVol.update();
-	vuMeter->update();
 	editingStep.update();
 }

@@ -503,7 +503,17 @@ void SongEditor::recordFromKeyboard(int note, int volume, int channel, int isFro
 
 			if (sidebar->editingStep.value != 0)
 			{
-				moveY( fm->row+sidebar->editingStep.value);
+				int diff = fm->row + sidebar->editingStep.value - fm_getPatternSize(fm, fm->order);
+				if (diff>=0)
+				{
+					fm_setPosition(fm, fm->order+1, diff, 0);
+					moveY( fm->row);
+				}
+				else
+				{
+					moveY( fm->row+sidebar->editingStep.value);
+				}
+				
 			}
 
 		}

@@ -1705,7 +1705,7 @@ int fm_loadSong(fmsynth* f, const char* filename)
 	char *data = fm_fileToMemory(f, filename);
 
 	if (!data)
-		return 0;
+		return FM_ERR_FILEIO;
 
 	int result = fm_loadSongFromMemory(f, data, f->totalFileSize);
 	free(data);

@@ -318,7 +318,7 @@ void Popup::show(int _type, int param)
 		case POPUP_OPENFAILED:
 			setSize(460, 150);
 			title.setString("Open action failed");
-			texts.push_back(Text("Can't read data. Check if the file exists/is writable.", font, charSize));
+			texts.push_back(Text("Can't open file. Check if the file exists.", font, charSize));
 			texts[0].setColor(colors[BLOCKTEXT]);
 			texts[0].setPosition(10, 10);
 			buttons.push_back(Button(w - 50, h - 50, "OK", -1, 8));
