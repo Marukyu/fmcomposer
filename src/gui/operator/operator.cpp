@@ -115,6 +115,7 @@ void Operator::draw()
 
 void Operator::drawLines()
 {
+	mouse.pos = input_getmouse(instrView);
 	for (int i = 0; i < 5; i++)
 	{
 		line[0].position.x = bg.getPosition().x + OP_SIZE/2;
