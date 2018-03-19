@@ -72,7 +72,7 @@ string intervals[25] = {
 	"Major sixth",
 	"Minor seventh",
 	"Major seventh",
-	"Perfect octaveh",
+	"Perfect octave",
 	"Minor ninth",
 	"Major ninth",
 	"Minor tenth",
