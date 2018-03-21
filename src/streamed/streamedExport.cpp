@@ -20,6 +20,7 @@ int export_param;
 int exportFromPattern;
 int exportToPattern;
 int exportNbLoops;
+int exportBitDepth;
 
 const int mp3_bitrates[16] = {8, 16, 24, 32, 40, 48, 64, 80, 96, 112, 128, 160, 192, 224, 256, 320};
 
@@ -48,9 +49,24 @@ void exportStart(){
 }
 
 int waveExportFunc(){
+
+	int bitDepths_bytes[5] = {1,2,3,4,4};
+
 	unsigned int size=0;
-	short out[16384];
-	int bits=16,format=1,channels=2,bytes_per_sample=2;
+	int out[16384];
+
+	int format;
+
+	if (exportBitDepth == FM_RENDER_FLOAT)
+	{
+		format =  3; // IEEE float
+	}
+	else
+	{
+		format =  1; // integer
+	}
+
+	int bits=16,channels=2,bytes_per_sample=bitDepths_bytes[exportBitDepth];
 	int block_align=channels*bytes_per_sample;
 	int bitrate=fm->sampleRate*channels*bytes_per_sample;
 	int bits_sample=8*bytes_per_sample;
@@ -68,19 +84,22 @@ int waveExportFunc(){
 	fwrite((char*)&bitrate,4,1,fp); // byte rate =sample_rate*num_channels*bytes_per_sample
 	fwrite((char*)&block_align,2,1,fp); // block align
 	fwrite((char*)&bits_sample,2,1,fp); // bits/sample
-	fwrite("data",4,1,fp);
+	fwrite("data    ",8,1,fp);
 	exportStart();
+
 	while(fm->playing && exporting && fm->order<=exportToPattern){
-		fm_render(fm, &out[0],16384);
-		fwrite(&out[0],sizeof(short)*16384,1,fp);
-		size+=sizeof(short)*16384;// bits per sample * num samples
+		
+		fm_render(fm, &out[0],16384,exportBitDepth);
+		fwrite(&out[0],bitDepths_bytes[exportBitDepth]*16384,1,fp);
+		size+=bitDepths_bytes[exportBitDepth]*16384;// bits per sample * num samples
 		popup->sliders[0].setValue(((float)fm->order/fm->patternCount)*100);
 	}
 	song_stop();
 	fseek(fp,40,0);
+	size-=4;
 	fwrite(&size,sizeof(int),1,fp);
 	fseek(fp,4,0);
-	size+=32;
+	size+=36;
 	fwrite(&size,sizeof(int),1,fp);
 	fclose(fp);
 	exportFinished();
@@ -161,7 +180,7 @@ int flacExportFunc(){
 	int writtenBytes;
 	exportStart();
 	while(fm->playing && exporting && fm->order<=exportToPattern){
-		fm_render(fm, &out[0],16384);
+		fm_render(fm, &out[0],16384,exportBitDepth);
 		for (unsigned i = 0; i < 16384; i++)
 		{
 			out2[i] = out[i];
@@ -202,7 +221,7 @@ int mp3ExportFunc(){
 
 	exportStart();
 	while(fm->playing && exporting && fm->order<=exportToPattern){
-		fm_render(fm, &out[0],16384);
+		fm_render(fm, &out[0],16384, FM_RENDER_16);
 		writtenBytes = lame_encode_buffer_interleaved(lame, out, 16384/2, mp3_buffer, 16384);
 		fwrite(&mp3_buffer[0],writtenBytes,1,fp);
 		popup->sliders[0].setValue(((float)fm->order/fm->patternCount)*100);

@@ -343,7 +343,10 @@ void fm_initChannels(fmsynth* f)
 	}
 }
 
-void fm_render(fmsynth* f, signed short* buffer, unsigned length)
+
+
+
+void _fm_render(fmsynth* f, float* buffer, unsigned length)
 {
 
 	unsigned b = 0;
@@ -998,8 +1001,8 @@ void fm_render(fmsynth* f, signed short* buffer, unsigned length)
 
 
 			/* Final mix */
-			buffer[b] = clamp((renduL + outL22) * f->globalVolume, -32768, 32767);
-			buffer[b + 1] = clamp((renduR + outR22) * f->globalVolume, -32768, 32767);
+			buffer[b] = (renduL + outL22) * f->globalVolume;
+			buffer[b + 1] =(renduR + outR22) * f->globalVolume;
 			b += 2;
 		}
 	}
@@ -1202,6 +1205,69 @@ void fm_buildStateTable(fmsynth* f, unsigned orderStart, unsigned orderEnd, unsi
 		}
 	}
 	f->channelStatesDone = 1;
+}
+
+
+
+void fm_render(fmsynth* f, void* buffer, unsigned length, unsigned type)
+{
+	float *rendered = malloc(4*length); // float = 4bytes
+
+	_fm_render(f, (float*)rendered, length);
+
+	switch (type)
+	{
+		case FM_RENDER_FLOAT:
+		{
+			float *buf_f = buffer;
+			for (unsigned i = 0; i < length; i++)
+			{
+				buf_f[i] = clamp(rendered[i]/32768,-1.0,1.0);
+			}
+			break;
+		}
+		case FM_RENDER_8:
+		{
+			unsigned char *buf_8 = buffer;
+			for (unsigned i = 0; i < length; i++)
+			{
+				buf_8[i] = clamp(128+rendered[i]/256, 0,255);
+			}
+			break;
+		}
+		case FM_RENDER_16:{
+			signed short *buf_16 = buffer;
+			for (unsigned i = 0; i < length; i++)
+			{
+				buf_16[i] = clamp(rendered[i], -32768,32767);
+			}
+			break;
+		}
+		case FM_RENDER_24:
+		{
+			unsigned char *buf_24 = buffer;
+
+			for (unsigned i = 0; i < length; i++)
+			{
+				int val = clamp(rendered[i]*256, -8388608,8388607);
+
+				buf_24[i*3+2] = (unsigned char)((val&0x00ff0000) >> 16);
+				buf_24[i*3+1] = (unsigned char)((val&0x00ff00)>>8);
+				buf_24[i*3] = (unsigned char)(val & 0xff);
+
+			}
+			break;
+		}
+		case FM_RENDER_32:
+		{
+			int *buf_32 = buffer;
+			for (unsigned i = 0; i < length; i++)
+			{
+				buf_32[i] = clamp(((double)rendered[i])*256*256,-2147483648,2147483647);
+			}
+			break;
+		}
+	}
 }
 
 void fm_stopNote(fmsynth* f, unsigned ch)

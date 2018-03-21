@@ -432,7 +432,7 @@ void Popup::show(int _type, int param)
 			break;
 		}
 		case POPUP_STREAMEDEXPORT:
-			setSize(600, 380);
+			setSize(620, 380);
 			title.setString("Streamed audio export");
 
 			texts.push_back(Text("From", font, charSize));
@@ -444,15 +444,18 @@ void Popup::show(int _type, int param)
 			texts[1].setPosition(240, 20);
 
 			checkboxes.push_back(Checkbox(20, 100, "Export as Wave"));
-			checkboxes.push_back(Checkbox(20, 150, "Export as MP3"));
+			checkboxes.push_back(Checkbox(20, 242, "Export as MP3"));
 
-			checkboxes.push_back(Checkbox(170, 150, "VBR"));
-			checkboxes.push_back(Checkbox(170, 190, "CBR"));
+			checkboxes.push_back(Checkbox(170, 242, "VBR"));
+			checkboxes.push_back(Checkbox(170, 282, "CBR"));
 
 			checkboxes[0].checked = 1;
 
-			sliders.push_back(DataSlider(240, 170, 10, 0, "Quality (0=best, 9=worst)", 0, 200));
+			sliders.push_back(DataSlider(240, 262, 10, 0, "Quality (0=best, 9=worst)", 0, 200));
 
+			shapes.push_back(RectangleShape(Vector2f(600, 1)));
+			shapes[0].setPosition(20, 80);
+			shapes[0].setFillColor(colors[BLOCKBG]);
 
 			sliders.push_back(DataSlider(60, 20, fm->patternCount, 0, "Pattern", 0, 150));
 			sliders.push_back(DataSlider(270, 20, fm->patternCount, 0, "Pattern", fm->patternCount, 150));
@@ -463,8 +466,10 @@ void Popup::show(int _type, int param)
 			texts[2].setColor(colors[BLOCKTEXT]);
 			texts[2].setPosition(150, 50);
 
-			checkboxes.push_back(Checkbox(20, 240, "Export as FLAC"));
-			sliders.push_back(DataSlider(170, 242, 8, 0, "Compression level", 0, 200));
+			checkboxes.push_back(Checkbox(20, 150, "Export as FLAC"));
+			sliders.push_back(DataSlider(170, 150, 8, 0, "Compression level", 0, 200));
+
+			sliders.push_back(DataSlider(170, 120, 4, 0, "Bit depth", 1));
 
 			buttons.push_back(Button(w - 90, h - 50, "Export", -1, 8));
 			buttons.push_back(Button(50, h - 50, "Cancel", -1, 8));
@@ -602,6 +607,7 @@ void Popup::show(int _type, int param)
 			break;
 		case POPUP_STREAMEDEXPORT:
 			updateExportSliders();
+			updateBitDepthDescription();
 			break;
 	}
 

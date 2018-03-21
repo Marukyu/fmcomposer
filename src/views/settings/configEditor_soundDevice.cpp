@@ -1,9 +1,14 @@
 #include "configEditor.hpp"
 #include "pa_win_wasapi.h"
+#include "pa_win_ds.h"
 
 
 extern PaStream *stream;
 extern PaStreamParameters out;
+
+int nearestPow2( int aSize ){
+  return round(pow( 2, round( log( aSize ) / log( 2 ) ) )); 
+}
 
 int ConfigEditor::selectSoundDevice(int soundDeviceId, int _samplerate, int _latency, bool force)
 {
@@ -18,12 +23,34 @@ int ConfigEditor::selectSoundDevice(int soundDeviceId, int _samplerate, int _lat
 	int playing = fm->playing;
 
 
-	const PaDeviceInfo* p = Pa_GetDeviceInfo(soundDeviceId);
+	
 	out.device = soundDeviceId;
 	out.channelCount = 2;
 	out.sampleFormat = paInt16;
 	out.suggestedLatency = 0.001*_latency;
-	out.hostApiSpecificStreamInfo = NULL;
+
+	const PaDeviceInfo* p = Pa_GetDeviceInfo(soundDeviceId);
+	const PaHostApiInfo *phost = Pa_GetHostApiInfo(p->hostApi);
+	PaWasapiStreamInfo wasapi_p;
+	PaWinDirectSoundStreamInfo dsound_p;
+
+	if (phost->type == paWASAPI) {
+		wasapi_p.flags= paWinWasapiExclusive;
+		wasapi_p.version=1;
+		wasapi_p.hostApiType = paWASAPI;
+		wasapi_p.size = sizeof(PaWasapiStreamInfo);
+
+		out.hostApiSpecificStreamInfo = &wasapi_p;
+	}
+	/* DirectSound wants power of two latencies, and doesn't like it < 32 */
+	else if (phost->type == paDirectSound) {
+		out.hostApiSpecificStreamInfo = 0;
+		out.suggestedLatency = 0.001*max(32,nearestPow2(_latency));
+	}
+	else
+	{
+		out.hostApiSpecificStreamInfo = 0;
+	}
 
 
 
@@ -52,8 +79,10 @@ int ConfigEditor::selectSoundDevice(int soundDeviceId, int _samplerate, int _lat
 			sampleRateError.setString("");
 			song_stop();
 			Pa_StopStream(stream);
+			Pa_CloseStream(stream);
 
 			PaError err;
+
 
 			if ((err = Pa_OpenStream(&stream, NULL, &out, _samplerate, 0, 0, (PaStreamCallback*)callbackFunc, fm)) != paNoError)
 			{

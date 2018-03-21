@@ -271,7 +271,7 @@ void Popup::buttonActions(int buttonID)
 				exportFromPattern = sliders[1].value;
 				exportToPattern = sliders[2].value;
 				exportNbLoops = sliders[3].value;
-
+				exportBitDepth = sliders[5].value;
 				mouse.clickLock2 = 1;
 
 				// WAVE

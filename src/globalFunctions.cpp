@@ -342,8 +342,8 @@ sf::Color string2color(const char* s)
 static int patestCallback(const void *inputBuffer, void *outputBuffer, unsigned long framesPerBuffer, const PaStreamCallbackTimeInfo* timeInfo,
 	PaStreamCallbackFlags statusFlags, void *userData)
 {
-	short *out = (short*)outputBuffer;
-	fm_render((fmsynth*)userData, &out[0], framesPerBuffer * 2);
+	char *out = (char*)outputBuffer;
+	fm_render((fmsynth*)userData, &out[0], framesPerBuffer * 2, FM_RENDER_16);
 
 	if (sidebar && songEditor)
 	{

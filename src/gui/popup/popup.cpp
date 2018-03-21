@@ -413,6 +413,10 @@ void Popup::handleEvents()
 								sliders[1].setValue(sliders[2].value);
 							}
 						}
+						else if (i == 5)
+						{
+							updateBitDepthDescription();
+						}
 						/* FLAC compression level */
 						else
 						{
@@ -530,4 +534,10 @@ void Popup::close(bool pressOK)
 void Popup::updateIntervalDescription()
 {
 	texts[0].setString("Interval : " + intervals[abs(sliders[1].value)]);
+}
+
+void Popup::updateBitDepthDescription()
+{
+	string bitDepths[5] = {"8 bit", "16 bit","24 bit", "32 bit", "Float"};
+	sliders[5].setDisplayedValueOnly(bitDepths[sliders[5].value]);
 }

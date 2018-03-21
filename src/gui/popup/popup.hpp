@@ -65,6 +65,7 @@ class Popup{
 	void close(bool pressOK = false);
 	void buttonActions(int buttonID);
 	void updateIntervalDescription();
+	void updateBitDepthDescription();
 	void updateExportSliders();
 	void updateWindow();
 	//void show(string text, int delay);

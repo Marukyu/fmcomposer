@@ -2,6 +2,7 @@
 #define STREAMEDEXPORT_H
 
 extern int export_param;
+extern int exportBitDepth;
 extern const int mp3_bitrates[16];
 
 int waveExportFunc();
