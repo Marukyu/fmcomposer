@@ -538,6 +538,19 @@ void Popup::updateIntervalDescription()
 
 void Popup::updateBitDepthDescription()
 {
-	string bitDepths[5] = {"8 bit", "16 bit","24 bit", "32 bit", "Float"};
-	sliders[5].setDisplayedValueOnly(bitDepths[sliders[5].value]);
+	/* FLAC */
+	if(checkboxes[4].checked)
+	{
+		string bitDepths[5] = {"8 bit", "16 bit","24 bit"};
+		sliders[5].setMinMax(0,2);
+		sliders[5].setDisplayedValueOnly(bitDepths[sliders[5].value]);
+	}
+	/* Wave */
+	else
+	{
+		string bitDepths[5] = {"8 bit", "16 bit","24 bit", "32 bit", "Float"};
+		sliders[5].setMinMax(0,4);
+		sliders[5].setDisplayedValueOnly(bitDepths[sliders[5].value]);
+	}
+	
 }

@@ -48,9 +48,10 @@ void exportStart(){
 	fm->looping=exportNbLoops; // disable loop points so we aren't stuck forever
 }
 
-int waveExportFunc(){
+// size in bytes for 1 sample, for each fmRenderType (8, 16, 24 bits, 32 bits, float)
+int bitDepths_bytes[5] = {1,2,3,4,4};
 
-	int bitDepths_bytes[5] = {1,2,3,4,4};
+int waveExportFunc(){
 
 	unsigned int size=0;
 	int out[16384];
@@ -153,8 +154,7 @@ static FLAC__StreamEncoderTellStatus stream_encoder_tell_callback_(const FLAC__S
 }
 
 int flacExportFunc(){
-	short out[16384];
-	int out2[16384];
+	int out[16384*2];
 	FILE *fp = fopen(exportFileName.c_str(), "wb");
 	if (!fp){
 		return 0;
@@ -163,16 +163,13 @@ int flacExportFunc(){
 
 	FLAC__StreamEncoder *encoder;
 	encoder = FLAC__stream_encoder_new();
-
-	if(!FLAC__stream_encoder_set_compression_level(encoder,export_param))
-		printf("aya");
-
+	FLAC__stream_encoder_set_bits_per_sample(encoder,8*bitDepths_bytes[exportBitDepth]);
+	FLAC__stream_encoder_set_compression_level(encoder,export_param);
+	FLAC__stream_encoder_set_sample_rate(encoder,fm->sampleRate);
+	FLAC__stream_encoder_set_channels(encoder, 2);
 
 	FLAC__stream_encoder_init_stream(encoder, stream_encoder_write_callback_, stream_encoder_seek_callback_, stream_encoder_tell_callback_, stream_encoder_metadata_callback_, fp);
-	FLAC__stream_encoder_set_sample_rate(encoder,fm->sampleRate);
-	FLAC__stream_encoder_set_bits_per_sample(encoder,16);
-	FLAC__stream_encoder_set_channels(encoder, 2);
-	
+
 	FLAC__stream_encoder_set_metadata(encoder, metadata_sequence_,num_metadata_);
 
 
@@ -180,12 +177,8 @@ int flacExportFunc(){
 	int writtenBytes;
 	exportStart();
 	while(fm->playing && exporting && fm->order<=exportToPattern){
-		fm_render(fm, &out[0],16384,exportBitDepth);
-		for (unsigned i = 0; i < 16384; i++)
-		{
-			out2[i] = out[i];
-		}
-		writtenBytes = FLAC__stream_encoder_process_interleaved(encoder, out2, 16384/2);
+		fm_render(fm, &out[0],16384,exportBitDepth | FM_RENDER_PAD32);
+		writtenBytes = FLAC__stream_encoder_process_interleaved(encoder, out, 16384/2);
 		popup->sliders[0].setValue(((float)fm->order/fm->patternCount)*100);
 	}
 

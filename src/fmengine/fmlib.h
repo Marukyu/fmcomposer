@@ -14,7 +14,7 @@ extern "C"{
 	enum{ FM_NOTE, FM_INSTR, FM_VOL, FM_FXTYPE, FM_FXVALUE };
 	enum { FM_ERR_FILEIO = -1, FM_ERR_FILECORRUPTED = -2, FM_ERR_FILEVERSION = -3 };
 	enum fmInstrumentFlags{FM_INSTR_LFORESET=1, FM_INSTR_SMOOTH=2, FM_INSTR_TRANSPOSABLE=4};
-	enum fmRenderTypes{FM_RENDER_8, FM_RENDER_16, FM_RENDER_24, FM_RENDER_32, FM_RENDER_FLOAT};
+	enum fmRenderTypes{FM_RENDER_8, FM_RENDER_16, FM_RENDER_24, FM_RENDER_32, FM_RENDER_FLOAT, FM_RENDER_PAD32=64};
 	typedef struct fm_instrument_operator
 	{
 		unsigned char mult;

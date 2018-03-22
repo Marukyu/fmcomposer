@@ -1215,7 +1215,7 @@ void fm_render(fmsynth* f, void* buffer, unsigned length, unsigned type)
 
 	_fm_render(f, (float*)rendered, length);
 
-	switch (type)
+	switch (type%64)
 	{
 		case FM_RENDER_FLOAT:
 		{
@@ -1228,33 +1228,73 @@ void fm_render(fmsynth* f, void* buffer, unsigned length, unsigned type)
 		}
 		case FM_RENDER_8:
 		{
-			unsigned char *buf_8 = buffer;
-			for (unsigned i = 0; i < length; i++)
+			if(type & FM_RENDER_PAD32)
 			{
-				buf_8[i] = clamp(128+rendered[i]/256, 0,255);
+				int *buf_32 = buffer;
+				for (unsigned i = 0; i < length; i++)
+				{
+					buf_32[i] = (clamp((signed char)(rendered[i]/256), -128,127));
+				}
 			}
+			else
+			{
+				unsigned char *buf_8 = buffer;
+				for (unsigned i = 0; i < length; i++)
+				{
+					buf_8[i] = clamp(128+rendered[i]/256, 0,255);
+				}
+			}
+			
 			break;
 		}
 		case FM_RENDER_16:{
-			signed short *buf_16 = buffer;
-			for (unsigned i = 0; i < length; i++)
+			if(type & FM_RENDER_PAD32)
 			{
-				buf_16[i] = clamp(rendered[i], -32768,32767);
+				int *buf_32 = buffer;
+				for (unsigned i = 0; i < length; i++)
+				{
+					buf_32[i] = clamp(rendered[i], -32768,32767);
+				}
 			}
+			else
+			{
+				signed short *buf_16 = buffer;
+				for (unsigned i = 0; i < length; i++)
+				{
+					buf_16[i] = clamp(rendered[i], -32768,32767);
+				}
+			}
+			
 			break;
 		}
 		case FM_RENDER_24:
 		{
 			unsigned char *buf_24 = buffer;
 
-			for (unsigned i = 0; i < length; i++)
+			if(type & FM_RENDER_PAD32)
 			{
-				int val = clamp(rendered[i]*256, -8388608,8388607);
+				for (unsigned i = 0; i < length; i++)
+				{
+					int val = clamp(rendered[i]*256, -8388608,8388607);
 
-				buf_24[i*3+2] = (unsigned char)((val&0x00ff0000) >> 16);
-				buf_24[i*3+1] = (unsigned char)((val&0x00ff00)>>8);
-				buf_24[i*3] = (unsigned char)(val & 0xff);
+					buf_24[i*4+2] = (unsigned char)((val&0x00ff0000) >> 16);
+					buf_24[i*4+1] = (unsigned char)((val&0x00ff00)>>8);
+					buf_24[i*4] = (unsigned char)(val & 0xff);
+					buf_24[i*4+3] = 0;
 
+				}
+			}
+			else
+			{
+				for (unsigned i = 0; i < length; i++)
+				{
+					int val = clamp(rendered[i]*256, -8388608,8388607);
+
+					buf_24[i*3+2] = (unsigned char)((val&0x00ff0000) >> 16);
+					buf_24[i*3+1] = (unsigned char)((val&0x00ff00)>>8);
+					buf_24[i*3] = (unsigned char)(val & 0xff);
+
+				}
 			}
 			break;
 		}
@@ -1263,7 +1303,7 @@ void fm_render(fmsynth* f, void* buffer, unsigned length, unsigned type)
 			int *buf_32 = buffer;
 			for (unsigned i = 0; i < length; i++)
 			{
-				buf_32[i] = clamp(((double)rendered[i])*256*256,-2147483648,2147483647);
+				buf_32[i] = (signed int)clamp(((double)rendered[i]*256*256),-2147483648.f,2147483647.f);
 			}
 			break;
 		}
