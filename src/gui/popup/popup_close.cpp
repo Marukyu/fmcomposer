@@ -271,13 +271,13 @@ void Popup::buttonActions(int buttonID)
 				exportFromPattern = sliders[1].value;
 				exportToPattern = sliders[2].value;
 				exportNbLoops = sliders[3].value;
-				exportBitDepth = sliders[5].value;
+				
 				mouse.clickLock2 = 1;
 
 				// WAVE
 				if (checkboxes[0].checked)
 				{
-					
+					exportBitDepth = sliders[5].value;
 					static const char * filters[1] = { "*.wav" };
 					const char *fileName = tinyfd_saveFileDialog("Export as wave", NULL, 1, filters, "Wave file");
 					if (fileName)
@@ -312,6 +312,7 @@ void Popup::buttonActions(int buttonID)
 				// FLAC
 				else
 				{
+					exportBitDepth = sliders[6].value;
 					export_param = sliders[4].value;
 					static const char * filters[1] = { "*.flac" };
 					const char *fileName = tinyfd_saveFileDialog("Export as FLAC", NULL, 1, filters, "FLAC file");

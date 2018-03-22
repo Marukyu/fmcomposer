@@ -451,9 +451,9 @@ void Popup::show(int _type, int param)
 
 			checkboxes[0].checked = 1;
 
-			sliders.push_back(DataSlider(240, 262, 10, 0, "Quality (0=best, 9=worst)", 0, 200));
+			sliders.push_back(DataSlider(250, 264, 10, 0, "Quality (0=best, 9=worst)", 0, 200));
 
-			shapes.push_back(RectangleShape(Vector2f(600, 1)));
+			shapes.push_back(RectangleShape(Vector2f(580, 1)));
 			shapes[0].setPosition(20, 80);
 			shapes[0].setFillColor(colors[BLOCKBG]);
 
@@ -466,10 +466,11 @@ void Popup::show(int _type, int param)
 			texts[2].setColor(colors[BLOCKTEXT]);
 			texts[2].setPosition(150, 50);
 
-			checkboxes.push_back(Checkbox(20, 150, "Export as FLAC"));
-			sliders.push_back(DataSlider(170, 150, 8, 0, "Compression level", 0, 200));
+			checkboxes.push_back(Checkbox(20, 168, "Export as FLAC"));
+			sliders.push_back(DataSlider(310, 170, 8, 0, "Compression level", 0, 200));
 
-			sliders.push_back(DataSlider(170, 120, 4, 0, "Bit depth", 1));
+			sliders.push_back(DataSlider(170, 102, 4, 0, "Bit depth", 1,130));
+			sliders.push_back(DataSlider(170, 170, 4, 0, "Bit depth", 1,130));
 
 			buttons.push_back(Button(w - 90, h - 50, "Export", -1, 8));
 			buttons.push_back(Button(50, h - 50, "Cancel", -1, 8));

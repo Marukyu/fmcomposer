@@ -413,7 +413,7 @@ void Popup::handleEvents()
 								sliders[1].setValue(sliders[2].value);
 							}
 						}
-						else if (i == 5)
+						else if (i == 5 || i==6)
 						{
 							updateBitDepthDescription();
 						}
@@ -539,18 +539,16 @@ void Popup::updateIntervalDescription()
 void Popup::updateBitDepthDescription()
 {
 	/* FLAC */
-	if(checkboxes[4].checked)
-	{
-		string bitDepths[5] = {"8 bit", "16 bit","24 bit"};
-		sliders[5].setMinMax(0,2);
-		sliders[5].setDisplayedValueOnly(bitDepths[sliders[5].value]);
-	}
+	
+	string bitDepths[6] = {"8 bit", "16 bit","24 bit"};
+	sliders[6].setMinMax(0,2);
+	sliders[6].setDisplayedValueOnly(bitDepths[sliders[6].value]);
+	
 	/* Wave */
-	else
-	{
-		string bitDepths[5] = {"8 bit", "16 bit","24 bit", "32 bit", "Float"};
-		sliders[5].setMinMax(0,4);
-		sliders[5].setDisplayedValueOnly(bitDepths[sliders[5].value]);
-	}
+	
+	string bitDepths2[5] = {"8 bit", "16 bit","24 bit", "32 bit", "Float"};
+	sliders[5].setMinMax(0,4);
+	sliders[5].setDisplayedValueOnly(bitDepths2[sliders[5].value]);
+	
 	
 }
