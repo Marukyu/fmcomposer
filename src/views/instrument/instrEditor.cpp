@@ -562,10 +562,15 @@ void InstrEditor::cleanupInstruments()
 	{
 		if (!fm_isInstrumentUsed(fm, i))
 		{
-			history.erase(history.begin() + i);
-			currentHistoryPos.erase(currentHistoryPos.begin() + i); printf("re");
+			if (i < history.size())
+			{
+				history.erase(history.begin() + i);
+				currentHistoryPos.erase(currentHistoryPos.begin() + i);
+			}
 			fm_removeInstrument(fm, i, 1);
 			/* Because instruments after the removed one are re-numbered, we need to check again the same i (it's the next instrument) */
+			if (fm->instrumentCount==1)
+				break;
 			i--;
 		}
 	}
