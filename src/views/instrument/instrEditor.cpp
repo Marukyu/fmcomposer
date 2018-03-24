@@ -165,7 +165,10 @@ void InstrEditor::update()
 	if (add.clicked())
 	{
 
-		fm_loadInstrument(fm, string(string("instruments/") + ini_gmlist.GetValue("melodic", "default", "0") + string(".fmci")).c_str(), fm->instrumentCount);
+		if (fm_loadInstrument(fm, string(string("instruments/") + ini_gmlist.GetValue("melodic", "default", "0") + string(".fmci")).c_str(), fm->instrumentCount)<0)
+		{
+			fm_resizeInstrumentList(fm, fm->instrumentCount+1);
+		}
 
 		updateInstrListFromFM();
 		instrList->select(instrList->text.size() - 1);
