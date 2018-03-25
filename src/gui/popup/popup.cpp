@@ -352,7 +352,7 @@ void Popup::handleEvents()
 						{
 							sliders[i].setDisplayedValueOnly("Any");
 						}
-						else if (i >= 3 && sliders[i].value == -1)
+						else if (i >= 3 && i < 6 && sliders[i].value == -1)
 						{
 							sliders[i].setDisplayedValueOnly("None");
 						}

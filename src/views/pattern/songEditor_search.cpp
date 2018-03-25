@@ -137,7 +137,7 @@ int SongEditor::search(int searchWhat, unsigned char searchValues[5], int search
 						}
 						if (replaceWhat & 32)
 						{
-							fm->pattern[i][j][ch].note = clamp(fm->pattern[i][j][ch].note + replaceValues[5], 0, 127);
+							fm->pattern[i][j][ch].note = clamp(fm->pattern[i][j][ch].note + (char)replaceValues[5], 0, 127);
 						}
 					}
 					/* No replace, update display to show the next search occurence */
