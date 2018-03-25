@@ -64,23 +64,28 @@ void SongEditor::handleShortcuts()
 			}
 			break;
 		case Keyboard::Add:
-			addHistory();
 			if (selection.isSingle())
 			{
 
 				if (selectedType == 1)
 				{
+					addHistory();
 					fm->pattern[fm->order][selectedRow][selectedChannel].instr = min(instrList->text.size() - 1, fm->pattern[fm->order][selectedRow][selectedChannel].instr + 1);
+					addHistory();
 					songModified(1);
 				}
 				else if (selectedType == 2)
 				{
+					addHistory();
 					fm->pattern[fm->order][selectedRow][selectedChannel].vol = min(99, fm->pattern[fm->order][selectedRow][selectedChannel].vol + 1);
+					addHistory();
 					songModified(1);
 				}
 				else if (selectedType == 3)
 				{
+					addHistory();
 					fm->pattern[fm->order][selectedRow][selectedChannel].fxdata = min(255, fm->pattern[fm->order][selectedRow][selectedChannel].fxdata + 1);
+					addHistory();
 					songModified(1);
 				}
 				else
@@ -94,26 +99,31 @@ void SongEditor::handleShortcuts()
 			}
 			else
 				multipleEdit(3, 0, 1);
-			addHistory();
+			
 			break;
 		case Keyboard::Subtract:
 
-			addHistory();
 			if (selection.isSingle())
 			{
 				if (selectedType == 1)
 				{
+					addHistory();
 					fm->pattern[fm->order][selectedRow][selectedChannel].instr = max(0, fm->pattern[fm->order][selectedRow][selectedChannel].instr - 1);
+					addHistory();
 					songModified(1);
 				}
 				else if (selectedType == 2)
 				{
+					addHistory();
 					fm->pattern[fm->order][selectedRow][selectedChannel].vol = max(0, fm->pattern[fm->order][selectedRow][selectedChannel].vol - 1);
+					addHistory();
 					songModified(1);
 				}
 				else if (selectedType == 3)
 				{
+					addHistory();
 					fm->pattern[fm->order][selectedRow][selectedChannel].fxdata = max(0, fm->pattern[fm->order][selectedRow][selectedChannel].fxdata - 1);
+					addHistory();
 					songModified(1);
 				}
 				else
@@ -127,13 +137,10 @@ void SongEditor::handleShortcuts()
 			}
 			else
 				multipleEdit(3, 0, -1);
-			addHistory();
 			break;
 		case Keyboard::Delete:
 
-			addHistory();
 			multipleEdit(7);
-			addHistory();
 			break;
 		case Keyboard::Equal:
 			if (selectedType == 0)
@@ -264,27 +271,19 @@ void SongEditor::handleShortcuts()
 		{
 			case Keyboard::E: // note +12
 
-				addHistory();
 				multipleEdit(3, 0, 12);
-				addHistory();
 				break;
 			case Keyboard::D: // note -12
 
-				addHistory();
 				multipleEdit(3, 0, -12);
-				addHistory();
 				break;
 			case Keyboard::R: // note +1
 
-				addHistory();
 				multipleEdit(3, 0, 1);
-				addHistory();
 				break;
 			case Keyboard::F: // note -1
 
-				addHistory();
 				multipleEdit(3, 0, -1);
-				addHistory();
 				break;
 		}
 	}
@@ -307,11 +306,9 @@ void SongEditor::handleShortcuts()
 				popup->show(POPUP_SEARCH);
 				break;
 			case Keyboard::X: // couper
-
-				addHistory();
+				
 				patCopy(&copiedSelection);
 				multipleEdit(2);
-				addHistory();
 				break;
 
 

@@ -39,7 +39,6 @@ int SongEditor::search(int searchWhat, unsigned char searchValues[5], int search
 		chEnd = FM_ch;
 	}
 
-	//printf("%d ob: %d oe: %d, chb: %d, che : %d",searchIn, orderBegin, orderEnd, chBegin, chEnd );
 	for (unsigned i = orderBegin; i < orderEnd; i++)
 	{
 		// search in selection

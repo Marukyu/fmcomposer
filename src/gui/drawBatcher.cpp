@@ -236,7 +236,7 @@ void DrawBatcher::initialize()
 }
 
 void DrawBatcher::draw()
-{//printf("========================\n");
+{
 
 	items.resize(itemCount);
 	lines.resize(lineCount);
@@ -252,7 +252,6 @@ void DrawBatcher::draw()
 void DrawBatcher::addItem(sf::Text* text)
 {
 	texts.resize(textCount+1);
-	//printf("%s\n",text->getString().toAnsiString().c_str());
 	texts[textCount]=text;
 	textCount++;
 }

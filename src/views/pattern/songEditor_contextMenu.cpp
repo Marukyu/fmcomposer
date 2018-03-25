@@ -79,7 +79,11 @@ void SongEditor::handlePatternContextMenu()
 			break;
 
 		case 1:
-			multipleEdit(1);
+			saveToHistory(fm->row, copiedSelection.data[0].size());
+			saveToHistory(fm->row, copiedSelection.data[0].size());
+			patPaste(&copiedSelection, selectedChannel, selectedRow);
+			saveToHistory(fm->row, copiedSelection.data[0].size());
+			saveToHistory(fm->row, copiedSelection.data[0].size());
 			break;
 
 		case 2:

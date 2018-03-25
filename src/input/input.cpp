@@ -264,10 +264,9 @@ void handleNotePreview(int canPreview)
 			{
 
 				int note = keyboard2note(evt.key.code);
-				//printf("%d,",evt.key.code);
+
 				if (evt.key.code >= 0 && note >= 0)
 				{
-
 					previewNote(instrList->value, sidebar->octave.value * 12 + note, sidebar->defNoteVol.value, 0);
 					sidebar->notePreview.setString(noteName(sidebar->octave.value * 12 + note));
 				}

@@ -120,7 +120,7 @@ public:
 	void updateFromFM();
 	void patCopy(patternSelection* copiedData);
 	void patPaste(patternSelection* copiedData, int channel, int ypos);
-	void multipleEdit(int action,patternSelection* copiedData=NULL, int param=0,int param2=0);
+	void multipleEdit(int action,patternSelection* copiedData=NULL, int param=0,int param2=0, bool saveHistory=true);
 
 	void updateMutedChannels();
 	

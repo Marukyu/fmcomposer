@@ -49,7 +49,6 @@ void TextInput::cutSelection()
 	selectionCount = min(text.getString().toAnsiString().size(), selectionCount);
 
 	selectionBegin = getSelectionStart();
-	printf("cut %d %d\n", selectionBegin, selectionCount);
 	text.setString(string(text.getString()).erase(selectionBegin, selectionCount));
 	selection.setSize(Vector2f(0, 19));
 	charCountLine[currentLine] -= selectionCount;
@@ -284,10 +283,6 @@ bool TextInput::modified()
 						}
 					
 					recalcCursorPos();
-					for (int i = 0; i < charCountLine.size(); i++)
-						{
-							printf("line %d %d\n", i, charCountLine[i]);
-						}
 					return true;
 				}
 				else if (textEntered[textEnteredCount] != 9)
@@ -325,10 +320,6 @@ bool TextInput::modified()
 							}
 							pos2++;
 							recalcCursorPos();
-						}
-						for (int i = 0; i < charCountLine.size(); i++)
-						{
-							printf("line %d %d\n", i, charCountLine[i]);
 						}
 					}
 					else if (textEntered[textEnteredCount] != 0)

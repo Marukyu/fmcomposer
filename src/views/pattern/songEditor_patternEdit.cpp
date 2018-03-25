@@ -7,7 +7,6 @@ void SongEditor::patCopy(patternSelection* copiedData)
 
 	copiedData->pattern = fm->order;
 
-	//printf("%d %d\n",copiedData->x1/4, copiedData->decale );
 	copiedData->data.resize(copiedData->x2 - copiedData->x1);
 	for (unsigned i = 0; i < copiedData->data.size(); i++)
 	{
@@ -40,8 +39,11 @@ void SongEditor::patCopy(patternSelection* copiedData)
 	}
 }
 
-void SongEditor::multipleEdit(int action, patternSelection* copiedData, int param, int param2)
+void SongEditor::multipleEdit(int action, patternSelection* copiedData, int param, int param2, bool saveHistory)
 {
+	
+	if (action != 0 && saveHistory) // not a copy action
+		addHistory();
 
 	if (copiedData == NULL)
 		copiedData = &copiedSelection;
@@ -212,6 +214,9 @@ void SongEditor::multipleEdit(int action, patternSelection* copiedData, int para
 		songModified(1);
 	else
 		songModified(1);
+
+	if (action != 0 && saveHistory) // not a copy action
+		addHistory();
 }
 
 void SongEditor::patPaste(patternSelection* copiedData, int channel, int ypos)
@@ -219,7 +224,7 @@ void SongEditor::patPaste(patternSelection* copiedData, int channel, int ypos)
 
 	if (copiedData->data.size() == 0)
 		return;
-
+	
 	if (selection.isSingle() && copiedData->data.size() == 1 && copiedData->data[0].size() == 1 && copiedData->data[0][0] == 255)
 	{
 		switch (selectedType)

@@ -252,18 +252,16 @@ void SongEditor::leftMouseRelease()
 			selectionDisappear();
 		}
 		else
-		{//
+		{
 			/* Copy data */
 			saveToHistory(selectedRow, selection.bg.getSize().y / ROW_HEIGHT);
-			multipleEdit(2, &movedSelection);
+			multipleEdit(2, &movedSelection,0,0,false);
 			saveToHistory(selectedRow, selection.bg.getSize().y / ROW_HEIGHT);
 
 			/* Get row/channel from selection position. do -0.5/+0.5 to correct float-to-int value rounding */
 			selectedRow = selection.getMovedRow();
 			selectedChannel = selection.getMovedChannel();
-			//printf("%d\n", selectedChannel);
-			//selectedType = selection.getMovedType();
-			//printf("%f %d \n", moveSelectionBG.getPosition().x, selectedChannel);
+
 			/* Keep current row/channel before they are bringed in range*/
 			int oldRow = selectedRow;
 			int oldChannel = selectedChannel;
@@ -271,17 +269,16 @@ void SongEditor::leftMouseRelease()
 			/* Resize selection when it goes outside pattern area */
 
 			if (selectedRow < 0)
-			{//printf("%d\n", selectedRow);
+			{
 				selection.bg.setSize(Vector2f(selection.bg.getSize().x, selection.bg.getSize().y + selectedRow*ROW_HEIGHT));
 				movedSelection.y1 += selectedRow;
 				movedSelection.y2 += selectedRow;
 				selectedRow = 0;
 			}
-			//printf("%f",moveSelectionBG.getPosition().x);
+			
 			if (selectedChannel<0)
 			{
-				printf("a");
-
+				
 				selection.bg.setSize(Vector2f(selection.bg.getSize().x + selectedChannel*CH_WIDTH + selectedType*COL_WIDTH, selection.bg.getSize().y));
 
 				selectedChannel = selectedType = 0;
@@ -299,7 +296,6 @@ void SongEditor::leftMouseRelease()
 
 			if (exceedSizeX > 0)
 			{
-				//printf("b");
 				selection.bg.setSize(Vector2f(selection.bg.getSize().x - exceedSizeX*CH_WIDTH, selection.bg.getSize().y));
 				movedSelection.x2 -= exceedSizeX;
 			}
@@ -318,7 +314,6 @@ void SongEditor::leftMouseRelease()
 			mouseXpat = selectedChannel*4+selectedType;
 			mouseYpat=selectedRow;
 
-			//printf("saved %d,", selectedRow);
 			saveToHistory(selectedRow, selection.bg.getSize().y / ROW_HEIGHT);
 
 			patPaste(&movedSelection, oldChannel, oldRow);

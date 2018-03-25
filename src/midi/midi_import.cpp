@@ -152,7 +152,7 @@ int addInstrument(int id, unsigned char type)
 
 		instrumentList[fm->instrumentCount - 1].id = id; // if unknown percussion, still store its original ID to avoid adding it multiple times
 		instrumentList[fm->instrumentCount - 1].type = type;
-		//printf("loaded");
+
 		return fm->instrumentCount - 1;
 	}
 	else
@@ -554,10 +554,6 @@ int reserveChannel(int note, int midiChannel)
 				updateChannelParams(channel, midiChannel);
 			}
 		}
-	}
-	if (channel == -1)
-	{
-		//printf("POLYPHONY");
 	}
 
 
