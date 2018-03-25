@@ -349,7 +349,7 @@ static int patestCallback(const void *inputBuffer, void *outputBuffer, unsigned 
 	{
 		for (unsigned i = 0; i < framesPerBuffer * 2; i += 16)
 		{
-			sidebar->vuMeter->setValue(out[i], out[i + 1]);
+			sidebar->vuMeter->setValue(((short*)out)[i], ((short*)out)[i + 1]);
 
 			for (int ch = 0; ch < FM_ch; ch++)
 			{
