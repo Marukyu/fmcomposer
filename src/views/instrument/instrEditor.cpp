@@ -137,6 +137,8 @@ void InstrEditor::opPaste()
 
 	updateFromFM();
 	updateToFM();
+	valueChanged = 1;
+	addToUndoHistory();
 }
 
 
@@ -195,8 +197,6 @@ void InstrEditor::update()
 				// paste operator
 			case 1:
 				opPaste();
-				valueChanged = 1;
-				addToUndoHistory();
 				break;
 
 				// paste envelope
@@ -612,25 +612,30 @@ void InstrEditor::handleEvents()
 						break;
 
 					case Keyboard::C: // copier
-						//memcpy(&copiedInstr, &fm->instrument[instrList->value], sizeof(fm_instrument));
+
+						if (instrList->selected)
+						{
+							copied=1;
+							
+							
+						}
 						copiedInstr = fm->instrument[instrList->value];
 						opCopied = opSelected;
+
 						break;
 					case Keyboard::V: // coller
-						if (copied)
+						
+						if (instrList->selected && copied)
 						{
-							if (instrList->selected)
-							{
 
-								fm->instrument[instrList->value] = copiedInstr;
-								updateFromFM();
-								updateInstrListFromFM();
-							}
-							else
-								opPaste();
-							valueChanged = 1;
-							addToUndoHistory();
+							fm->instrument[instrList->value] = copiedInstr;
+							updateFromFM();
+							updateInstrListFromFM();
 						}
+						else
+							opPaste();
+							
+						
 						break;
 					case Keyboard::Delete: // supprimer instrument
 						if (instrList->selected)

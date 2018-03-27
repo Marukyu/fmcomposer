@@ -1213,6 +1213,9 @@ void fm_render(fmsynth* f, void* buffer, unsigned length, unsigned type)
 {
 	float *rendered = malloc(4*length); // float = 4bytes
 
+	if (!rendered)
+		return;
+
 	_fm_render(f, (float*)rendered, length);
 
 	switch (type%64)
@@ -1308,6 +1311,8 @@ void fm_render(fmsynth* f, void* buffer, unsigned length, unsigned type)
 			break;
 		}
 	}
+
+	free(rendered);
 }
 
 void fm_stopNote(fmsynth* f, unsigned ch)
