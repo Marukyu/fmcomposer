@@ -14,8 +14,8 @@
 
 #define WindowWidth 1366
 #define WindowHeight 768
-#define VERSION "1.4"
-#define VERSION_DATE "2018-03-03"
+#define VERSION "1.5"
+#define VERSION_DATE "2018-04-02"
 
 
 #define min(x,y) ((x) < (y) ? (x) : (y))

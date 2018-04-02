@@ -3,12 +3,12 @@
  ,-/-,   / / /    /   __ ______  _   __ _   _  __ 
 (_/     / ' (_   (__/(_)/ / / <_/_)_(_)/_)_</_/ (_
                                / 
-                              '  v1.4 (2018-03-03)
+                              '  v1.5 (2018-04-02)
 
      by Stéphane Damo -- http://fmcomposer.org
 
 
-***  Thank you for downloading FM Composer ***
+Thank you for downloading FM Composer !
 
 
 Recommended setup :
@@ -29,10 +29,11 @@ Lowest tested, fully working setup :
 This software is free and contains no ads nor intrusive features.
 
 
-*** Credits ***
+Thanks to Masami Komuro, Klairzaki Fil-Xter and Isaac Zuniga for their contributions
+(quality testing, ideas, help for designing instruments and much more)
 
-	- Masami Komuro (demo song and some FM sounds)
-	- Klairzaki Fil-Xter (quality testing)
+
+*** Additional credits ***
 
 	- Laurent Gomila & contributors (SFML lib)
 	- Guillaume Vareille (tinyfiledialogs lib)
@@ -43,7 +44,16 @@ This software is free and contains no ads nor intrusive features.
  	- The Google team (Material Icons)
 	- Josh Coalson & Xiph.org foundation (FLAC encoder)
 
+
 *** Changelog ***
+
+v1.5 (2018-04-02)
+	- [Feature] Export bit depth choice for WAVE and FLAC exports
+	- [Feature] Actions done through the right click menu in patterns are now undoable
+	- [Feature] DirectSound devices are now shown in the available sound devices
+	- [Fix] Crash on song creation if default instruments are not found
+	- [Fix] Crash when 'Remove unused' was clicked if the song had 1 instrument
+
 
 v1.4 (2018-03-03)
 	- [Feature] FLAC export

@@ -20,6 +20,10 @@ class ConfigEditor : public State{
 	DataSlider buffer;
 	Checkbox openLastSong;
 
+	string lastRunVersion;
+	
+
+
 	Button refreshMidiDevicesButton;
 	Button defaultAzerty, defaultQwerty, defaultQwertz;
 	Text midiInText, midiQuantizeText, soundDeviceText;
@@ -29,6 +33,7 @@ class ConfigEditor : public State{
 	ListMenu keyMappingReset;
 	string hostnames[15];
 	public:
+	int directXdevicesCount;
 	int approvedSampleRate, approvedDeviceId, currentLatency;
 	string approvedSoundDeviceName;
 	Checkbox subquantize;

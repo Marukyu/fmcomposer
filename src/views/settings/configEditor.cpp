@@ -50,7 +50,8 @@ previewReverb(420, 480, 99, 0, "Note preview reverb", 10),
 startup("At startup", font, charSize),
 keyPreset("Presets :", font, charSize),
 defaultVolume(14, 410, 99, 0, "Song volume", 10),
-display("Display", font, charSize)
+display("Display", font, charSize),
+directXdevicesCount(0)
 {
 	startup.setPosition(14, 480);
 	display.setPosition(14, 560);
@@ -80,6 +81,8 @@ display("Display", font, charSize)
 	patternSize.setValue(atoi(ini_config.GetValue("config", "defaultPatternSize", "128")));
 	defaultVolume.setValue(atoi(ini_config.GetValue("config", "defaultSongVolume", "60")));
 	maxRecentSongCount = atoi(ini_config.GetValue("recentSongs", "max", "10"));
+
+	lastRunVersion = ini_config.GetValue("config", "lastRunVersion", "1.4");
 
 	openLastSong.checked = atoi(ini_config.GetValue("config", "openLastFileAtStart", "1"));
 	themeFile.setText(ini_config.GetValue("config", "theme", "dark.ini"));
@@ -306,7 +309,13 @@ void ConfigEditor::refresh()
 	int nbdevices = Pa_GetDeviceCount();
 	soundDeviceIds.clear();
 
+	bool skipDirectXdevices=false;
+	if (stricmp(lastRunVersion.c_str(), "1.4") == 0())
+	{
+		skipDirectXdevices=true;
+	}
 
+	int soundDeviceId = atoi(ini_config.GetValue("config", "soundDeviceId", "0"));
 
 	for (int i = 0; i < nbdevices; i++)
 	{
@@ -314,9 +323,15 @@ void ConfigEditor::refresh()
 		const PaDeviceInfo* p = Pa_GetDeviceInfo(i);
 		const PaHostApiInfo *phost = Pa_GetHostApiInfo(p->hostApi);
 
+		/* DirectX device */
+		if (skipDirectXdevices && phost->type==1 && i <= soundDeviceId+directXdevicesCount)
+			directXdevicesCount++;
+
 		if (p->maxOutputChannels>0)
 		{
 			soundDevicesList.add(string(hostnames[phost->type]) + " " + string(p->name));
+
+			
 
 			soundDeviceIds.push_back(i);
 		}
@@ -428,6 +443,7 @@ void ConfigEditor::save()
 	ini_config.SetValue("config", "defaultPreloadedSound", defaultPreloadedSound.c_str());
 	ini_config.SetValue("config", "defaultVolume", std::to_string(defaultVolume.value).c_str());
 	ini_config.SetValue("config", "editingStep", std::to_string(sidebar->editingStep.value).c_str());
+	ini_config.SetValue("config", "lastRunVersion", VERSION);
 
 	ini_config.SetValue("config", "patternZoomLevel", std::to_string((int)round(songEditor->zoom * 10)).c_str());
 	ini_config.SetValue("config", "theme", themeFile.text.getString().toAnsiString().c_str());

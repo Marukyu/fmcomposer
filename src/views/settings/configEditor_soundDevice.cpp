@@ -12,6 +12,7 @@ int nearestPow2( int aSize ){
 
 int ConfigEditor::selectSoundDevice(int soundDeviceId, int _samplerate, int _latency, bool force)
 {
+	soundDeviceId = min(Pa_GetDeviceCount(),soundDeviceId );
 	currentSoundDeviceId = soundDeviceId;
 	for (int i = 0; i < soundDevicesList.text.size(); i++)
 	{
@@ -123,6 +124,11 @@ void ConfigEditor::selectBestSoundDevice()
 		return;
 
 	int soundDeviceId = atoi(ini_config.GetValue("config", "soundDeviceId", "-1"));
+	if (stricmp(lastRunVersion.c_str(), "1.4") == 0())
+	{
+		
+		soundDeviceId+=directXdevicesCount;printf("AHAH best=%d\n",soundDeviceId );
+	}
 	int sampleRate = atoi(ini_config.GetValue("config", "sampleRate", "-1"));
 	int latency = atoi(ini_config.GetValue("config", "desiredLatency", "-1"));
 
