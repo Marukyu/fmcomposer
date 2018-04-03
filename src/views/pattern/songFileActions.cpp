@@ -91,7 +91,7 @@ void song_load(const char* filename, bool fromAutoReload)
 		if ((opened = midiImport(filename)) == 0)
 			saveAs = "";
 	}
-	if (opened == FM_ERR_FILEIO)
+	if (opened == FM_ERR_FILEIO && !fromAutoReload)
 	{
 		popup->show(POPUP_OPENFAILED);
 		config->lastSongRemove(string(filename));

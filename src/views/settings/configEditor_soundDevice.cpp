@@ -12,7 +12,7 @@ int nearestPow2( int aSize ){
 
 int ConfigEditor::selectSoundDevice(int soundDeviceId, int _samplerate, int _latency, bool force)
 {
-	soundDeviceId = min(Pa_GetDeviceCount(),soundDeviceId );
+	soundDeviceId = min(Pa_GetDeviceCount()-1,soundDeviceId);
 	currentSoundDeviceId = soundDeviceId;
 	for (int i = 0; i < soundDevicesList.text.size(); i++)
 	{
