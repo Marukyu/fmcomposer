@@ -6,7 +6,7 @@ FM Composer is a music and sound creation tool, featuring a custom FM synthesize
 Released with 150+ FM instruments and drums, ranging from synth to acoustic sounds, covering the whole MIDI instrument set.
 
 # Features
-- 6 operator, 24 voice polyphony FM sound engine
+- 6 operator, 24 voice polyphony FM sound engine with intuitive drag&drop interface
 - Tracker-style sequencer
 - Lots of effects available : vibrato, tremolo, arpeggio, pitch slides, real time FM parameter modification, loop points...
 - MIDI integration : MIDI file import with partial XG/GS support, MIDI keyboard support
@@ -43,8 +43,9 @@ For the release I modified slightly the SFML library to support file drop, get a
 
 # Thanks
 
-- Masami Komuro (demo song and some FM sounds)
-- Klairzaki Fil-Xter (quality testing)
+- Masami Komuro (some FM sounds and the 'sandtracking' song used as demo in versions before 1.4)
+- Klairzaki Fil-Xter (ideas & quality testing)
+- Isaac Zuniga (ideas & quality testing)
 - Laurent Gomila & contributors ([SFML lib](https://www.sfml-dev.org/))
 - Guillaume Vareille ([tinyfiledialogs lib](https://sourceforge.net/projects/tinyfiledialogs/))
 - Brodie Thiesfield ([SimpleIni lib](https://github.com/brofield/simpleini))
