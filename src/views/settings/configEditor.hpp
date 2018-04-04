@@ -18,7 +18,7 @@ extern CSimpleIniA ini_config, ini_theme, ini_gmlist, ini_keyboards;
 
 class ConfigEditor : public State{
 	DataSlider buffer;
-	Checkbox openLastSong;
+	Checkbox openLastSong, wasapiExclusive;
 
 	string lastRunVersion;
 	

@@ -415,6 +415,24 @@ void Popup::handleEvents()
 						}
 						else if (i == 5 || i==6)
 						{
+							if (i == 5)
+							{
+								checkboxes[4].checked = 0;
+								checkboxes[0].checked = 1;
+								checkboxes[1].checked = 0;
+								checkboxes[3].checked = 0;
+								checkboxes[0].checked = 0;
+
+							}
+							else
+							{
+								checkboxes[4].checked = 1;
+								checkboxes[0].checked = 0;
+								checkboxes[1].checked = 0;
+								checkboxes[3].checked = 0;
+								checkboxes[0].checked = 0;
+
+							}
 							updateBitDepthDescription();
 						}
 						/* FLAC compression level */

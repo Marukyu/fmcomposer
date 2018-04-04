@@ -621,6 +621,7 @@ void SongEditor::updateScrollbar()
 	patternHeightView = (int)round(windowHeight - 169) / ROW_HEIGHT;
 	halfPatternHeightView = (int)round((windowHeight - 169)*0.33) / ROW_HEIGHT;
 	patSlider.setScrollableContent((fm_getPatternSize(fm, fm->order) + 6)*ROW_HEIGHT + (windowHeight - 169) / 2, windowHeight - 169);
+
 	patHSlider.setScrollableContent(CH_WIDTH*FM_ch, windowWidth - 231);
 	patSize.setValue(fm_getPatternSize(fm, fm->order));
 	if (selectedRow > fm_getPatternSize(fm, fm->order) - 1)

@@ -8,9 +8,10 @@ class Checkbox{
 	sf::RectangleShape bg;
 	sf::Text title;
 	sf::Sprite v;
-
+	
 	public:
 	int checked;
+	bool visible;
 	Checkbox(int x, int y, std::string title);
 	void draw();
 	int clicked();

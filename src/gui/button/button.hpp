@@ -23,6 +23,7 @@ class Button{
 	void setText(std::wstring text);
 	bool hover();
 	void setPosition(int x, int y);
+	void construct(int x, int y, int width = -1, int padding = 0);
 
 };
 

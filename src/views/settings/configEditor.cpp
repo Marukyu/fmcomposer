@@ -28,7 +28,7 @@ diviseurText("rows", font, charSize),
 rowHighlightText("Highlight pattern rows every", font, charSize),
 rowHighlightText2("", font, charSize),
 rowHighlight(210, 590, 8, 1, "", 4, 40),
-soundDevicesList(420, 100, 10, 320),
+soundDevicesList(420, 100, 10, 360),
 soundDeviceText("Sound device", font, charSize),
 patternSize(14, 380, 256, 1, "Pattern size", 8, 200),
 samplerate(420, 280, 5, 0, "Sample Rate (hz)", 3, 170),
@@ -51,7 +51,8 @@ startup("At startup", font, charSize),
 keyPreset("Presets :", font, charSize),
 defaultVolume(14, 410, 99, 0, "Song volume", 10),
 display("Display", font, charSize),
-directXdevicesCount(0)
+directXdevicesCount(0),
+wasapiExclusive(420, 325, "Exclusive mode")
 {
 	startup.setPosition(14, 480);
 	display.setPosition(14, 560);
@@ -70,6 +71,8 @@ directXdevicesCount(0)
 	hostnames[12] = "JACK";
 	hostnames[13] = "WASAPI";
 	hostnames[14] = "AudioScienceHPI";
+
+	wasapiExclusive.visible=false;
 
 
 	midiInText.setPosition(Vector2f(14, 80));
@@ -93,6 +96,7 @@ directXdevicesCount(0)
 	sidebar->defNoteVol.setValue(atoi(ini_config.GetValue("config", "defaultNoteVolume", "70")));
 	sidebar->editingStep.setValue(atoi(ini_config.GetValue("config", "editingStep", "0")));
 
+	wasapiExclusive.checked = atoi(ini_config.GetValue("config", "wasapiExclusive", "0"));
 
 	diviseur.setValue(atoi(ini_config.GetValue("config", "rowsPerQuarterNote", "8")));
 	previewReverb.setValue(atoi(ini_config.GetValue("config", "notePreviewReverb", "14")));
@@ -282,11 +286,26 @@ void ConfigEditor::draw()
 
 	subquantize.draw();
 	openLastSong.draw();
+	wasapiExclusive.draw();
 }
 
 #include "pa_win_wasapi.h"
-
+#include <locale>
+#include <codecvt>
 static const string hostnames[15];
+
+
+string utf8_to_string(const char *utf8str, const locale& loc)
+{
+    // UTF-8 to wstring
+    wstring_convert<codecvt_utf8<wchar_t>> wconv;
+    wstring wstr = wconv.from_bytes(utf8str);
+    // wstring to string
+    vector<char> buf(wstr.size());
+    use_facet<ctype<wchar_t>>(loc).narrow(wstr.data(), wstr.data() + wstr.size(), '?', buf.data());
+    return string(buf.data(), buf.size());
+}
+
 
 void ConfigEditor::refresh()
 {
@@ -329,7 +348,7 @@ void ConfigEditor::refresh()
 
 		if (p->maxOutputChannels>0)
 		{
-			soundDevicesList.add(string(hostnames[phost->type]) + " " + string(p->name));
+			soundDevicesList.add(string(hostnames[phost->type]) + " " + utf8_to_string(p->name, locale(".1252")));
 
 			
 
@@ -424,6 +443,11 @@ void ConfigEditor::update()
 	patternSize.update();
 	openLastSong.clicked();
 	subquantize.clicked();
+
+	if (wasapiExclusive.clicked())
+	{
+		selectSoundDevice(soundDeviceIds[soundDevicesList.value], sampleRates[samplerate.value], latency.value, true);
+	}
 }
 
 
@@ -449,6 +473,7 @@ void ConfigEditor::save()
 	ini_config.SetValue("config", "theme", themeFile.text.getString().toAnsiString().c_str());
 	ini_config.SetValue("config", "lastSongFolder", songDir.c_str());
 	ini_config.SetValue("config", "lastInstrumentFolder", instrDir.c_str());
+	ini_config.SetValue("config", "wasapiExclusive",std::to_string( (int)wasapiExclusive.checked).c_str());
 	ini_config.SetValue("config", "firstStart", "0");
 	ini_config.SetValue("recentSongs", "max", std::to_string(maxRecentSongCount).c_str());
 

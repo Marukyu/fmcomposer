@@ -23,42 +23,46 @@ int ConfigEditor::selectSoundDevice(int soundDeviceId, int _samplerate, int _lat
 	}
 	int playing = fm->playing;
 
-
+	PaStreamParameters newOut;
 	
-	out.device = soundDeviceId;
-	out.channelCount = 2;
-	out.sampleFormat = paInt16;
-	out.suggestedLatency = 0.001*_latency;
+	newOut.device = soundDeviceId;
+	newOut.channelCount = 2;
+	newOut.sampleFormat = paInt16;
+	newOut.suggestedLatency = 0.001*_latency;
 
 	const PaDeviceInfo* p = Pa_GetDeviceInfo(soundDeviceId);
 	const PaHostApiInfo *phost = Pa_GetHostApiInfo(p->hostApi);
 	PaWasapiStreamInfo wasapi_p;
 	PaWinDirectSoundStreamInfo dsound_p;
 
-	if (phost->type == paWASAPI) {
+
+	wasapiExclusive.visible = (phost->type == paWASAPI);
+
+	if (phost->type == paWASAPI && wasapiExclusive.checked)
+	{
 		wasapi_p.flags= paWinWasapiExclusive;
 		wasapi_p.version=1;
 		wasapi_p.hostApiType = paWASAPI;
 		wasapi_p.size = sizeof(PaWasapiStreamInfo);
 
-		out.hostApiSpecificStreamInfo = &wasapi_p;
+		newOut.hostApiSpecificStreamInfo = &wasapi_p;
 	}
 	/* DirectSound wants power of two latencies, and doesn't like it < 32 */
 	else if (phost->type == paDirectSound) {
-		out.hostApiSpecificStreamInfo = 0;
-		out.suggestedLatency = 0.001*max(32,nearestPow2(_latency));
+		newOut.hostApiSpecificStreamInfo = 0;
+		newOut.suggestedLatency = 0.001*max(32,nearestPow2(_latency));
 	}
 	else
 	{
-		out.hostApiSpecificStreamInfo = 0;
+		newOut.hostApiSpecificStreamInfo = 0;
 	}
 
 
 
 
-	PaError err = Pa_IsFormatSupported(NULL, &out, _samplerate);
+	PaError err = Pa_IsFormatSupported(NULL, &newOut, _samplerate);
 
-	if (err != paFormatIsSupported)
+	if (err != paFormatIsSupported || phost->type == paWASAPI && _samplerate != (int)round(p->defaultSampleRate))
 	{
 		sampleRateError.setString("Unsupported !");
 		if (approvedSampleRate == -1)
@@ -77,6 +81,7 @@ int ConfigEditor::selectSoundDevice(int soundDeviceId, int _samplerate, int _lat
 
 		if (force || soundDeviceId != approvedDeviceId || _samplerate != approvedSampleRate || _latency != currentLatency || sampleRateError.getString() != "")
 		{
+
 			sampleRateError.setString("");
 			song_stop();
 			Pa_StopStream(stream);
@@ -84,6 +89,7 @@ int ConfigEditor::selectSoundDevice(int soundDeviceId, int _samplerate, int _lat
 
 			PaError err;
 
+			out = newOut;
 
 			if ((err = Pa_OpenStream(&stream, NULL, &out, _samplerate, 0, 0, (PaStreamCallback*)callbackFunc, fm)) != paNoError)
 			{

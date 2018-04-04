@@ -3,7 +3,7 @@
  ,-/-,   / / /    /   __ ______  _   __ _   _  __ 
 (_/     / ' (_   (__/(_)/ / / <_/_)_(_)/_)_</_/ (_
                                / 
-                              '  v1.5 (2018-04-02)
+                              '  v1.5 (2018-04-04)
 
      by Stéphane Damo -- http://fmcomposer.org
 
@@ -47,13 +47,13 @@ Thanks to Masami Komuro, Klairzaki Fil-Xter and Isaac Zuniga for their contribut
 
 *** Changelog ***
 
-v1.5 (2018-04-02)
+v1.5 (2018-04-04)
 	- [Feature] Export bit depth choice for WAVE and FLAC exports
 	- [Feature] Actions done through the right click menu in patterns are now undoable
 	- [Feature] DirectSound devices are now shown in the available sound devices
-	- [Fix] Crash on song creation if default instruments are not found
+	- [Fix] Can't add instruments to a new song if the default one wasn't found
 	- [Fix] Crash when 'Remove unused' was clicked if the song had 1 instrument
-
+	- [Fix] Messing with sound devices could crash under some circumstances
 
 v1.4 (2018-03-03)
 	- [Feature] FLAC export

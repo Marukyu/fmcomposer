@@ -7,6 +7,7 @@ x(_x),y(_y),size(_size), vmax(_max), step(_step), vmin(_min), mini(_mini), value
 
 	bar.setPosition(x, y);
 	setSize(_size);
+	update();
 }
 
 void Slider::draw()
@@ -107,5 +108,5 @@ void Slider::setScrollableContent(int content, int bounds)
 		cursor.setSize(Vector2f(content <= bounds ? 0 : size*((float)bounds / content), bar.getSize().y));
 	else
 		cursor.setSize(Vector2f(bar.getSize().x, content <= bounds ? 0 : size*((float)bounds / content)));
-
+	setValue(value);
 }

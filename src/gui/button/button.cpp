@@ -3,7 +3,7 @@
 
 Button::Button() {}
 
-Button::Button(int _x, int _y, string _text, int _width, int _padding) : text(_text, font, charSize), selected(false), click(false), bg2(Quads, 4), textYpadding(0)
+void Button::construct(int _x, int _y, int _width, int _padding)
 {
 	x = _x;
 	y = _y;
@@ -22,31 +22,19 @@ Button::Button(int _x, int _y, string _text, int _width, int _padding) : text(_t
 		h = 19 + padding * 2;
 	}
 
+	hover();
 	hovered = 0;
 	updatePosition();
 }
 
+Button::Button(int _x, int _y, string _text, int _width, int _padding) : text(_text, font, charSize), selected(false), click(false), bg2(Quads, 4), textYpadding(0)
+{
+	construct( _x, _y, _width, _padding);
+}
+
 Button::Button(int _x, int _y, wstring _text, int _width, int _padding,int fontSize) : text(_text, font_symbols, fontSize), selected(false), click(false), bg2(Quads, 4), textYpadding(2)
 {
-	x = _x;
-	y = _y;
-	padding = _padding;
-	width = _width;
-
-	// manual or automatic width
-	if (width != -1)
-	{
-		w = width + 4 + padding * 2;
-		h = 19 + padding * 2;
-	}
-	else
-	{
-		w = text.getGlobalBounds().width + 4 + padding * 2;
-		h = 19 + padding * 2;
-	}
-
-	hovered = 0;
-	updatePosition();
+	construct( _x, _y, _width, _padding);
 }
 
 void Button::draw()
