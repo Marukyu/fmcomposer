@@ -421,7 +421,7 @@ void Popup::handleEvents()
 								checkboxes[0].checked = 1;
 								checkboxes[1].checked = 0;
 								checkboxes[3].checked = 0;
-								checkboxes[0].checked = 0;
+								checkboxes[2].checked = 0;
 
 							}
 							else
@@ -430,7 +430,7 @@ void Popup::handleEvents()
 								checkboxes[0].checked = 0;
 								checkboxes[1].checked = 0;
 								checkboxes[3].checked = 0;
-								checkboxes[0].checked = 0;
+								checkboxes[2].checked = 0;
 
 							}
 							updateBitDepthDescription();
@@ -442,7 +442,7 @@ void Popup::handleEvents()
 							checkboxes[0].checked = 0;
 							checkboxes[1].checked = 0;
 							checkboxes[3].checked = 0;
-							checkboxes[0].checked = 0;
+							checkboxes[2].checked = 0;
 						}
 						break;
 
