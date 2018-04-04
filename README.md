@@ -13,6 +13,12 @@ Released with 150+ FM instruments and drums, ranging from synth to acoustic soun
 - Wave, MP3 and FLAC exports
 - Piano roll view
 
+# Example songs
+See what can be done with FM Composer :
+https://youtu.be/bT__3KI3Lt4
+https://youtu.be/N0PHPe-Iogg
+https://youtu.be/QDqQRyy_xSA
+
 # Why
 Modern world lacks modern trackers. There is very few custom FM engines in the VST market, most of them are emulating old existing hardware.
 This is a attempt to make a good yet minimalistic FM synthesizer, with a very graphical, easy to use interface.
