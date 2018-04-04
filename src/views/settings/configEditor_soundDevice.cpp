@@ -23,12 +23,11 @@ int ConfigEditor::selectSoundDevice(int soundDeviceId, int _samplerate, int _lat
 	}
 	int playing = fm->playing;
 
-	PaStreamParameters newOut;
-	
-	newOut.device = soundDeviceId;
-	newOut.channelCount = 2;
-	newOut.sampleFormat = paInt16;
-	newOut.suggestedLatency = 0.001*_latency;
+	PaStreamParameters nout;
+	nout.device = soundDeviceId;
+	nout.channelCount = 2;
+	nout.sampleFormat = paInt16;
+	nout.suggestedLatency = 0.001*_latency;
 
 	const PaDeviceInfo* p = Pa_GetDeviceInfo(soundDeviceId);
 	const PaHostApiInfo *phost = Pa_GetHostApiInfo(p->hostApi);
@@ -45,22 +44,23 @@ int ConfigEditor::selectSoundDevice(int soundDeviceId, int _samplerate, int _lat
 		wasapi_p.hostApiType = paWASAPI;
 		wasapi_p.size = sizeof(PaWasapiStreamInfo);
 
-		newOut.hostApiSpecificStreamInfo = &wasapi_p;
+		nout.hostApiSpecificStreamInfo = &wasapi_p;
 	}
 	/* DirectSound wants power of two latencies, and doesn't like it < 32 */
 	else if (phost->type == paDirectSound) {
-		newOut.hostApiSpecificStreamInfo = 0;
-		newOut.suggestedLatency = 0.001*max(32,nearestPow2(_latency));
+
+		nout.hostApiSpecificStreamInfo = 0;
+		nout.suggestedLatency = 0.001*max(32,nearestPow2(_latency));
 	}
 	else
 	{
-		newOut.hostApiSpecificStreamInfo = 0;
+		nout.hostApiSpecificStreamInfo = 0;
 	}
 
 
 
 
-	PaError err = Pa_IsFormatSupported(NULL, &newOut, _samplerate);
+	PaError err = Pa_IsFormatSupported(NULL, &nout, _samplerate);
 
 	if (err != paFormatIsSupported || phost->type == paWASAPI && _samplerate != (int)round(p->defaultSampleRate))
 	{
@@ -84,12 +84,12 @@ int ConfigEditor::selectSoundDevice(int soundDeviceId, int _samplerate, int _lat
 
 			sampleRateError.setString("");
 			song_stop();
-			Pa_StopStream(stream);
+			Pa_AbortStream(stream);
 			Pa_CloseStream(stream);
 
 			PaError err;
 
-			out = newOut;
+			out=nout;
 
 			if ((err = Pa_OpenStream(&stream, NULL, &out, _samplerate, 0, 0, (PaStreamCallback*)callbackFunc, fm)) != paNoError)
 			{

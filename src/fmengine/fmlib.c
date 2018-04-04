@@ -352,7 +352,6 @@ void _fm_render(fmsynth* f, float* buffer, unsigned length)
 	unsigned b = 0;
 	while (b < length)
 	{
-
 		// player
 		if (f->playing)
 		{
@@ -1004,6 +1003,8 @@ void _fm_render(fmsynth* f, float* buffer, unsigned length)
 			buffer[b] = (renduL + outL22) * f->globalVolume;
 			buffer[b + 1] =(renduR + outR22) * f->globalVolume;
 			b += 2;
+			if (b>=length)
+				return;
 		}
 	}
 }
@@ -1211,6 +1212,7 @@ void fm_buildStateTable(fmsynth* f, unsigned orderStart, unsigned orderEnd, unsi
 
 void fm_render(fmsynth* f, void* buffer, unsigned length, unsigned type)
 {
+
 	float *rendered = malloc(4*length); // float = 4bytes
 
 	if (!rendered)
