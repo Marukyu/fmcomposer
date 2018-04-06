@@ -451,7 +451,7 @@ void Popup::show(int _type, int param)
 
 			checkboxes[0].checked = 1;
 
-			sliders.push_back(DataSlider(250, 264, 10, 0, "Quality (0=best, 9=worst)", 0, 200));
+			sliders.push_back(DataSlider(250, 264, 15, 0, "", 0, 200));
 
 			shapes.push_back(RectangleShape(Vector2f(580, 1)));
 			shapes[0].setPosition(20, 80);
