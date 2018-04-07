@@ -192,17 +192,20 @@ int flacExportFunc(){
 int mp3ExportFunc(){
 	short out[16384];
 	unsigned char mp3_buffer[16384];
-	FILE *fp = fopen(exportFileName.c_str(), "wb");
+	FILE *fp = fopen(exportFileName.c_str(), "wb+");
 	if (!fp){
 		return 0;
 	}
 	lame_t lame = lame_init();
     lame_set_in_samplerate(lame, fm->sampleRate);
 
+	// because we write it ourself, as someone suggested
+	lame_set_write_id3tag_automatic(lame, 0);
 
 	if (export_param<100){
 		lame_set_VBR(lame, vbr_rh);
 		lame_set_VBR_q(lame, export_param);
+		lame_set_bWriteVbrTag(lame,1);
 	}
 	else{
 		lame_set_VBR(lame, vbr_off);
@@ -213,12 +216,35 @@ int mp3ExportFunc(){
 	int writtenBytes;
 
 	exportStart();
+
+	// from https://sourceforge.net/p/lame/mailman/message/18557283/
+	int imp3=lame_get_id3v2_tag(lame, mp3_buffer, sizeof(mp3_buffer));
+	fwrite(&mp3_buffer[0], 1, imp3, fp);
+	int audio_pos=ftell(fp);
+	//
+
 	while(fm->playing && exporting && fm->order<=exportToPattern){
 		fm_render(fm, &out[0],16384, FM_RENDER_16);
 		writtenBytes = lame_encode_buffer_interleaved(lame, out, 16384/2, mp3_buffer, 16384);
 		fwrite(&mp3_buffer[0],writtenBytes,1,fp);
 		popup->sliders[0].setValue(((float)fm->order/fm->patternCount)*100);
 	}
+
+	writtenBytes = lame_encode_flush(lame,mp3_buffer, 16384);
+
+	if (writtenBytes > 0)
+	{
+
+		fwrite(&mp3_buffer[0],writtenBytes,1,fp);
+	}
+
+	// write the xing tag so vbr files display correct length
+	imp3=lame_get_id3v1_tag(lame, mp3_buffer, sizeof(mp3_buffer));
+	fwrite(&mp3_buffer[0], 1, imp3, fp);
+
+	imp3=lame_get_lametag_frame(lame, mp3_buffer, sizeof(mp3_buffer));
+	fseek(fp,audio_pos,SEEK_SET); // remember beginning of audio data
+	fwrite(&mp3_buffer[0], 1, imp3, fp);
 
 	lame_close(lame);
 	fclose(fp);
