@@ -1282,11 +1282,14 @@ void fm_render(fmsynth* f, void* buffer, unsigned length, unsigned type)
 				{
 					int val = clamp(rendered[i]*256, -8388608,8388607);
 
+					// negative 24bit values should stay negative 32 bit values ! (negative has the top byte to 255)
+					buf_24[i*4+3] = (val  < 0) ? 255 : 0;
+					
 					buf_24[i*4+2] = (unsigned char)((val&0x00ff0000) >> 16);
 					buf_24[i*4+1] = (unsigned char)((val&0x00ff00)>>8);
 					buf_24[i*4] = (unsigned char)(val & 0xff);
-					buf_24[i*4+3] = 0;
-
+					
+					
 				}
 			}
 			else

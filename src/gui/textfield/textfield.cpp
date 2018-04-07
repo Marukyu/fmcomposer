@@ -100,6 +100,42 @@ void TextInput::newLine()
 	
 }
 
+void TextInput::createNewLine()
+{
+	if (multiline && charCountLine.size() <= lineMax)
+	{
+		selection.setSize(Vector2f(0, 19));
+		cutSelection();
+		if (text.getString()[selectionBegin] != '\n')
+		{
+								
+
+			int cpt = selectionBegin;
+			while (cpt < text.getString().toAnsiString().size() && text.getString()[cpt] != '\n')
+			{
+				cpt++;
+			}
+			if (text.getString()[cpt] == '\n')
+				cpt++;
+
+			cpt -= selectionBegin;
+								
+			charCountLine[currentLine] -= cpt;
+			charCountLine[currentLine]=max(0,charCountLine[currentLine]+1);
+			currentLine++;
+			charCountLine.insert(charCountLine.begin() + currentLine, cpt);
+			text.setString(string(text.getString()).insert(selectionBegin, "\n"));
+			selectionBegin++;
+		}
+		else
+		{
+			newLine();
+		}
+		pos2++;
+		recalcCursorPos();
+	}
+}
+
 
 bool TextInput::modified()
 {
@@ -222,12 +258,27 @@ bool TextInput::modified()
 			{
 				if (text.getString()[selectionBegin] == '\n' && charCountLine.size()>1)
 				{
+					int oldCount=charCountLine[currentLine];
 					charCountLine[currentLine] += charCountLine[currentLine + 1];
+					int oldCount2 = charCountLine[currentLine + 1];
 					charCountLine.erase(charCountLine.begin() + currentLine + 1);
+					charCountLine[currentLine]--;
+					text.setString(string(text.getString()).erase(selectionBegin, 1));
+
+					if (text.getLocalBounds().width > bg.getSize().x-8)
+					{
+						text.setString(string(text.getString()).insert(selectionBegin, string(1, '\n')));
+						charCountLine[currentLine]=oldCount;
+						charCountLine.insert(charCountLine.begin()+currentLine+1,oldCount2);
+					}
 
 				}
-				charCountLine[currentLine]--;
-				text.setString(string(text.getString()).erase(selectionBegin, 1));
+				else
+				{
+					charCountLine[currentLine]--;
+					text.setString(string(text.getString()).erase(selectionBegin, 1));
+				}
+				
 			}
 			else
 			{
@@ -289,38 +340,7 @@ bool TextInput::modified()
 				{ // don't allow tab
 					if (textEntered[textEnteredCount] == 13)
 					{ // enter
-						if (multiline && charCountLine.size() <= lineMax)
-						{
-							selection.setSize(Vector2f(0, 19));
-							cutSelection();
-							if (text.getString()[selectionBegin] != '\n')
-							{
-								
-
-								int cpt = selectionBegin;
-								while (cpt < text.getString().toAnsiString().size() && text.getString()[cpt] != '\n')
-								{
-									cpt++;
-								}
-								if (text.getString()[cpt] == '\n')
-									cpt++;
-
-								cpt -= selectionBegin;
-								
-								charCountLine[currentLine] -= cpt;
-								charCountLine[currentLine]=max(0,charCountLine[currentLine]+1);
-								currentLine++;
-								charCountLine.insert(charCountLine.begin() + currentLine, cpt);
-								text.setString(string(text.getString()).insert(selectionBegin, "\n"));
-								selectionBegin++;
-							}
-							else
-							{
-								newLine();
-							}
-							pos2++;
-							recalcCursorPos();
-						}
+						createNewLine();
 					}
 					else if (textEntered[textEnteredCount] != 0)
 					{ // input characters
@@ -331,8 +351,7 @@ bool TextInput::modified()
 
 							if (text.findCharacterPos(selectionBegin).x >= bg.getPosition().x + bg.getSize().x - 8 && charCountLine.size()<=lineMax)
 							{
-								newLine();
-							
+								createNewLine();
 							}
 							
 							int start=selectionBegin;

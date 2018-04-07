@@ -15,6 +15,7 @@ class TextInput{
 	int getSelectionStart();
 	void newLine();
 	void removeLine();
+	void createNewLine();
 	public:
 	float cursorBlink;
 	sf::RectangleShape bg, cursor, selection;

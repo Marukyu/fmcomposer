@@ -113,8 +113,6 @@ static FLAC__StreamEncoderWriteStatus stream_encoder_write_callback_(const FLAC_
 	FILE *f = (FILE*)client_data;
 	(void)encoder, (void)samples, (void)current_frame;
 
-
-
 	if(fwrite(buffer, 1, bytes, f) != bytes)
 		return FLAC__STREAM_ENCODER_WRITE_STATUS_FATAL_ERROR;
 	else
