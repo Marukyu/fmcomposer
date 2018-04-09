@@ -166,32 +166,8 @@ void updateViews(int width, int height)
 
 	int oldX = window->getPosition().x;
 	int oldY = window->getPosition().y;
-	/* Small window with resized sf::View needs anti-aliasing to look good */
-	if (width < 1300 * dpiRatio || height < 700 * dpiRatio)
-	{
-		if (!windowTooSmall){
-			windowTooSmall = true;
-			sf::ContextSettings s;
-			s.antialiasingLevel=16;
-			window->create(VideoMode(width, height), windowTitle, 7U, s);
-			window->setVerticalSyncEnabled(true);
-			window->setPosition(Vector2i(oldX, oldY));
-		}
-	}
-	/* Big window (>1366*768) doesn't need AA, we prefer a sharp rendering */
-	else
-	{
-		if (windowTooSmall){
-			windowTooSmall = false;
-			sf::ContextSettings s;
-			s.antialiasingLevel=0;
-			window->close();
-			delete window;
-			window = new RenderWindow(VideoMode(width, height), windowTitle, 7U, s);
-			window->setVerticalSyncEnabled(true);
-			window->setPosition(Vector2i(oldX, oldY));
-		}
-	}
+
+
 
 	/* Scaling for high DPI monitors */
 	if (windowDpi != 96)

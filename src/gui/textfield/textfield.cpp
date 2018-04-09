@@ -265,7 +265,7 @@ bool TextInput::modified()
 					charCountLine[currentLine]--;
 					text.setString(string(text.getString()).erase(selectionBegin, 1));
 
-					if (text.getLocalBounds().width > bg.getSize().x-8)
+					if (text.getLocalBounds().width > bg.getSize().x-7)
 					{
 						text.setString(string(text.getString()).insert(selectionBegin, string(1, '\n')));
 						charCountLine[currentLine]=oldCount;

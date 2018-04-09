@@ -83,9 +83,11 @@ void gui_initialize()
 	cursors[3].loadFromSystem(sf::Cursor::SizeAll);
 	cursors[4].loadFromSystem(sf::Cursor::SizeHorizontal);
 
+	sf::ContextSettings s;
 
+	s.antialiasingLevel=16;
 
-	window = new RenderWindow(VideoMode(WindowWidth, WindowHeight), "FM Composer - New song");
+	window = new RenderWindow(VideoMode(WindowWidth, WindowHeight), "FM Composer - New song",7U,s);
 
 	
 #ifdef _WIN32
