@@ -30,6 +30,7 @@ void setEffectList(List* list)
 
 void Popup::show(int _type, int param)
 {
+	// if popup opened through another popup, call close() before to save the popup state
 	if (visible)
 	{
 		close();
@@ -474,6 +475,9 @@ void Popup::show(int _type, int param)
 
 			buttons.push_back(Button(w - 90, h - 50, "Export", -1, 8));
 			buttons.push_back(Button(50, h - 50, "Cancel", -1, 8));
+
+			checkboxes.push_back(Checkbox(400, 58, "Multi-track export"));
+
 			break;
 		case POPUP_TEMPERAMENT:
 			setSize(320, 400);
@@ -558,6 +562,42 @@ void Popup::show(int _type, int param)
 			texts.push_back(Text("This file has been created with a newer version of FM Composer.\n\nPlease download the latest version and try again.", font, charSize));
 			texts[0].setColor(colors[BLOCKTEXT]);
 			texts[0].setPosition(20, 20);
+			break;
+		case POPUP_MULTITRACKEXPORT:
+			setSize(600, 400);
+			texts.push_back(Text("Track", font, charSize));
+			texts[0].setColor(colors[TITLE]);
+			texts[0].setPosition(10, 45);
+
+			texts.push_back(Text("Channels to mix into", font, charSize));
+			texts[1].setColor(colors[TITLE]);
+			texts[1].setPosition(300, 29);
+
+			texts.push_back(Text("(hold CTRL/SHIFT to select multiple)", font, charSize));
+			texts[2].setColor(colors[BLOCKTEXT]);
+			texts[2].setPosition(300, 45);
+
+			lists.push_back(List(10, 70, 20, 200,4,true));
+
+
+			lists.push_back(List(300, 70, 20, 200,4,true));
+
+			lists[0].add("#1");
+			lists[0].add("#2");
+			lists[0].add("#3");
+			lists[0].add("#4");
+
+			for (unsigned i = 0; i < FM_ch; i++)
+			{
+				lists[1].add("Channel "+std::to_string(i+1));
+			}
+
+			buttons.push_back(Button(50,250, "Add", -1, 8));
+			buttons.push_back(Button(100,250, "Remove", -1, 8));
+
+			buttons.push_back(Button(w - 50, h - 50, "OK", -1, 8));
+			buttons.push_back(Button(30, h - 50, "Cancel", -1, 8));
+
 			break;
 
 	}

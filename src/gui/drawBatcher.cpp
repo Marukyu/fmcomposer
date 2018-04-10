@@ -191,8 +191,20 @@ void DrawBatcher::addItem(List *l)
 	if (l->pressed)
 		addItem(&l->s2);
 
-	if (l->selectionVisible())
-		addItem(&l->s);
+	if (l->selectionVisible()) {
+		if (l->multiple)
+		{
+			for (unsigned i = 0; i < l->selecteds.size(); i++)
+			{
+				l->s.setPosition(l->x, l->y + (i - l->scroll) * 17);
+				addItem(&l->s);
+			}
+		}
+		else
+			addItem(&l->s);
+
+	}
+
 
 	for (unsigned i = l->scroll; i<min<int>(l->scroll + l->maxrows, l->text.size()); ++i)
 	{

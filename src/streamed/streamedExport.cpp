@@ -21,6 +21,7 @@ int exportFromPattern;
 int exportToPattern;
 int exportNbLoops;
 int exportBitDepth;
+std::vector< std::vector< int> > multitrackAssoc;
 
 const int mp3_bitrates[16] = {8, 16, 24, 32, 40, 48, 64, 80, 96, 112, 128, 160, 192, 224, 256, 320};
 

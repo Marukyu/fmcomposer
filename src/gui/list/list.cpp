@@ -3,7 +3,7 @@
 extern void *focusedElement;
 
 
-List::List(int _x, int _y, int _maxrows, int width, int _paddingleft) : x(_x), y(_y),
+List::List(int _x, int _y, int _maxrows, int width, int _paddingleft, bool _multiple) : x(_x), y(_y),multiple(_multiple),
 paddingleft(_paddingleft), maxrows(_maxrows), squarePing(Vector2f(8, 8)), s(Vector2f(width, 17)), bg(Vector2f(width, 17)),
 scroll(0), value(0), selected(0), pressed(0), hovered(0), scrollbar(100, 100, 0, 0.1, _x + width - 8, _y, 17 * _maxrows, true), s2(Vector2f(width, 17))
 {
@@ -38,6 +38,7 @@ void List::updateSize()
 {
 	bg.setSize(Vector2f(bg.getSize().x, 17 * maxrows));
 	pings.resize(text.size());
+	selecteds.resize(text.size());
 	scrollbar.setScrollableContent(text.size(), maxrows);
 }
 
@@ -200,7 +201,34 @@ void List::draw()
 void List::select(int index, bool updateScroll)
 {
 
+	
+	if (keyboard.shift)
+	{
+		for (unsigned i = value; i <= index; i++)
+		{
+			selecteds[i]=true;
+		}
+		for (unsigned i = index; i <= value; i++)
+		{
+			selecteds[i]=true;
+		}
+	}
+
 	value = clamp(index, 0, (int)text.size() - 1);
+
+
+	if (keyboard.ctrl)
+	{
+		selecteds[value]=!selecteds[value];
+	}
+
+	if (!keyboard.shift && !keyboard.ctrl)
+	{
+		for (unsigned i = 0; i < selecteds.size(); i++)
+		{
+			selecteds[i]=false;
+		}
+	}
 
 	if (updateScroll)
 	{
@@ -211,14 +239,31 @@ void List::select(int index, bool updateScroll)
 	}
 
 	s.setPosition(x, y + (value - scroll) * 17);
+
 	for (int i = 0; i < text.size(); i++)
 	{
 		text[i].setColor(colors[LISTITEMTEXT]);
+		if (multiple && selecteds[i])
+			text[i].setColor(colors[LISTITEMTEXTFOCUS]);
 	}
+
 	if (text.size()>0)
 		text[value].setColor(colors[LISTITEMTEXTFOCUS]);
 
-
+	if (multiple)
+	{
+		int count=0;
+		for (unsigned i = value; i <= index; i++)
+		{
+			if (selecteds[i])
+			{
+				count++;
+				
+			}
+		}
+		selecteds_s.resize(count);
+	}
+	
 }
 
 void List::remove(int index)
