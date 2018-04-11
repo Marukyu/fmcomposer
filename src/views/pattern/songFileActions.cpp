@@ -126,6 +126,10 @@ void song_load(const char* filename, bool fromAutoReload)
 		setWindowTitle(filename);
 
 		songModified(0);
+
+		if (popup->savedState.size() >= POPUP_STREAMEDEXPORT && popup->savedState[POPUP_STREAMEDEXPORT].size()>=2){
+			popup->savedState[POPUP_STREAMEDEXPORT][2] = fm->patternCount;
+		}
 	}
 	else
 	{

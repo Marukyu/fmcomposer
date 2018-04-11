@@ -39,9 +39,10 @@ class Popup{
 	Text title;
 	float delay;
 	int x, y, moving, deltaX, deltaY;
-	std::vector<std::vector<int>> savedState;
+	
 
 	public:
+	std::vector<std::vector<int>> savedState;
 	int type;
 	View view;
 	int visible, w, h;
