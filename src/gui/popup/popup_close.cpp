@@ -40,14 +40,15 @@ void Popup::buttonActions(int buttonID)
 					updateMultitrackExportList();
 					break;
 				case 1:
-					
-					export.multitrackAssoc.erase(export.multitrackAssoc.begin()+lists[0].value);
-					lists[0].remove(lists[0].value);
-					for (unsigned i = 0; i < lists[0].text.size(); i++)
-					{
-						lists[0].text[i].setString("#"+std::to_string(i+1));
+					if (export.multitrackAssoc.size() > 1) {
+						export.multitrackAssoc.erase(export.multitrackAssoc.begin()+lists[0].value);
+						lists[0].remove(lists[0].value);
+						for (unsigned i = 0; i < lists[0].text.size(); i++)
+						{
+							lists[0].text[i].setString("#"+std::to_string(i+1));
+						}
+						updateMultitrackExportList();
 					}
-					updateMultitrackExportList();
 					break;
 				case 2:
 					for (unsigned i = 0; i < FM_ch; i++)

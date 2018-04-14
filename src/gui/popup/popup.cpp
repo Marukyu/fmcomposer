@@ -257,7 +257,6 @@ void Popup::handleEvents()
 								if (lists[1].selecteds[i])
 								{
 									export.multitrackAssoc[lists[0].value].push_back(i);
-									printf("save %d into %d\n", i, lists[0].value);
 								}
 							}
 
@@ -611,7 +610,6 @@ void Popup::updateMultitrackExportList()
 	lists[1].unselectAll();
 	for (unsigned i = 0; i < export.multitrackAssoc[lists[0].value].size(); i++)
 	{
-		printf("sel %d\n", export.multitrackAssoc[lists[0].value][i]);
 		lists[1].select(export.multitrackAssoc[lists[0].value][i],true,true);
 	}
 }

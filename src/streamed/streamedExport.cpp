@@ -126,11 +126,6 @@ void exportStart(){
 			fm->ch[i].muted = 1;
 		}
 
-		while (export.multiTrackIter < export.multitrackAssoc.size() && export.multitrackAssoc[export.multiTrackIter].size() == 0)
-		{
-			export.multiTrackIter++;
-		}
-
 		for (unsigned i = 0; i < export.multitrackAssoc[export.multiTrackIter].size(); i++)
 		{
 			if (export.mutedChannels[export.multitrackAssoc[export.multiTrackIter][i]] != 1)

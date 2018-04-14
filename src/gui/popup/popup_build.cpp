@@ -564,37 +564,34 @@ void Popup::show(int _type, int param)
 			texts[0].setPosition(20, 20);
 			break;
 		case POPUP_MULTITRACKEXPORT:
-			setSize(600, 500);
+			setSize(600, 450);
 			title.setString("Multi-track streamed audio export");
-			texts.push_back(Text("Track", font, charSize));
+			texts.push_back(Text("Tracks to export", font, charSize));
 			texts[0].setColor(colors[TITLE]);
-			texts[0].setPosition(10, 45);
+			texts[0].setPosition(10, 25);
 
 			texts.push_back(Text("Channels to mix into", font, charSize));
 			texts[1].setColor(colors[TITLE]);
-			texts[1].setPosition(300, 29);
+			texts[1].setPosition(300, 25);
 
 			texts.push_back(Text("(hold CTRL/SHIFT to select multiple)", font, charSize));
 			texts[2].setColor(colors[BLOCKTEXT]);
 			texts[2].setPosition(300, 45);
 
-			lists.push_back(List(10, 70, 12, 200,4,false));
-
+			lists.push_back(List(10, 50, 12, 200,4,false));
+			lists[0].add("#1");
 
 			lists.push_back(List(300, 70, 20, 200,4,true));
 
-			lists[0].add("#1");
-			lists[0].add("#2");
-			lists[0].add("#3");
-			lists[0].add("#4");
+			
 
 			for (unsigned i = 0; i < FM_ch; i++)
 			{
 				lists[1].add("Channel "+std::to_string(i+1));
 			}
 
-			buttons.push_back(Button(50,300, "Add", -1, 8));
-			buttons.push_back(Button(100,300, "Remove", -1, 8));
+			buttons.push_back(Button(20,290, "Add", -1, 8));
+			buttons.push_back(Button(70,290, "Remove", -1, 8));
 
 			buttons.push_back(Button(w - 50, h - 50, "OK", -1, 8));
 			buttons.push_back(Button(30, h - 50, "Cancel", -1, 8));
@@ -604,6 +601,9 @@ void Popup::show(int _type, int param)
 			{
 				if (export.multitrackAssoc.size() ==0)
 				{
+					lists[0].add("#2");
+					lists[0].add("#3");
+					lists[0].add("#4");
 					export.multitrackAssoc.resize(lists[0].text.size());
 					for (unsigned i = 0; i < export.multitrackAssoc.size(); i++)
 					{
@@ -616,6 +616,14 @@ void Popup::show(int _type, int param)
 					export.multitrackAssoc.resize(lists[0].text.size());
 				}
 			}
+			if (lists[0].text.size() < export.multitrackAssoc.size())
+			{
+				for (unsigned i = lists[0].text.size(); i < export.multitrackAssoc.size(); i++)
+				{
+					lists[0].add("#"+std::to_string(lists[0].text.size()+1));
+				}
+			}
+
 
 			break;
 

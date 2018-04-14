@@ -142,7 +142,7 @@ void ConfigEditor::loadKeyboardMappings(string keyboard)
 	while (pch = strtok(NULL, " ,."))
 	{
 		noteMappings[atoi(pch) + 1] = count;
-		count++; //printf("load %d\n",atoi(pch));
+		count++;
 	}
 
 	free(copy);

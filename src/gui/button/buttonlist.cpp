@@ -67,6 +67,7 @@ void ButtonList::add(string text)
 	buttons.push_back(Button(x + buttons.size() * 24, y, std::to_string(maxId), maxId < 100 ? 19 : 25));
 
 	maxId++;
+	updateButtonPos();
 }
 
 int ButtonList::getElementHovered()
@@ -112,6 +113,7 @@ void ButtonList::erase(int index)
 	buttons.erase(buttons.begin() + index);
 	for (unsigned i = 0; i<buttons.size(); ++i)
 		buttons[i].setPosition(x + i * 24, buttons[i].y);
+	updateButtonPos();
 }
 
 void ButtonList::move(int indexA, int indexB)
@@ -131,6 +133,7 @@ void ButtonList::clear()
 {
 	buttons.clear();
 	maxId = 0;
+
 }
 
 int ButtonList::isElementHovered(int index)
@@ -145,6 +148,7 @@ void ButtonList::insert(int index, string text)
 {
 	buttons.insert(buttons.begin() + index, Button(x + index * 24, y, std::to_string(maxId), maxId < 100 ? 19 : 25));
 	maxId++;
+	updateButtonPos();
 }
 
 void ButtonList::selectAll()

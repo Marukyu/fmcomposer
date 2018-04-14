@@ -12,6 +12,7 @@ int nearestPow2( int aSize ){
 
 int ConfigEditor::selectSoundDevice(int soundDeviceId, int _samplerate, int _latency, bool force)
 {
+
 	soundDeviceId = min(Pa_GetDeviceCount()-1,soundDeviceId);
 	currentSoundDeviceId = soundDeviceId;
 	for (int i = 0; i < soundDevicesList.text.size(); i++)
@@ -37,6 +38,7 @@ int ConfigEditor::selectSoundDevice(int soundDeviceId, int _samplerate, int _lat
 
 	wasapiExclusive.visible = (phost->type == paWASAPI);
 
+	/* Optional exclusive mode for WASAPI (allows very low latency) */
 	if (phost->type == paWASAPI && wasapiExclusive.checked)
 	{
 		wasapi_p.flags= paWinWasapiExclusive;
@@ -83,7 +85,7 @@ int ConfigEditor::selectSoundDevice(int soundDeviceId, int _samplerate, int _lat
 		{
 
 			sampleRateError.setString("");
-			song_stop();
+
 			Pa_AbortStream(stream);
 			Pa_CloseStream(stream);
 
@@ -106,8 +108,6 @@ int ConfigEditor::selectSoundDevice(int soundDeviceId, int _samplerate, int _lat
 
 
 			Pa_StartStream(stream);
-			if (playing)
-				song_play();
 			approvedDeviceId = soundDeviceId;
 			approvedSampleRate = _samplerate;
 			currentLatency = _latency;
@@ -133,7 +133,7 @@ void ConfigEditor::selectBestSoundDevice()
 	if (stricmp(lastRunVersion.c_str(), "1.4") == 0())
 	{
 		
-		soundDeviceId+=directXdevicesCount;printf("AHAH best=%d\n",soundDeviceId );
+		soundDeviceId+=directXdevicesCount;
 	}
 	int sampleRate = atoi(ini_config.GetValue("config", "sampleRate", "-1"));
 	int latency = atoi(ini_config.GetValue("config", "desiredLatency", "-1"));
@@ -156,6 +156,19 @@ void ConfigEditor::selectBestSoundDevice()
 		latency = 1000 * p->defaultHighOutputLatency;
 	}
 
+	/* Open the sound device.. fallback to default one if there is a problem */
+	if (selectSoundDevice(soundDeviceId, sampleRate, latency) < 0)
+	{
+		soundDeviceId = Pa_GetDefaultOutputDevice();
 
-	selectSoundDevice(soundDeviceId, sampleRate, latency);
+		/* No default sound device ? Give up instead of crashing */
+		if (soundDeviceId <0)
+			return;
+
+		const PaDeviceInfo* p = Pa_GetDeviceInfo(soundDeviceId);
+		sampleRate = p->defaultSampleRate;
+		latency = 1000 * p->defaultHighOutputLatency;
+		selectSoundDevice(soundDeviceId, sampleRate, latency);
+
+	}
 }
