@@ -133,7 +133,8 @@ void exportStart(){
 
 		for (unsigned i = 0; i < export.multitrackAssoc[export.multiTrackIter].size(); i++)
 		{
-			fm->ch[export.multitrackAssoc[export.multiTrackIter][i]].muted = 0;
+			if (export.mutedChannels[export.multitrackAssoc[export.multiTrackIter][i]] != 1)
+				fm->ch[export.multitrackAssoc[export.multiTrackIter][i]].muted = 0;
 		}
 	}
 }

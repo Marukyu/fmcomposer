@@ -89,6 +89,12 @@ bool List::clicked(int mouseButton)
 			select(value);
 			return true;
 		}
+
+		if (multiple && keyboard.ctrl && keyboard.a)
+		{
+			selectAll();
+			return true;
+		}
 	}
 
 	if (text.size() > maxrows)
@@ -186,7 +192,7 @@ void List::draw()
 		
 		for (unsigned i = 0; i < selecteds_s.size(); i++)
 		{
-			if ((int)round(selecteds_s[i].getPosition().y)>=y)
+			if ((int)round(selecteds_s[i].getPosition().y)>=y && (int)round(selecteds_s[i].getPosition().y)<y+(int)round(bg.getSize().y))
 				window->draw(selecteds_s[i]);
 		}
 	
@@ -213,6 +219,15 @@ void List::unselectAll()
 	{
 		selecteds[i]=false;
 		text[i].setColor(colors[LISTITEMTEXT]);
+	}
+}
+
+void List::selectAll()
+{
+	for (unsigned i = 0; i < selecteds.size(); i++)
+	{
+		selecteds[i]=true;
+		text[i].setColor(colors[LISTITEMTEXTFOCUS]);
 	}
 }
 

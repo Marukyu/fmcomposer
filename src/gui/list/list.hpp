@@ -25,6 +25,7 @@ class List{
 	bool clicked(int mouseButton = 0);
 	void draw();
 	void unselectAll();
+	void selectAll();
 	void select(int index, bool updateScroll = true, bool hold=false);
 	void remove(int index);
 	void updateSize();

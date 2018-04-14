@@ -117,7 +117,7 @@ void SongEditor::updatePatternLines()
 void SongEditor::draw()
 {
 
-	patternList.select(fm->order);
+	
 
 	static unsigned wasPlaying = 0;
 
@@ -159,6 +159,8 @@ void SongEditor::draw()
 	static unsigned currentPattern = 999;
 	if (currentPattern != fm->order)
 	{
+		patternList.select(fm->order);
+
 		currentPattern = fm->order;
 		for (unsigned ch = 0; ch < FM_ch; ++ch)
 			updateChannelData(ch);
@@ -541,6 +543,8 @@ void SongEditor::reset()
 	selection.moving = 0;
 	selection.bg.setSize(Vector2f(COL_WIDTH, ROW_HEIGHT));
 	updateFromFM();
+	patternList.select(fm->order);
+
 }
 
 

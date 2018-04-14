@@ -25,7 +25,7 @@ void ButtonList::updateButtonPos()
 
 	for (unsigned i = scroll; i < min<int>(buttons.size(), scroll + 46); ++i)
 	{
-
+		buttons[i].hover();
 		buttons[i].selected = (selectedIndex == i);
 		buttons[i].setPosition(xpos - (buttons[scroll].x - buttons[0].x), y);
 		xpos += buttons[i].w + 1;
@@ -45,10 +45,7 @@ void ButtonList::select(int index)
 void ButtonList::draw()
 {
 
-	updateButtonPos();
-
 	
-
 	drawBatcher.initialize();
 	
 	if (selected)

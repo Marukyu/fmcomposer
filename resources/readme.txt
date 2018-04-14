@@ -3,7 +3,7 @@
  ,-/-,   / / /    /   __ ______  _   __ _   _  __ 
 (_/     / ' (_   (__/(_)/ / / <_/_)_(_)/_)_</_/ (_
                                / 
-                              '  v1.5 (2018-04-04)
+                              '  v1.6 (2018-04-14)
 
      by Stéphane Damo -- http://fmcomposer.org
 
@@ -47,9 +47,10 @@ Thanks to Masami Komuro, Klairzaki Fil-Xter and Isaac Zuniga for their contribut
 
 *** Changelog ***
 
-v1.6 (2018-04-10)
-	- [Fix] Rendering is now anti-aliased for non-round DPI screens (eg. 120 DPI)
+v1.6 (2018-04-14)
+	- [Feature] Multi-track export !
 	- [Fix] Glitchy 24-bit FLAC export / Wrong duration on VBR MP3 export
+	- [Fix] Rendering is now anti-aliased for non-round DPI screens (eg. 120 DPI)
 	- [Fix] The textbox had some edge cases that could lead to a crash
 
 v1.5 (2018-04-04)

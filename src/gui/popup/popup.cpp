@@ -1,6 +1,6 @@
 ﻿#include "popup.hpp"
 #include "../../streamed/streamedExport.h"
-
+#include "../drawBatcher.hpp"
 
 Popup *popup;
 
@@ -496,38 +496,47 @@ void Popup::draw()
 			visible = 0;
 	}
 
-	window->draw(shadow);
-	window->draw(bg);
-	for (int i = 0; i < sprites.size(); i++)
-		window->draw(sprites[i]);
+	drawBatcher.initialize();
+	drawBatcher.addItem(&shadow);
+	drawBatcher.addItem(&bg);
+
+
+	
+
+	
 	for (int i = 0; i < texts.size(); i++)
-		window->draw(texts[i]);
+		drawBatcher.addItem(&texts[i]);
 	for (int i = 0; i < buttons.size(); i++)
 	{
-		buttons[i].draw();
+		drawBatcher.addItem(&buttons[i]);
 	}
 	for (int i = 0; i < lists.size(); i++)
 	{
-		lists[i].draw();
+		drawBatcher.addItem(&lists[i]);
 	}
 
 
 	for (int i = 0; i < sliders.size(); i++)
 	{
-		sliders[i].draw();
+		drawBatcher.addItem(&sliders[i]);
 	}
+
+	
+	for (int i = 0; i < shapes.size(); i++)
+	{
+		drawBatcher.addItem(&shapes[i]);
+	}
+	drawBatcher.addItem(&titlebar);
+	drawBatcher.addItem(&title);
+	drawBatcher.draw();
+
+	for (int i = 0; i < sprites.size(); i++)
+		window->draw(sprites[i]);
 
 	for (int i = 0; i < checkboxes.size(); i++)
 	{
 		checkboxes[i].draw();
 	}
-	for (int i = 0; i < shapes.size(); i++)
-	{
-		window->draw(shapes[i]);
-	}
-	window->draw(titlebar);
-	window->draw(title);
-	
 }
 
 void Popup::close(bool pressOK)

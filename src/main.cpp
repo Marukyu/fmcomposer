@@ -132,7 +132,7 @@ int main(int argc, char *argv[])
 			if (menu->hovered() == 1)
 			{
 				dropdowntimer+=frameTime60;
-				if (contextMenu!=recentSongs  && !mouse.clickg && dropdowntimer>20)
+				if (contextMenu!=recentSongs  && !mouse.clickg && dropdowntimer>10)
 					recentSongs->show(menu->items[2*4].position.x - 4, 28);
 			}
 			/* Edit tools menu */

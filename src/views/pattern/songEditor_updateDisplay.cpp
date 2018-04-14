@@ -47,6 +47,7 @@ void SongEditor::updateChannelData(int channel)
 	if (fm->patternCount == 0)
 		return;
 
+	
 	s0.clear();
 	s1.clear();
 	s2.clear();

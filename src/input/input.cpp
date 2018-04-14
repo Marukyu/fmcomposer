@@ -129,6 +129,9 @@ void handleUnconditionalEvents()
 					case Keyboard::C:
 						keyboard.c = 1;
 						break;
+					case Keyboard::A:
+						keyboard.a = 1;
+						break;
 					case Keyboard::V:
 						keyboard.v = 1;
 						break;

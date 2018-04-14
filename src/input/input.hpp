@@ -3,7 +3,7 @@
 #include <SFML/Graphics.hpp>
 
 typedef struct keyboard_{
-	int up, del, down, shift, ctrl, left, right, plus, minus, c, v, x, pageUp, pageDown, equal, multiply, divide;
+	int up, del, down, shift, ctrl, left, right, plus, minus, c, v, x, pageUp, pageDown, equal, multiply, divide, a;
 }keyboard_;
 
 typedef struct mouse_{

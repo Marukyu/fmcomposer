@@ -106,41 +106,54 @@ void Button::setText(wstring _text)
 
 bool Button::hover()
 {
+	hovered = (!contextMenu && mouse.pos.x >= x - padding && mouse.pos.x - padding <= x - 2 * padding + w && mouse.pos.y >= y - padding && mouse.pos.y <= y - padding + h);
+
+	updateStyle();
+	return hovered;
+}
+
+void  Button::setSelected(bool _selected)
+{
+	selected=_selected;
+	updateStyle();
+}
+
+void Button::updatePosition()
+{
+	text.setPosition(x + 2, y+textYpadding);
+
+	bg2[0].position = sf::Vector2f(x - padding, y - padding);
+	bg2[1].position = sf::Vector2f(x - padding + w, y - padding);
+	bg2[2].position = sf::Vector2f(x - padding + w, y - padding + h);
+	bg2[3].position = sf::Vector2f(x - padding, y - padding + h);
+}
+
+void Button::updateStyle()
+{
 	text.setColor((colors[selected ? BUTTONTOGGLEDTEXT : BUTTONTEXT]));
-
-	if (mouse.pos.x >= x - padding && mouse.pos.x - padding <= x - 2 * padding + w && mouse.pos.y >= y - padding && mouse.pos.y <= y - padding + h)
+	if (hovered)
 	{
-		if (!contextMenu)
+		if (click)
 		{
-			if (click)
-			{
-				bg2[0].color = colors[BUTTONBGCLICKEDA];
-				bg2[1].color = colors[BUTTONBGCLICKEDA];
-				bg2[2].color = colors[BUTTONBGCLICKEDB];
-				bg2[3].color = colors[BUTTONBGCLICKEDB];
-			}
-			else if (selected)
-			{
-				bg2[0].color = colors[BUTTONTOGGLEBGHOVER];
-				bg2[1].color = colors[BUTTONTOGGLEBGHOVER];
-				bg2[2].color = colors[BUTTONTOGGLEBGHOVER];
-				bg2[3].color = colors[BUTTONTOGGLEBGHOVER];
-			}
-			else
-			{
-
-
-				bg2[0].color = colors[BUTTONBGHOVERA];
-				bg2[1].color = colors[BUTTONBGHOVERA];
-				bg2[2].color = colors[BUTTONBGHOVERB];
-				bg2[3].color = colors[BUTTONBGHOVERB];
-
-
-
-			}
-			hovered = false;
+			bg2[0].color = colors[BUTTONBGCLICKEDA];
+			bg2[1].color = colors[BUTTONBGCLICKEDA];
+			bg2[2].color = colors[BUTTONBGCLICKEDB];
+			bg2[3].color = colors[BUTTONBGCLICKEDB];
 		}
-		return true;
+		else if (selected)
+		{
+			bg2[0].color = colors[BUTTONTOGGLEBGHOVER];
+			bg2[1].color = colors[BUTTONTOGGLEBGHOVER];
+			bg2[2].color = colors[BUTTONTOGGLEBGHOVER];
+			bg2[3].color = colors[BUTTONTOGGLEBGHOVER];
+		}
+		else
+		{
+			bg2[0].color = colors[BUTTONBGHOVERA];
+			bg2[1].color = colors[BUTTONBGHOVERA];
+			bg2[2].color = colors[BUTTONBGHOVERB];
+			bg2[3].color = colors[BUTTONBGHOVERB];
+		}
 	}
 	else
 	{
@@ -158,18 +171,5 @@ bool Button::hover()
 			bg2[2].color = colors[BUTTONBGB];
 			bg2[3].color = colors[BUTTONBGB];
 		}
-		hovered = 0;
 	}
-	return false;
-}
-
-
-void Button::updatePosition()
-{
-	text.setPosition(x + 2, y+textYpadding);
-
-	bg2[0].position = sf::Vector2f(x - padding, y - padding);
-	bg2[1].position = sf::Vector2f(x - padding + w, y - padding);
-	bg2[2].position = sf::Vector2f(x - padding + w, y - padding + h);
-	bg2[3].position = sf::Vector2f(x - padding, y - padding + h);
 }

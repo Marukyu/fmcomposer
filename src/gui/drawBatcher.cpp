@@ -195,7 +195,8 @@ void DrawBatcher::addItem(List *l)
 		
 		for (unsigned i = 0; i < l->selecteds_s.size(); i++)
 		{
-			addItem(&l->selecteds_s[i]);
+			if ((int)round(l->selecteds_s[i].getPosition().y)>=l->y && (int)round(l->selecteds_s[i].getPosition().y)<l->y+(int)round(l->bg.getSize().y))
+				addItem(&l->selecteds_s[i]);
 		}
 	
 	}

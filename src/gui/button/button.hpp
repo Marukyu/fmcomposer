@@ -24,6 +24,8 @@ class Button{
 	bool hover();
 	void setPosition(int x, int y);
 	void construct(int x, int y, int width = -1, int padding = 0);
+	void setSelected(bool selected);
+	void updateStyle();
 
 };
 
