@@ -142,8 +142,11 @@ void ConfigEditor::selectBestSoundDevice()
 
 	if (soundDeviceId == -1)
 	{
-		soundDeviceId = Pa_GetDefaultOutputDevice();
+		if((soundDeviceId = Pa_GetDefaultOutputDevice())==-1)
+			return;
 	}
+
+
 	const PaDeviceInfo* p = Pa_GetDeviceInfo(soundDeviceId);
 
 	if (sampleRate == -1)
