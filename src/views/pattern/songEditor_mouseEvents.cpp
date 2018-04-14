@@ -338,8 +338,7 @@ void SongEditor::leftMouseRelease()
 		}
 
 		fm_setPosition(fm, patternListHovered, fm->playing ? 0 : fm->row, 2);
-		patternList.select(fm->order);
-		
+
 	}
 
 

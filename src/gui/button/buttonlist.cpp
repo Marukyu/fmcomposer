@@ -31,6 +31,14 @@ void ButtonList::updateButtonPos()
 		xpos += buttons[i].w + 1;
 	}
 
+	xpos = buttons[scroll].x;
+
+	for (unsigned i = scroll; i < min<int>(buttons.size(), scroll + 46); ++i)
+	{
+		buttons[i].setPosition(xpos - (buttons[scroll].x - buttons[0].x), y);
+		xpos += buttons[i].w + 1;
+	}
+
 	bgfocus.setSize(Vector2f(xpos - buttons[0].x, 19));
 	
 }
@@ -39,7 +47,6 @@ void ButtonList::select(int index)
 {
 	selectedIndex = index;
 	updateButtonPos();
-	
 }
 
 void ButtonList::draw()
@@ -120,12 +127,7 @@ void ButtonList::move(int indexA, int indexB)
 {
 	buttons.insert(buttons.begin() + indexB + (indexB>indexA), buttons[indexA]);
 	buttons.erase(buttons.begin() + indexA + (indexB <= indexA));
-	int xpos=0;
-	for (unsigned i = 0; i < buttons.size(); i++)
-	{
-		buttons[i].setPosition(x+xpos,y);
-		xpos += buttons[i].w + 1;
-	}
+	updateButtonPos();
 
 }
 
