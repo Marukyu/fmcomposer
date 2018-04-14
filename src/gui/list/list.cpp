@@ -271,8 +271,9 @@ void List::select(int index, bool updateScroll, bool hold)
 			scroll = clamp(value - maxrows / 2, 0, (int)text.size() - maxrows);
 		else
 			scroll = 0;
+		setScroll(scroll);
 	}
-
+	
 	s.setPosition(x, y + (value - scroll) * 17);
 
 	

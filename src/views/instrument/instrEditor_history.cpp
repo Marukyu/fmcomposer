@@ -57,5 +57,6 @@ void InstrEditor::addToUndoHistory()
 		}
 
 		valueChanged = 0;
+		songModified(1);
 	}
 }

@@ -178,7 +178,6 @@ void InstrEditor::update()
 		instrList->selected = 1;
 		valueChanged = 1;
 		addToUndoHistory();
-		songModified(1);
 	}
 
 
@@ -616,8 +615,6 @@ void InstrEditor::handleEvents()
 						if (instrList->selected)
 						{
 							copied=1;
-							
-							
 						}
 						copiedInstr = fm->instrument[instrList->value];
 						opCopied = opSelected;
@@ -631,6 +628,8 @@ void InstrEditor::handleEvents()
 							fm->instrument[instrList->value] = copiedInstr;
 							updateFromFM();
 							updateInstrListFromFM();
+							valueChanged=1;
+							addToUndoHistory();
 						}
 						else
 							opPaste();
