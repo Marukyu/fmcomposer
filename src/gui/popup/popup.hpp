@@ -69,6 +69,7 @@ class Popup{
 	void updateIntervalDescription();
 	void updateBitDepthDescription();
 	void updateExportSliders();
+	void updateMultitrackExportList();
 	void updateWindow();
 	//void show(string text, int delay);
 };

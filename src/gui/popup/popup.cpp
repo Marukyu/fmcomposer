@@ -153,8 +153,8 @@ void Popup::handleEvents()
 						break;
 					case POPUP_STREAMEDEXPORT:
 
-						// cant be unchecked (radios)
-						if (!checkboxes[i].checked)
+						// cant be unchecked (radios) except multitrack export
+						if (!checkboxes[i].checked && i!=5)
 							checkboxes[i].checked = 1;
 
 						// mp3
@@ -229,6 +229,7 @@ void Popup::handleEvents()
 		{
 			if (buttons[i].clicked())
 			{
+
 				buttonActions(i);
 				break;
 			}
@@ -240,6 +241,31 @@ void Popup::handleEvents()
 
 				switch (type)
 				{
+					case POPUP_MULTITRACKEXPORT:
+
+						
+
+						if (i == 0)
+						{
+							updateMultitrackExportList();
+						}
+						else if (i == 1)
+						{
+							export.multitrackAssoc[lists[0].value].clear();
+							for (unsigned i = 0; i < lists[1].selecteds.size(); i++)
+							{
+								if (lists[1].selecteds[i])
+								{
+									export.multitrackAssoc[lists[0].value].push_back(i);
+									printf("save %d into %d\n", i, lists[0].value);
+								}
+							}
+
+							
+
+						}
+
+						break;
 					case POPUP_MIDIEXPORT:
 						if (i == 0)
 						{
@@ -569,4 +595,14 @@ void Popup::updateBitDepthDescription()
 	sliders[5].setDisplayedValueOnly(bitDepths2[sliders[5].value]);
 	
 	
+}
+
+void Popup::updateMultitrackExportList()
+{
+	lists[1].unselectAll();
+	for (unsigned i = 0; i < export.multitrackAssoc[lists[0].value].size(); i++)
+	{
+		printf("sel %d\n", export.multitrackAssoc[lists[0].value][i]);
+		lists[1].select(export.multitrackAssoc[lists[0].value][i],true,true);
+	}
 }

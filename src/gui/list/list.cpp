@@ -3,16 +3,16 @@
 extern void *focusedElement;
 
 
-List::List(int _x, int _y, int _maxrows, int width, int _paddingleft, bool _multiple) : x(_x), y(_y),multiple(_multiple),
-paddingleft(_paddingleft), maxrows(_maxrows), squarePing(Vector2f(8, 8)), s(Vector2f(width, 17)), bg(Vector2f(width, 17)),
+List::List(int _x, int _y, int _maxrows, int _width, int _paddingleft, bool _multiple) : x(_x), y(_y),multiple(_multiple),
+paddingleft(_paddingleft), maxrows(_maxrows), squarePing(Vector2f(8, 8)), s(Vector2f(width, 17)), bg(Vector2f(width, 17)), width(_width),
 scroll(0), value(0), selected(0), pressed(0), hovered(0), scrollbar(100, 100, 0, 0.1, _x + width - 8, _y, 17 * _maxrows, true), s2(Vector2f(width, 17))
 {
-	s.setFillColor(colors[LISTITEMBGFOCUS]);
-	s.setPosition(x, y);
 	bg.setFillColor(colors[LISTBG]);
 	s2.setFillColor(colors[LISTITEMBGFOCUS]);
 	bg.setPosition(x, y);
 	squarePing.setFillColor(colors[BUTTONTOGGLEDBG]);
+	selecteds.resize(1);
+	selecteds[0]=true;
 }
 void List::add(string elem, bool autoUpdate)
 {
@@ -38,6 +38,7 @@ void List::updateSize()
 {
 	bg.setSize(Vector2f(bg.getSize().x, 17 * maxrows));
 	pings.resize(text.size());
+
 	selecteds.resize(text.size());
 	scrollbar.setScrollableContent(text.size(), maxrows);
 }
@@ -102,7 +103,8 @@ bool List::clicked(int mouseButton)
 		{
 			scrollbar.setValue((float)scroll / ((int)text.size() - maxrows) * 100);
 		}
-		s.setPosition(x, y + (value - scroll) * 17);
+		updateView();
+		
 	}
 
 
@@ -151,7 +153,7 @@ void List::clear()
 	pings.clear();
 	value = 0;
 	setScroll(0);
-	s.setPosition(x, y + (value - scroll) * 17);
+	updateView();
 }
 
 int List::hover()
@@ -180,8 +182,15 @@ void List::draw()
 	if (pressed)
 		window->draw(s2);
 
-	if (selectionVisible())
-		window->draw(s);
+	if (selectionVisible()) {
+		
+		for (unsigned i = 0; i < selecteds_s.size(); i++)
+		{
+			if ((int)round(selecteds_s[i].getPosition().y)>=y)
+				window->draw(selecteds_s[i]);
+		}
+	
+	}
 
 	for (unsigned i = scroll; i<min<int>(scroll + maxrows, text.size()); ++i)
 	{
@@ -198,11 +207,20 @@ void List::draw()
 		scrollbar.draw();
 }
 
-void List::select(int index, bool updateScroll)
+void List::unselectAll()
+{
+	for (unsigned i = 0; i < selecteds.size(); i++)
+	{
+		selecteds[i]=false;
+		text[i].setColor(colors[LISTITEMTEXT]);
+	}
+}
+
+void List::select(int index, bool updateScroll, bool hold)
 {
 
 	
-	if (keyboard.shift)
+	if (multiple && keyboard.shift)
 	{
 		for (unsigned i = value; i <= index; i++)
 		{
@@ -215,19 +233,21 @@ void List::select(int index, bool updateScroll)
 	}
 
 	value = clamp(index, 0, (int)text.size() - 1);
-
-
-	if (keyboard.ctrl)
+	
+	if (multiple && (keyboard.ctrl || hold))
 	{
 		selecteds[value]=!selecteds[value];
+
 	}
 
-	if (!keyboard.shift && !keyboard.ctrl)
+	if (!keyboard.shift && !keyboard.ctrl && !hold || !multiple)
 	{
 		for (unsigned i = 0; i < selecteds.size(); i++)
 		{
-			selecteds[i]=false;
+			if (i!=value)
+				selecteds[i]=false;
 		}
+		selecteds[value]=true;
 	}
 
 	if (updateScroll)
@@ -240,38 +260,22 @@ void List::select(int index, bool updateScroll)
 
 	s.setPosition(x, y + (value - scroll) * 17);
 
-	for (int i = 0; i < text.size(); i++)
-	{
-		text[i].setColor(colors[LISTITEMTEXT]);
-		if (multiple && selecteds[i])
-			text[i].setColor(colors[LISTITEMTEXTFOCUS]);
-	}
-
-	if (text.size()>0)
-		text[value].setColor(colors[LISTITEMTEXTFOCUS]);
-
-	if (multiple)
-	{
-		int count=0;
-		for (unsigned i = value; i <= index; i++)
-		{
-			if (selecteds[i])
-			{
-				count++;
-				
-			}
-		}
-		selecteds_s.resize(count);
-	}
+	
+	updateView();
 	
 }
 
 void List::remove(int index)
 {
 	text.erase(text.begin() + index);
-	if (value > text.size() - 1)
+	selecteds.erase(selecteds.begin() + index);
+
+	if (value > text.size() - 1) {
 		value = text.size() - 1;
-	s.setPosition(x, y + (value - scroll) * 17);
+		selecteds[text.size() - 1]=true;
+	}
+	
+	updateView();
 }
 
 void List::setMaxRows(int rows)
@@ -335,4 +339,37 @@ void List::setScroll(int pos)
 		}
 
 	}
+}
+
+void List::updateView()
+{
+	selecteds_s.clear();
+
+	int count=0;
+
+	for (unsigned i = 0; i < selecteds.size(); i++)
+	{
+		if (selecteds[i])
+		{
+			count++;
+			selecteds_s.push_back(RectangleShape(Vector2f(width, 17)));
+			selecteds_s[selecteds_s.size()-1].setPosition(x, y + (i - scroll) * 17);
+			selecteds_s[selecteds_s.size()-1].setFillColor(colors[LISTITEMBGFOCUS]);
+		}
+	}
+
+	if (count == 0 && !multiple)
+	{
+		selecteds[value]=true;
+		selecteds_s.push_back(RectangleShape(Vector2f(width, 17)));
+		selecteds_s[selecteds_s.size()-1].setPosition(x, y + (value - scroll) * 17);
+		selecteds_s[selecteds_s.size()-1].setFillColor(colors[LISTITEMBGFOCUS]);
+	}
+		
+	for (int i = 0; i < text.size(); i++)
+	{
+		text[i].setColor(colors[selecteds[i] ? LISTITEMTEXTFOCUS : LISTITEMTEXT]);
+	}
+
+	
 }

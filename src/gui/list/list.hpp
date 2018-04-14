@@ -10,7 +10,7 @@ class List{
 
 	
 	public:
-	int x, y, paddingleft;
+	int x, y, paddingleft, width;
 	bool multiple;
 	sf::RectangleShape s, bg, squarePing, s2;
 	std::vector<sf::Text> text;
@@ -24,7 +24,8 @@ class List{
 	void add(std::string elem, bool autoUpdate = 1);
 	bool clicked(int mouseButton = 0);
 	void draw();
-	void select(int index, bool updateScroll = true);
+	void unselectAll();
+	void select(int index, bool updateScroll = true, bool hold=false);
 	void remove(int index);
 	void updateSize();
 	void clear();
@@ -34,6 +35,8 @@ class List{
 	void setScroll(int pos);
 	bool rightClicked();
 	bool selectionVisible();
+
+	void updateView();
 };
 
 extern List *instrList;

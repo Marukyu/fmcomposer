@@ -476,7 +476,7 @@ void Popup::show(int _type, int param)
 			buttons.push_back(Button(w - 90, h - 50, "Export", -1, 8));
 			buttons.push_back(Button(50, h - 50, "Cancel", -1, 8));
 
-			checkboxes.push_back(Checkbox(400, 58, "Multi-track export"));
+			checkboxes.push_back(Checkbox(445, 20, "Multi-track export"));
 
 			break;
 		case POPUP_TEMPERAMENT:
@@ -564,7 +564,8 @@ void Popup::show(int _type, int param)
 			texts[0].setPosition(20, 20);
 			break;
 		case POPUP_MULTITRACKEXPORT:
-			setSize(600, 400);
+			setSize(600, 500);
+			title.setString("Multi-track streamed audio export");
 			texts.push_back(Text("Track", font, charSize));
 			texts[0].setColor(colors[TITLE]);
 			texts[0].setPosition(10, 45);
@@ -577,7 +578,7 @@ void Popup::show(int _type, int param)
 			texts[2].setColor(colors[BLOCKTEXT]);
 			texts[2].setPosition(300, 45);
 
-			lists.push_back(List(10, 70, 20, 200,4,true));
+			lists.push_back(List(10, 70, 12, 200,4,false));
 
 
 			lists.push_back(List(300, 70, 20, 200,4,true));
@@ -592,11 +593,29 @@ void Popup::show(int _type, int param)
 				lists[1].add("Channel "+std::to_string(i+1));
 			}
 
-			buttons.push_back(Button(50,250, "Add", -1, 8));
-			buttons.push_back(Button(100,250, "Remove", -1, 8));
+			buttons.push_back(Button(50,300, "Add", -1, 8));
+			buttons.push_back(Button(100,300, "Remove", -1, 8));
 
 			buttons.push_back(Button(w - 50, h - 50, "OK", -1, 8));
 			buttons.push_back(Button(30, h - 50, "Cancel", -1, 8));
+
+
+			if (export.multitrackAssoc.size() < lists[0].text.size())
+			{
+				if (export.multitrackAssoc.size() ==0)
+				{
+					export.multitrackAssoc.resize(lists[0].text.size());
+					for (unsigned i = 0; i < export.multitrackAssoc.size(); i++)
+					{
+						export.multitrackAssoc[i].resize(1);
+						export.multitrackAssoc[i][0]=0;
+					}
+				}
+				else
+				{
+					export.multitrackAssoc.resize(lists[0].text.size());
+				}
+			}
 
 			break;
 

@@ -290,21 +290,8 @@ void ConfigEditor::draw()
 }
 
 #include "pa_win_wasapi.h"
-#include <locale>
-#include <codecvt>
+
 static const string hostnames[15];
-
-
-string utf8_to_string(const char *utf8str, const locale& loc)
-{
-    // UTF-8 to wstring
-    wstring_convert<codecvt_utf8<wchar_t>> wconv;
-    wstring wstr = wconv.from_bytes(utf8str);
-    // wstring to string
-    vector<char> buf(wstr.size());
-    use_facet<ctype<wchar_t>>(loc).narrow(wstr.data(), wstr.data() + wstr.size(), '?', buf.data());
-    return string(buf.data(), buf.size());
-}
 
 
 void ConfigEditor::refresh()

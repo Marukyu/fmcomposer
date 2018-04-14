@@ -13,15 +13,11 @@
 extern InstrEditor *instrEditor;
 extern SongEditor* songEditor;
 
-sf::Thread waveExportThread(&waveExportFunc);
-sf::Thread mp3ExportThread(&mp3ExportFunc);
-sf::Thread flacExportThread(&flacExportFunc);
+
 int exporting = 0;
 
 extern string exportFileName;
-extern int exportFromPattern;
-extern int exportToPattern;
-extern int exportNbLoops;
+
 extern PaStream *stream;
 extern PaStreamParameters out;
 static char fxList[26] = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'V', 'W', 'X', 'Y' };
@@ -32,6 +28,43 @@ void Popup::buttonActions(int buttonID)
 {
 	switch (type)
 	{
+		case POPUP_MULTITRACKEXPORT:
+			switch (buttonID)
+			{
+				case 0:
+					lists[0].add("#"+std::to_string(lists[0].text.size()+1));
+					export.multitrackAssoc.resize(export.multitrackAssoc.size()+1);
+					export.multitrackAssoc[export.multitrackAssoc.size() - 1].resize(1);
+					export.multitrackAssoc[export.multitrackAssoc.size() - 1][0]=0;
+					lists[0].select(lists[0].text.size()-1);
+					updateMultitrackExportList();
+					break;
+				case 1:
+					
+					export.multitrackAssoc.erase(export.multitrackAssoc.begin()+lists[0].value);
+					lists[0].remove(lists[0].value);
+					for (unsigned i = 0; i < lists[0].text.size(); i++)
+					{
+						lists[0].text[i].setString("#"+std::to_string(i+1));
+					}
+					updateMultitrackExportList();
+					break;
+				case 2:
+					for (unsigned i = 0; i < FM_ch; i++)
+					{
+						export.mutedChannels[i] = fm->ch[i].muted;
+					}
+					export.multiTrackIter=0;
+					promptStreamedExport();
+					break;
+				case 3:
+					close();
+					break;
+
+
+
+			}
+			break;
 		case POPUP_WRONGVERSION:
 			if (buttonID == 0)
 				close();
@@ -268,28 +301,28 @@ void Popup::buttonActions(int buttonID)
 
 			if (buttonID == 0)
 			{ // ok button
-				exportFromPattern = sliders[1].value;
-				exportToPattern = sliders[2].value;
-				exportNbLoops = sliders[3].value;
-				
+				export.fromPattern = sliders[1].value;
+				export.toPattern = sliders[2].value;
+				export.nbLoops = sliders[3].value;
+				export.format = checkboxes[0].checked+2*checkboxes[1].checked;
 				mouse.clickLock2 = 1;
 
 				
 				// WAVE
 				if (checkboxes[0].checked)
 				{
-					exportBitDepth = sliders[5].value;
+					export.bitDepth = sliders[5].value;
 				}
 				// MP3
 				else if (checkboxes[1].checked)
 				{
-					export_param = (sliders[0].value) + checkboxes[3].checked * 100;
+					export.param = (sliders[0].value) + checkboxes[3].checked * 100;
 				}
 				// FLAC
 				else
 				{
-					exportBitDepth = sliders[6].value;
-					export_param = sliders[4].value;
+					export.bitDepth = sliders[6].value;
+					export.param = sliders[4].value;
 				}
 
 				// multi-track export
@@ -299,56 +332,8 @@ void Popup::buttonActions(int buttonID)
 				// single-track export
 				else
 				{
-					// WAVE
-					if (checkboxes[0].checked)
-					{
-						static const char * filters[1] = { "*.wav" };
-						const char *fileName = tinyfd_saveFileDialog("Export as wave", NULL, 1, filters, "Wave file");
-						if (fileName)
-						{
-							string fileNameOk = forceExtension(fileName, "wav");
-							song_stop();
-							Pa_StopStream(stream);
-							Pa_CloseStream(stream);
-							popup->show(POPUP_WORKING);
-							exportFileName = fileNameOk;
-							waveExportThread.launch();
-						}
-					}
-					// MP3
-					else if (checkboxes[1].checked)
-					{
-						static const char * filters[1] = { "*.mp3" };
-						const char *fileName = tinyfd_saveFileDialog("Export as MP3", NULL, 1, filters, "MP3 file");
-						if (fileName)
-						{
-							string fileNameOk = forceExtension(fileName, "mp3");
-							song_stop();
-							Pa_StopStream(stream);
-							Pa_CloseStream(stream);
-							popup->show(POPUP_WORKING);
-							exportFileName = fileNameOk;
-
-							mp3ExportThread.launch();
-						}
-					}
-					// FLAC
-					else
-					{
-						static const char * filters[1] = { "*.flac" };
-						const char *fileName = tinyfd_saveFileDialog("Export as FLAC", NULL, 1, filters, "FLAC file");
-						if (fileName)
-						{
-							string fileNameOk = forceExtension(fileName, "flac");
-							song_stop();
-							Pa_StopStream(stream);
-							Pa_CloseStream(stream);
-							popup->show(POPUP_WORKING);
-							exportFileName = fileNameOk;
-
-							flacExportThread.launch();
-						}
-					}
+					export.multitrackAssoc.clear();
+					promptStreamedExport();
 				}
 
 

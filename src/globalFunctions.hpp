@@ -108,4 +108,6 @@ string& noteName(int note);
 
 int isWindowMaximized();
 
+string utf8_to_string(const char *utf8str, const locale& loc);
+
 #endif

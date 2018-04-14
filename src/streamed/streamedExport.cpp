@@ -12,41 +12,130 @@ extern fmsynth *phanoo;
 extern Popup *popup;
 extern RenderWindow* window;
 extern PaStream *stream;
-extern int exporting;
-string exportFileName;
+
 extern Thread thread;
 extern ConfigEditor *config;
-int export_param;
-int exportFromPattern;
-int exportToPattern;
-int exportNbLoops;
-int exportBitDepth;
-std::vector< std::vector< int> > multitrackAssoc;
+
+struct export export;
 
 const int mp3_bitrates[16] = {8, 16, 24, 32, 40, 48, 64, 80, 96, 112, 128, 160, 192, 224, 256, 320};
 
+sf::Thread waveExportThread(&waveExportFunc);
+sf::Thread mp3ExportThread(&mp3ExportFunc);
+sf::Thread flacExportThread(&flacExportFunc);
+
+static const char *exportFormats[3] = { "flac","wav","mp3"  };
+
+void promptStreamedExport()
+{
+	static const char *filterNames[3][1] = {{ "*.flac"},{"*.wav"},{"*.mp3"}  };
+	const char *descNames[3] = { "Export as FLAC","Export as WAVE","Export as MP3"  };
+	const char *typeNames[3] = { "FLAC file","WAVE file","MP3 file"  };
+					
+	const char *fileName = tinyfd_saveFileDialog(descNames[export.format], NULL, 1, filterNames[export.format], typeNames[export.format]);
+	if (fileName)
+	{
+		
+		string fileNameOk = forceExtension(fileName, exportFormats[export.format]);
+		song_stop();
+		Pa_StopStream(stream);
+		Pa_CloseStream(stream);
+		popup->show(POPUP_WORKING);
+		export.fileName = export.originalFileName = fileNameOk;
+		switch (export.format)
+		{
+			case 0:
+				flacExportThread.launch();
+				break;
+			case 1:
+				waveExportThread.launch();
+				break;
+			case 2:
+				mp3ExportThread.launch();
+				break;
+		}
+						
+	}
+}
+
+
 void stopExport(){
-	exporting=0;
+	export.running=0;
 	song_stop();
+}
+
+std::string remove_extension(const std::string& filename) {
+    size_t lastdot = filename.find_last_of(".");
+    if (lastdot == std::string::npos) return filename;
+    return filename.substr(0, lastdot); 
 }
 
 void exportFinished(){
-	config->selectSoundDevice(config->approvedDeviceId,config->approvedSampleRate, config->currentLatency, true);
-	Pa_StartStream( stream );
-	fm->looping=-1;
+	
 	song_stop();
-	popup->close();
-	if (!windowFocus){
-		tinyfd_notifyPopup("FM Composer", "Export finished !","info");
+	
+
+	/* multi-track export */
+	if (export.multitrackAssoc.size() > 0)
+	{
+		export.multiTrackIter++;
+		export.fileName = remove_extension(export.originalFileName)+"-"+std::to_string(export.multiTrackIter+1)+"."+string(exportFormats[export.format]);
+
+		if (export.multiTrackIter < export.multitrackAssoc.size())
+		{
+			switch (export.format)
+			{
+				case 0:
+					flacExportFunc();
+					break;
+				case 1:
+					waveExportFunc();
+					break;
+				case 2:
+					mp3ExportFunc();
+					break;
+			}
+		}
+
+		
 	}
-	exporting=0;
+
+	if (export.multitrackAssoc.size() == 0 || export.multiTrackIter >= export.multitrackAssoc.size()) {
+		popup->close();
+		if (!windowFocus){
+			tinyfd_notifyPopup("FM Composer", "Export finished !","info");
+		}
+		export.running=0;
+		config->selectSoundDevice(config->approvedDeviceId,config->approvedSampleRate, config->currentLatency, true);
+		Pa_StartStream( stream );
+		fm->looping=-1;
+	}
 }
 
 void exportStart(){
-	exporting=1;
-	fm_setPosition(fm, exportFromPattern,0,2);
+	export.running=1;
+	fm_setPosition(fm, export.fromPattern,0,2);
 	song_play();
-	fm->looping=exportNbLoops; // disable loop points so we aren't stuck forever
+	fm->looping=export.nbLoops; // disable loop points so we aren't stuck forever
+
+	/* multi-track export */
+	if (export.multitrackAssoc.size() > 0)
+	{
+		for (unsigned i = 0; i < FM_ch; i++)
+		{
+			fm->ch[i].muted = 1;
+		}
+
+		while (export.multiTrackIter < export.multitrackAssoc.size() && export.multitrackAssoc[export.multiTrackIter].size() == 0)
+		{
+			export.multiTrackIter++;
+		}
+
+		for (unsigned i = 0; i < export.multitrackAssoc[export.multiTrackIter].size(); i++)
+		{
+			fm->ch[export.multitrackAssoc[export.multiTrackIter][i]].muted = 0;
+		}
+	}
 }
 
 // size in bytes for 1 sample, for each fmRenderType (8, 16, 24 bits, 32 bits, float)
@@ -59,7 +148,7 @@ int waveExportFunc(){
 
 	int format;
 
-	if (exportBitDepth == FM_RENDER_FLOAT)
+	if (export.bitDepth == FM_RENDER_FLOAT)
 	{
 		format =  3; // IEEE float
 	}
@@ -68,11 +157,11 @@ int waveExportFunc(){
 		format =  1; // integer
 	}
 
-	int bits=16,channels=2,bytes_per_sample=bitDepths_bytes[exportBitDepth];
+	int bits=16,channels=2,bytes_per_sample=bitDepths_bytes[export.bitDepth];
 	int block_align=channels*bytes_per_sample;
 	int bitrate=fm->sampleRate*channels*bytes_per_sample;
 	int bits_sample=8*bytes_per_sample;
-	FILE *fp = fopen(exportFileName.c_str(), "wb");
+	FILE *fp = fopen(export.fileName.c_str(), "wb");
 	if (!fp){
 		popup->show(POPUP_SAVEFAILED);
 		return 0;
@@ -89,11 +178,11 @@ int waveExportFunc(){
 	fwrite("data    ",8,1,fp);
 	exportStart();
 
-	while(fm->playing && exporting && fm->order<=exportToPattern){
+	while(fm->playing && export.running && fm->order<=export.toPattern){
 		
-		fm_render(fm, &out[0],16384,exportBitDepth);
-		fwrite(&out[0],bitDepths_bytes[exportBitDepth]*16384,1,fp);
-		size+=bitDepths_bytes[exportBitDepth]*16384;// bits per sample * num samples
+		fm_render(fm, &out[0],16384,export.bitDepth);
+		fwrite(&out[0],bitDepths_bytes[export.bitDepth]*16384,1,fp);
+		size+=bitDepths_bytes[export.bitDepth]*16384;// bits per sample * num samples
 		popup->sliders[0].setValue(((float)fm->order/fm->patternCount)*100);
 	}
 	song_stop();
@@ -154,7 +243,7 @@ static FLAC__StreamEncoderTellStatus stream_encoder_tell_callback_(const FLAC__S
 
 int flacExportFunc(){
 	int out[16384*2];
-	FILE *fp = fopen(exportFileName.c_str(), "wb");
+	FILE *fp = fopen(export.fileName.c_str(), "wb");
 	if (!fp){
 		return 0;
 	}
@@ -162,8 +251,8 @@ int flacExportFunc(){
 
 	FLAC__StreamEncoder *encoder;
 	encoder = FLAC__stream_encoder_new();
-	FLAC__stream_encoder_set_bits_per_sample(encoder,8*bitDepths_bytes[exportBitDepth]);
-	FLAC__stream_encoder_set_compression_level(encoder,export_param);
+	FLAC__stream_encoder_set_bits_per_sample(encoder,8*bitDepths_bytes[export.bitDepth]);
+	FLAC__stream_encoder_set_compression_level(encoder,export.param);
 	FLAC__stream_encoder_set_sample_rate(encoder,fm->sampleRate);
 	FLAC__stream_encoder_set_channels(encoder, 2);
 
@@ -175,8 +264,8 @@ int flacExportFunc(){
 
 	int writtenBytes;
 	exportStart();
-	while(fm->playing && exporting && fm->order<=exportToPattern){
-		fm_render(fm, &out[0],16384,exportBitDepth | FM_RENDER_PAD32);
+	while(fm->playing && export.running && fm->order<=export.toPattern){
+		fm_render(fm, &out[0],16384,export.bitDepth | FM_RENDER_PAD32);
 		writtenBytes = FLAC__stream_encoder_process_interleaved(encoder, out, 16384/2);
 		popup->sliders[0].setValue(((float)fm->order/fm->patternCount)*100);
 	}
@@ -191,7 +280,7 @@ int flacExportFunc(){
 int mp3ExportFunc(){
 	short out[16384];
 	unsigned char mp3_buffer[16384];
-	FILE *fp = fopen(exportFileName.c_str(), "wb+");
+	FILE *fp = fopen(export.fileName.c_str(), "wb+");
 	if (!fp){
 		return 0;
 	}
@@ -201,14 +290,14 @@ int mp3ExportFunc(){
 	// because we write it ourself, as someone suggested
 	lame_set_write_id3tag_automatic(lame, 0);
 
-	if (export_param<100){
+	if (export.param<100){
 		lame_set_VBR(lame, vbr_rh);
-		lame_set_VBR_q(lame, export_param);
+		lame_set_VBR_q(lame, export.param);
 		lame_set_bWriteVbrTag(lame,1);
 	}
 	else{
 		lame_set_VBR(lame, vbr_off);
-		lame_set_brate(lame, mp3_bitrates[export_param-100]);
+		lame_set_brate(lame, mp3_bitrates[export.param-100]);
 	}
 
     lame_init_params(lame);
@@ -222,7 +311,7 @@ int mp3ExportFunc(){
 	int audio_pos=ftell(fp);
 	//
 
-	while(fm->playing && exporting && fm->order<=exportToPattern){
+	while(fm->playing && export.running && fm->order<=export.toPattern){
 		fm_render(fm, &out[0],16384, FM_RENDER_16);
 		writtenBytes = lame_encode_buffer_interleaved(lame, out, 16384/2, mp3_buffer, 16384);
 		fwrite(&mp3_buffer[0],writtenBytes,1,fp);

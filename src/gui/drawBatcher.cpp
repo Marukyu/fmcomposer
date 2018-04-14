@@ -192,17 +192,12 @@ void DrawBatcher::addItem(List *l)
 		addItem(&l->s2);
 
 	if (l->selectionVisible()) {
-		if (l->multiple)
+		
+		for (unsigned i = 0; i < l->selecteds_s.size(); i++)
 		{
-			for (unsigned i = 0; i < l->selecteds.size(); i++)
-			{
-				l->s.setPosition(l->x, l->y + (i - l->scroll) * 17);
-				addItem(&l->s);
-			}
+			addItem(&l->selecteds_s[i]);
 		}
-		else
-			addItem(&l->s);
-
+	
 	}
 
 
