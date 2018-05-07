@@ -238,6 +238,8 @@ extern "C"{
 		*/
 	fmsynth* fm_create(int samplerate);
 
+	void fm_destroy(fmsynth* f);
+
 	/** Load a song
 		@param filename
 		@return 1 if ok, 0 if failed

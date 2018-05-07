@@ -137,6 +137,21 @@ int fast_rand(void)
 	return (g_seed >> 16) & 0x7FFF;
 }
 
+void fm_destroy(fmsynth* f)
+{
+	free(f->revBuf);
+	free(f->instrument);
+	for (unsigned i = 0; i < f->patternCount; i++)
+	{
+		free(f->pattern[i]);
+		free(f->channelStates[i]);
+	}
+	free(f->patternSize);
+	free(f->pattern);
+	free(f->channelStates);
+	free(f);
+}
+
 fmsynth* fm_create(int _sampleRate)
 {
 	fmsynth *f = calloc(1, sizeof(fmsynth));
