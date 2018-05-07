@@ -109,6 +109,10 @@ void exportFinished(){
 		config->selectSoundDevice(config->approvedDeviceId,config->approvedSampleRate, config->currentLatency, true);
 		Pa_StartStream( stream );
 		fm->looping=-1;
+		for (unsigned i = 0; i < FM_ch; i++)
+		{
+			fm->ch[i].muted = export.mutedChannels[i];
+		}
 	}
 }
 
