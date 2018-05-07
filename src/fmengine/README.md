@@ -28,3 +28,17 @@ void myAudioCallback(short *out, int nbFrames){
 
 }
 ```
+
+- Changing the output volume
+```
+fm_setVolume(fm,volume); // 0 to 99
+```
+
+
+- Once you are tired of FM sounds
+```
+fm_destroy(fm); // free resources allocated with fm_create
+
+```
+
+There are a lot more functions in fmlib.h, take a look at it for more informations
