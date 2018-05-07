@@ -22,8 +22,8 @@ To get the sound output, you need to request it using the fm_render function. Us
 void myAudioCallback(short *out, int nbFrames){
 
   // nbFrames*2 because the output is stereo
-  // FM_RENDER_16 will output 16 bit signed short..
-  // There are also FM_RENDER_24, FM_RENDER_FLOAT and more for other formats
+  // FM_RENDER_16 will output 16 bit signed short
+  // There are also FM_RENDER_24, FM_RENDER_FLOAT and other other formats available
   fm_render(fm,out,nbFrames*2,FM_RENDER_16);
 
 }
