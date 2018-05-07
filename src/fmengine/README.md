@@ -3,18 +3,18 @@
 - Copy the files from this folder to your project's folder
 - Include "fmlib.h" to your C/C++ code
 - Create the FMC engine with the desired playback frequency
-`
+```
 fmsynth* fm = fm_create(44100);
-`
+```
 
 - Load some song 
-`
+```
 fm_loadSong(fm,"mysong.fmcs");
-`
+```
 - Play !
-`
+```
 fm_play(fm);
-`
+```
 
 To get the sound output, you need to request it using the fm_render function. Usually, the framework/sound library you use will give you some callback function for that.
 
