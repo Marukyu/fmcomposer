@@ -6,10 +6,7 @@
 `
 fmsynth* fm = fm_create(44100);
 `
-- Create the FMC engine with the desired playback frequency
-`
-fmsynth* fm = fm_create(44100);
-`
+
 - Load some song 
 `
 fm_loadSong(fm,"mysong.fmcs");
