@@ -16,11 +16,11 @@ void SongEditor::pattern_paste(int insertAfter)
 	if (copiedPattern.size()>0)
 	{
 		patternList.insert(fm->order + insertAfter, std::to_string(patternList.elementCount()));
-		fm_insertPattern(fm, copiedPattern.size(), fm->order);
+		fm_insertPattern(fm, copiedPattern.size(), fm->order + insertAfter);
 		for (int i = 0; i < copiedPattern.size(); i++)
 		{
 			for (int ch = 0; ch < FM_ch; ch++)
-				fm->pattern[fm->order][i][ch] = copiedPattern[i][ch];
+				fm->pattern[fm->order + insertAfter][i][ch] = copiedPattern[i][ch];
 		}
 		updateFromFM();
 		songModified(1);
