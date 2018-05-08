@@ -426,7 +426,7 @@ void _fm_render(fmsynth* f, float* buffer, unsigned length)
 
 									if (f->ch[ch].instr->op[op].fixedFreq == 0)
 									{
-										f->ch[ch].op[op].portaDestIncr = f->noteIncr[row->note] * pitchScaling*(f->ch[ch].op[op].mult + (double)f->ch[ch].op[op].finetune*0.041666666667 + (double)f->ch[ch].op[op].detune*0.00041666666667);
+										f->ch[ch].op[op].portaDestIncr = f->noteIncr[clamp(row->note+f->transpose,0,127)] * pitchScaling*(f->ch[ch].op[op].mult + (double)f->ch[ch].op[op].finetune*0.041666666667 + (double)f->ch[ch].op[op].detune*0.00041666666667);
 
 									}
 									else // fixed frequency
