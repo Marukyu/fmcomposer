@@ -627,10 +627,10 @@ void SongEditor::updateScrollbar()
 	patSlider.setScrollableContent((fm_getPatternSize(fm, fm->order) + 6)*ROW_HEIGHT + (windowHeight - 169) / 2, windowHeight - 169);
 
 	patHSlider.setScrollableContent(CH_WIDTH*FM_ch, windowWidth - 231);
-	patSize.setValue(fm_getPatternSize(fm, fm->order));
+	patSize.setValue(fm_getPatternSize(fm, fm->order)); printf("selectedRow %d", selectedRow);
+
 	if (selectedRow > fm_getPatternSize(fm, fm->order) - 1)
 	{
-		fm_setPosition(fm, fm->order, fm_getPatternSize(fm, fm->order) - 1, 0);
 		selectedRow = fm->row;
 		selection.bg.setPosition(selection.bg.getPosition().x, fm->row*ROW_HEIGHT);
 		playCursor.setPosition(0, fm->row*ROW_HEIGHT);
