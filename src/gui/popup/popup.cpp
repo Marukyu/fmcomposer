@@ -461,7 +461,7 @@ void Popup::handleEvents()
 							updateBitDepthDescription();
 						}
 						/* FLAC compression level */
-						else
+						else if (i!=3)
 						{
 							checkboxes[4].checked = 1;
 							checkboxes[0].checked = 0;
