@@ -52,6 +52,12 @@ float songLength = fm_getSongLength(fm);
 fm_setPosition(fm, int pattern, int row, int cutMode);
 ```
 
+- Get the playback position
+```
+int currentPattern, currentRow;
+fm_getPosition(fm, &currentPattern, &currentRow);
+```
+
 - Change the song tempo
 ```
 // tempo is in BPM, from 1 to 255. Setting may be overrided by the song if some pattern use Tempo commands
