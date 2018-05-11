@@ -168,7 +168,7 @@ void song_clear()
 	{
 		fm_loadInstrument(fm, string(string("instruments/") + ini_gmlist.GetValue("melodic", "default", "0") + string(".fmci")).c_str(), 0);
 	}
-	songModified(0);
+	
 
 	instrEditor->reset();
 	generalEditor->updateFromFM();
@@ -179,4 +179,5 @@ void song_clear()
 	setWindowTitle("New song");
 	saveAs = "";
 	menu->button[5].setTextureRect(IntRect(100, 32, 32, 32));
+	songModified(0);
 }

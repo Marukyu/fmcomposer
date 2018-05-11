@@ -33,7 +33,7 @@ void ConfigEditor::loadLastSong()
 	if (!stricmp(ini_config.GetValue("config", "firstStart", "1"), "1"))
 	{
 
-		song_load(string(appdir + "songs" + pathSeparator + "AnotherThing.fmcs").c_str(), false);
+		song_load(string(appdir + "songs" + pathSeparator + "AnotherThing.fmcs").c_str(), true);
 		popup->show(POPUP_FIRSTSTART);
 	}
 
