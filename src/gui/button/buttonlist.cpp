@@ -21,7 +21,7 @@ void ButtonList::updateButtonPos()
 {
 
 	scroll = clamp(selectedIndex - 23, 0, (int)buttons.size());
-	int xpos = buttons[scroll].x;
+	int xpos = x;
 
 	for (unsigned i = scroll; i < min<int>(buttons.size(), scroll + 46); ++i)
 	{
@@ -125,7 +125,11 @@ void ButtonList::erase(int index)
 
 void ButtonList::move(int indexA, int indexB)
 {
+
+	
 	buttons.insert(buttons.begin() + indexB + (indexB>indexA), buttons[indexA]);
+
+
 	buttons.erase(buttons.begin() + indexA + (indexB <= indexA));
 	updateButtonPos();
 
