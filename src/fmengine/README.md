@@ -29,13 +29,31 @@ void myAudioCallback(short *out, int nbFrames){
 }
 ```
 
-- Changing the output volume
+- Change the output volume
 ```
-fm_setVolume(fm,volume); // 0 to 99
+fm_setPlaybackVolume(fm,volume); // 0 to 99
 ```
 
+- Get the song length in seconds
+```
+float songLength = fm_getSongLength(fm);
+```
 
-- Once you are tired of FM sounds
+- Set the playback position
+```
+// pattern is the index of the pattern to seek at
+// row is the row number
+// cutMode tells how the playing notes are affected : 0 = keep playing notes, 1 = force note off, 2 = hard cut
+fm_setPosition(fm, pattern, row, cutMode);
+```
+
+- Change the song tempo
+```
+// tempo is in BPM, from 1 to 255. Setting may be overrided by the song if some pattern use Tempo commands
+fm_setTempo(fm, tempo);
+```
+
+- Once you are tired of this
 ```
 fm_destroy(fm); // free resources allocated with fm_create
 
