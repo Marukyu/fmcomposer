@@ -1,11 +1,12 @@
-   _____ _ _ _      __
-    /  '' ) ) )    /  )
- ,-/-,   / / /    /   __ ______  _   __ _   _  __ 
-(_/     / ' (_   (__/(_)/ / / <_/_)_(_)/_)_</_/ (_
-                               / 
-                              '  v1.6 (2018-04-14)
-
-     by Stéphane Damo -- http://fmcomposer.org
+|    _____ _ _ _      __
+|     /  '' ) ) )    /  )
+|  ,-/-,   / / /    /   __ ______  _   __ _   _  __ 
+| (_/     / ' (_   (__/(_)/ / / <_/_)_(_)/_)_</_/ (_
+|                                / 
+|                               '  v1.7 (2018-05-11)
+| 
+| by Stéphane "Phanoo" Damo -- http://fmcomposer.org
+|_____________________________________________________
 
 
 Thank you for downloading FM Composer !
@@ -29,8 +30,7 @@ Lowest tested, fully working setup :
 This software is free and contains no ads nor intrusive features.
 
 
-Thanks to Masami Komuro, Klairzaki Fil-Xter and Isaac Zuniga for their contributions
-(quality testing, ideas, help for designing instruments and much more)
+Thanks to Masami Komuro, Klairzaki Fil-Xter and Isaac Zuniga for their contributions !
 
 
 *** Additional credits ***
@@ -46,6 +46,11 @@ Thanks to Masami Komuro, Klairzaki Fil-Xter and Isaac Zuniga for their contribut
 
 
 *** Changelog ***
+
+v1.7 (2018-05-11)
+	- [Fix] Crash after undoing a pasted selection that was out of the pattern bounds
+	- [Fix] Under some circumstances, the song playback position was changed when navigating to the Pattern screen
+	- [FM engine fix] Portamento effect (G) was wrong when Global Transposition was used
 
 v1.6 (2018-04-14)
 	- [Feature] Multi-track export !
