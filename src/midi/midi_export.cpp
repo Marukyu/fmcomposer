@@ -133,8 +133,7 @@ void midiExport(const char* filename)
 						lastnote[i] = -1;
 					}
 					// program change
-					if (fm->pattern[k][j][i].note < 128 && lastinstr[i] != fm->pattern[k][j][i].instr && fm->pattern[k][j][i].instr != 255
-						&& midiExportAssocChannels[fm->pattern[k][j][i].instr] == 0)
+					if (fm->pattern[k][j][i].note < 128 && lastinstr[i] != fm->pattern[k][j][i].instr && fm->pattern[k][j][i].instr != 255)
 					{
 						WriteVarLen(cpt * 8, &file);
 						file.put(192 + midiExportAssocChannels[fm->pattern[k][j][i].instr]);
@@ -145,7 +144,6 @@ void midiExport(const char* filename)
 					// note on
 					if (fm->pattern[k][j][i].note < 128)
 					{
-
 						if (bufferChVol[i] != -1)
 						{
 							WriteVarLen(cpt * 8, &file);
@@ -175,7 +173,8 @@ void midiExport(const char* filename)
 						}
 
 						// percussion
-						if (midiExportAssocChannels[fm->pattern[k][j][i].instr] == 9)
+						if (fm->pattern[k][j][i].instr < 255 && midiExportAssocChannels[fm->pattern[k][j][i].instr] == 9 ||
+							lastinstr[i] != -1 && midiExportAssocChannels[lastinstr[i]] == 9)
 						{
 							WriteVarLen(cpt * 8, &file);
 							file.put(144 + 9);
@@ -185,6 +184,9 @@ void midiExport(const char* filename)
 						else
 						{
 							WriteVarLen(cpt * 8, &file);
+							if (fm->pattern[k][j][i].instr<255)
+							lastinstr[i] = fm->pattern[k][j][i].instr;
+							
 							file.put(144 + midiExportAssocChannels[lastinstr[i]]);
 							lastnote[i] = fm->pattern[k][j][i].note;
 						}
@@ -198,6 +200,7 @@ void midiExport(const char* filename)
 						file.write((char*)&lastvol[i], 1);
 						cpt = 0;
 					}
+
 
 					switch (fm->pattern[k][j][i].fx)
 					{
@@ -250,19 +253,21 @@ void midiExport(const char* filename)
 			}
 			cpt++;
 		}
+		for (int i = 0; i < FM_ch; i++)
+		{
+			if (lastnote[i] != -1)
+			{
+				WriteVarLen(cpt * 8, &file);
+				file.put(128 + midiExportAssocChannels[lastinstr[i]]);
+				file.write((char*)&lastnote[i], 1);
+				file.write((char*)&lastvol[i], 1);
+				cpt = 0;
+			}
+		}
+
 	}
 
-	for (int i = 0; i < FM_ch; i++)
-	{
-		if (lastnote[i] != -1)
-		{
-			WriteVarLen(cpt * 16, &file);
-			file.put(128 + midiExportAssocChannels[lastinstr[i]]);
-			file.write((char*)&lastnote[i], 1);
-			file.write((char*)&lastvol[i], 1);
-			cpt = 0;
-		}
-	}
+
 	file.put(0x00);
 
 
