@@ -1379,6 +1379,11 @@ void fm_stopSound(fmsynth* f)
 
 void fm_play(fmsynth* f)
 {
+	if (f->playing)
+	{
+		fm_stop(f,1);
+		fm_setPosition(f,0,0,2);
+	}
 	if (!f->channelStatesDone)
 		fm_buildStateTable(f, 0, f->patternCount, 0, FM_ch);
 	f->playing = f->patternCount > 0;

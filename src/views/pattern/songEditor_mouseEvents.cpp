@@ -338,7 +338,7 @@ void SongEditor::leftMouseRelease()
 		}
 
 		fm_setPosition(fm, patternListHovered, fm->playing ? 0 : fm->row, 2);
-
+		selection.bg.setSize(Vector2f(selection.bg.getSize().x, min(selection.bg.getSize().y, fm->patternSize[fm->order] * ROW_HEIGHT - selection.bg.getPosition().y)));
 	}
 
 

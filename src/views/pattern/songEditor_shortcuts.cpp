@@ -315,6 +315,7 @@ void SongEditor::handleShortcuts()
 			case Keyboard::V:// coller
 				if (copiedSelection.data.size())
 				{
+
 					saveToHistory(fm->row, copiedSelection.data[0].size());
 					saveToHistory(fm->row, copiedSelection.data[0].size());
 					patPaste(&copiedSelection, selectedChannel, selectedRow);

@@ -58,6 +58,13 @@ void SongEditor::saveToHistory(int _y, int size)
 		_y += size;
 		size = abs(size);
 	}
+
+	if (_y + size >= fm_getPatternSize(fm, fm->order))
+	{
+		size = fm_getPatternSize(fm, fm->order) - _y;
+	}
+
+
 	while (history[fm->order].size()>0 && currentHistoryPos[fm->order] < history[fm->order].size())
 	{
 		history[fm->order].pop_back();
