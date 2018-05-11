@@ -9,7 +9,11 @@ fmsynth* fm = fm_create(44100);
 
 - Load some song 
 ```
+// from a file
 fm_loadSong(fm,"mysong.fmcs");
+
+// from memory
+fm_loadSongFromMemory(fm, char* data, unsigned length)
 ```
 - Play !
 ```
@@ -24,18 +28,43 @@ void myAudioCallback(short *out, int nbFrames){
   // nbFrames*2 because the output is stereo
   // FM_RENDER_16 will output 16 bit signed short
   // There are also FM_RENDER_24, FM_RENDER_FLOAT and other other formats available
+  
   fm_render(fm,out,nbFrames*2,FM_RENDER_16);
 
 }
 ```
 
-- Changing the output volume
+- Change the output volume
 ```
-fm_setVolume(fm,volume); // 0 to 99
+fm_setPlaybackVolume(fm,int volume); // 0 to 99
 ```
 
+- Get the song length in seconds
+```
+float songLength = fm_getSongLength(fm);
+```
 
-- Once you are tired of FM sounds
+- Set the playback position
+```
+// pattern is the index of the pattern to seek at
+// row is the row number
+// cutMode tells how the playing notes are affected : 0 = keep playing notes, 1 = force note off, 2 = hard cut
+fm_setPosition(fm, int pattern, int row, int cutMode);
+```
+
+- Get the playback position
+```
+int currentPattern, currentRow;
+fm_getPosition(fm, &currentPattern, &currentRow);
+```
+
+- Change the song tempo
+```
+// tempo is in BPM, from 1 to 255. Setting may be overrided by the song if some pattern use Tempo commands
+fm_setTempo(fm, int tempo);
+```
+
+- Once you are tired of this
 ```
 fm_destroy(fm); // free resources allocated with fm_create
 
