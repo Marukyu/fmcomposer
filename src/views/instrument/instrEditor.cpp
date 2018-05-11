@@ -100,7 +100,7 @@ temperament(806 + 6, y + 657 + 6, "Temperament", -1, 6), k_fx1(806, y + 627, 7, 
 
 	updateFromFM();
 	updateInstrListFromFM();
-
+	songModified(0);
 	
 }
 
