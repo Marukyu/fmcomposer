@@ -126,6 +126,7 @@ void fm_setDefaults(fmsynth* f)
 	f->initialReverbRoomSize = 0.55;
 	f->looping = -1;
 	f->channelStatesDone = 0;
+	f->playbackVolume = 1;
 }
 
 
@@ -1015,8 +1016,8 @@ void _fm_render(fmsynth* f, float* buffer, unsigned length)
 
 
 			/* Final mix */
-			buffer[b] = (renduL + outL22) * f->globalVolume;
-			buffer[b + 1] =(renduR + outR22) * f->globalVolume;
+			buffer[b] = (renduL + outL22) * f->globalVolume * f->playbackVolume;
+			buffer[b + 1] =(renduR + outR22) * f->globalVolume * f->playbackVolume;
 			b += 2;
 			if (b>=length)
 				return;
@@ -2209,6 +2210,12 @@ void fm_setVolume(fmsynth *f, int volume)
 	volume = clamp(volume, 0, 99);
 	f->_globalVolume = volume;
 	f->globalVolume = expVol[volume] * 4096 / LUTsize;
+}
+
+
+void fm_setPlaybackVolume(fmsynth *f, int volume)
+{
+	f->playbackVolume = expVol[volume] * 4096 / LUTsize;
 }
 
 void fm_getPosition(fmsynth* f, int *order, int *row)

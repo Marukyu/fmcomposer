@@ -184,6 +184,7 @@ extern "C"{
 	typedef struct fmsynth{
 		char songName[64], author[64], comments[256];
 		float globalVolume;
+		float playbackVolume;
 		unsigned char _globalVolume;
 		fm_instrument *instrument; // here are stored your instruments
 		unsigned char instrumentCount;
@@ -268,6 +269,7 @@ extern "C"{
 	void fm_stop(fmsynth* f, int mode);
 
 
+	void fm_setPlaybackVolume(fmsynth *f, int volume);
 
 	/** Set the global volume
 		@param volume : volume, 0-99
