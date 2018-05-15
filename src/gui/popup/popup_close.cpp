@@ -33,15 +33,15 @@ void Popup::buttonActions(int buttonID)
 			{
 				case 0:
 					lists[0].add("#"+std::to_string(lists[0].text.size()+1));
-					export.multitrackAssoc.resize(export.multitrackAssoc.size()+1);
-					export.multitrackAssoc[export.multitrackAssoc.size() - 1].resize(1);
-					export.multitrackAssoc[export.multitrackAssoc.size() - 1][0]=0;
+					streamedExport.multitrackAssoc.resize(streamedExport.multitrackAssoc.size()+1);
+					streamedExport.multitrackAssoc[streamedExport.multitrackAssoc.size() - 1].resize(1);
+					streamedExport.multitrackAssoc[streamedExport.multitrackAssoc.size() - 1][0]=0;
 					lists[0].select(lists[0].text.size()-1);
 					updateMultitrackExportList();
 					break;
 				case 1:
-					if (export.multitrackAssoc.size() > 1) {
-						export.multitrackAssoc.erase(export.multitrackAssoc.begin()+lists[0].value);
+					if (streamedExport.multitrackAssoc.size() > 1) {
+						streamedExport.multitrackAssoc.erase(streamedExport.multitrackAssoc.begin()+lists[0].value);
 						lists[0].remove(lists[0].value);
 						for (unsigned i = 0; i < lists[0].text.size(); i++)
 						{
@@ -53,9 +53,9 @@ void Popup::buttonActions(int buttonID)
 				case 2:
 					for (unsigned i = 0; i < FM_ch; i++)
 					{
-						export.mutedChannels[i] = fm->ch[i].muted;
+						streamedExport.mutedChannels[i] = fm->ch[i].muted;
 					}
-					export.multiTrackIter=0;
+					streamedExport.multiTrackIter=0;
 					promptStreamedExport();
 					break;
 				case 3:
@@ -302,28 +302,28 @@ void Popup::buttonActions(int buttonID)
 
 			if (buttonID == 0)
 			{ // ok button
-				export.fromPattern = sliders[1].value;
-				export.toPattern = sliders[2].value;
-				export.nbLoops = sliders[3].value;
-				export.format = checkboxes[0].checked+2*checkboxes[1].checked;
+				streamedExport.fromPattern = sliders[1].value;
+				streamedExport.toPattern = sliders[2].value;
+				streamedExport.nbLoops = sliders[3].value;
+				streamedExport.format = checkboxes[0].checked+2*checkboxes[1].checked;
 				mouse.clickLock2 = 1;
 
 				
 				// WAVE
 				if (checkboxes[0].checked)
 				{
-					export.bitDepth = sliders[5].value;
+					streamedExport.bitDepth = sliders[5].value;
 				}
 				// MP3
 				else if (checkboxes[1].checked)
 				{
-					export.param = (sliders[0].value) + checkboxes[3].checked * 100;
+					streamedExport.param = (sliders[0].value) + checkboxes[3].checked * 100;
 				}
 				// FLAC
 				else
 				{
-					export.bitDepth = sliders[6].value;
-					export.param = sliders[4].value;
+					streamedExport.bitDepth = sliders[6].value;
+					streamedExport.param = sliders[4].value;
 				}
 
 				// multi-track export
@@ -333,7 +333,7 @@ void Popup::buttonActions(int buttonID)
 				// single-track export
 				else
 				{
-					export.multitrackAssoc.clear();
+					streamedExport.multitrackAssoc.clear();
 					promptStreamedExport();
 				}
 

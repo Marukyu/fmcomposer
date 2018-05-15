@@ -7,6 +7,7 @@
 #include <float.h>
 #include <math.h>
 
+
 /* Current version of instrument/song formats */
 #define FMCI_version 1
 #define FMCS_version 1
@@ -21,7 +22,9 @@
 #define _2400TO1 1/2400
 #define SEMITONE_RATIO 0.059463 * 0.01 /* 0.059463 = ratio between two semitones https://en.wikipedia.org/wiki/Twelfth_root_of_two */
 
-#define clamp(x, low, high)  (((x) > (high)) ? (high) : (((x) < (low)) ? (low) : (x)))
+#define min(a, b) ((a) < (b) ? (a) : (b))
+#define max(a, b) ((a) > (b) ? (a) : (b))
+#define clamp(x, low, high) (((x) > (high)) ? (high) : (((x) < (low)) ? (low) : (x)))
 
 /* Sine wave lookup table size */
 
@@ -161,7 +164,9 @@ fmsynth* fm_create(int _sampleRate)
 	{
 
 		/* avoid slow float denormals + round floats down (needed if program compiled with QIfirst option (FISTP) fast int/float conversion) */
+		#ifdef _WIN32
 		_control87(_RC_DOWN, _MCW_RC);
+		#endif
 		_MM_SET_FLUSH_ZERO_MODE(_MM_FLUSH_ZERO_ON);
 
 		/* Build waveform tables */

@@ -76,6 +76,7 @@ void handleUnconditionalEvents()
 			updateViews(evt.size.width, evt.size.height);
 
 			break;
+			#ifdef FMC_MODIFIED_SFML
 		case Event::FileDropped:
 			if (checkExtension(evt.file.path, "fmcs") || checkExtension(evt.file.path, "mid") || checkExtension(evt.file.path, "rmi") || checkExtension(evt.file.path, "smf"))
 			{
@@ -88,6 +89,7 @@ void handleUnconditionalEvents()
 
 			free(evt.file.path);
 			break;
+			#endif
 	}
 
 	if (windowFocus)

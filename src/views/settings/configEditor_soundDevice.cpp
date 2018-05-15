@@ -1,6 +1,10 @@
 #include "configEditor.hpp"
+
+
+#ifdef _WIN32
 #include "pa_win_wasapi.h"
 #include "pa_win_ds.h"
+#endif
 
 
 extern PaStream *stream;
@@ -32,6 +36,7 @@ int ConfigEditor::selectSoundDevice(int soundDeviceId, int _samplerate, int _lat
 
 	const PaDeviceInfo* p = Pa_GetDeviceInfo(soundDeviceId);
 	const PaHostApiInfo *phost = Pa_GetHostApiInfo(p->hostApi);
+#ifdef _WIN32
 	PaWasapiStreamInfo wasapi_p;
 	PaWinDirectSoundStreamInfo dsound_p;
 
@@ -55,6 +60,7 @@ int ConfigEditor::selectSoundDevice(int soundDeviceId, int _samplerate, int _lat
 		nout.suggestedLatency = 0.001*max(32,nearestPow2(_latency));
 	}
 	else
+#endif
 	{
 		nout.hostApiSpecificStreamInfo = 0;
 	}
@@ -130,7 +136,7 @@ void ConfigEditor::selectBestSoundDevice()
 		return;
 
 	int soundDeviceId = atoi(ini_config.GetValue("config", "soundDeviceId", "-1"));
-	if (stricmp(lastRunVersion.c_str(), "1.4") == 0())
+	if (equalsIgnoreCase(lastRunVersion.c_str(), "1.4"))
 	{
 		
 		soundDeviceId+=directXdevicesCount;

@@ -73,11 +73,11 @@ void Popup::updateEffectDescription()
 				   if (fm->pattern[pos / 128][pos % 128][songEditor->selectedChannel].note < 128)
 				   {
 					   int baseNote = fm->pattern[pos / 128][pos % 128][songEditor->selectedChannel].note;
-					   texts[0].setString(L"Play a fast triplet arpeggio :\n• " + noteName(baseNote) + L"\n• " + noteName(baseNote + sliders[0].value % 16) + " (" + intervals[sliders[0].value % 16] + L")\n• " + noteName(baseNote + sliders[0].value / 16) + " (" + intervals[sliders[0].value / 16] + ") ");
+					   texts[0].setString(L"Play a fast triplet arpeggio :\n>" + noteName(baseNote) + L"\n> " + noteName(baseNote + sliders[0].value % 16) + " (" + intervals[sliders[0].value % 16] + L")\n> " + noteName(baseNote + sliders[0].value / 16) + " (" + intervals[sliders[0].value / 16] + ") ");
 				   }
 				   else
 				   {
-					   texts[0].setString(L"Play a fast triplet arpeggio :\n• Base note\n• note+" + int2str[sliders[0].value % 16] + " (" + intervals[sliders[0].value % 16] + ") " + L"\n• note+" + int2str[sliders[0].value / 16] + " (" + intervals[sliders[0].value / 16] + ") ");
+					   texts[0].setString(L"Play a fast triplet arpeggio :\n> Base note\n> note+" + int2str[sliders[0].value % 16] + " (" + intervals[sliders[0].value % 16] + ") " + L"\n> note+" + int2str[sliders[0].value / 16] + " (" + intervals[sliders[0].value / 16] + ") ");
 				   }
 				   sliders[0].name.setString("Arpeggio notes");
 				   texts[1].setString("");

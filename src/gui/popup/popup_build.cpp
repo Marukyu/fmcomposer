@@ -597,28 +597,28 @@ void Popup::show(int _type, int param)
 			buttons.push_back(Button(30, h - 50, "Cancel", -1, 8));
 
 
-			if (export.multitrackAssoc.size() < lists[0].text.size())
+			if (streamedExport.multitrackAssoc.size() < lists[0].text.size())
 			{
-				if (export.multitrackAssoc.size() ==0)
+				if (streamedExport.multitrackAssoc.size() ==0)
 				{
 					lists[0].add("#2");
 					lists[0].add("#3");
 					lists[0].add("#4");
-					export.multitrackAssoc.resize(lists[0].text.size());
-					for (unsigned i = 0; i < export.multitrackAssoc.size(); i++)
+					streamedExport.multitrackAssoc.resize(lists[0].text.size());
+					for (unsigned i = 0; i < streamedExport.multitrackAssoc.size(); i++)
 					{
-						export.multitrackAssoc[i].resize(1);
-						export.multitrackAssoc[i][0]=0;
+						streamedExport.multitrackAssoc[i].resize(1);
+						streamedExport.multitrackAssoc[i][0]=0;
 					}
 				}
 				else
 				{
-					export.multitrackAssoc.resize(lists[0].text.size());
+					streamedExport.multitrackAssoc.resize(lists[0].text.size());
 				}
 			}
-			if (lists[0].text.size() < export.multitrackAssoc.size())
+			if (lists[0].text.size() < streamedExport.multitrackAssoc.size())
 			{
-				for (unsigned i = lists[0].text.size(); i < export.multitrackAssoc.size(); i++)
+				for (unsigned i = lists[0].text.size(); i < streamedExport.multitrackAssoc.size(); i++)
 				{
 					lists[0].add("#"+std::to_string(lists[0].text.size()+1));
 				}

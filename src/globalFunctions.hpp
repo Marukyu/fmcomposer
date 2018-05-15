@@ -18,9 +18,23 @@
 #define VERSION_DATE "2018-05-11"
 
 
-#define min(x,y) ((x) < (y) ? (x) : (y))
-#define max(x,y) ((x) > (y) ? (x) : (y))
-#define clamp(x, low, high)  (((x) > (high)) ? (high) : (((x) < (low)) ? (low) : (x)))
+template <typename T, typename T2>
+constexpr T min(T x, T2 y)
+{
+	return x < y ? x : y;
+}
+
+template <typename T, typename T2>
+constexpr T max(T x, T2 y)
+{
+	return x > y ? x : y;
+}
+
+template <typename T, typename T2, typename T3>
+constexpr T clamp(T x, T2 low, T3 high)
+{
+	return x > high ? high : (x < low ? low : x);
+}
 
 
 using namespace std;
@@ -76,6 +90,8 @@ T toNumber(const string& numberAsString)
 void updateViews(int width, int height);
 
 string float2string(float f, int nd);
+
+bool equalsIgnoreCase(const string & a, const string & b);
 
 int checkExtension(string filename, string extension);
 

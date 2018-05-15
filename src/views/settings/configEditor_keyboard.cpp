@@ -96,7 +96,7 @@ void SFKeyToString(unsigned int keycode, char *keyStr)
 		case sf::Keyboard::X: sprintf(keyStr, "X"); break;
 		case sf::Keyboard::Y: sprintf(keyStr, "Y"); break;
 		case sf::Keyboard::Z: sprintf(keyStr, "Z"); break;
-		case sf::Keyboard::Exclamation: sprintf(keyStr, "!"); break;
+		//case sf::Keyboard::Exclamation: sprintf(keyStr, "!"); break;
 		default:
 			sprintf(keyStr, "%c", keycode);
 	}

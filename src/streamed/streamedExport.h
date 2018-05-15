@@ -1,10 +1,10 @@
 #ifndef STREAMEDEXPORT_H
 #define STREAMEDEXPORT_H
 
+#include <string>
 #include <vector>
 
-
-typedef struct export{
+typedef struct StreamedExport{
 	int param;
 	int fromPattern;
 	int format;
@@ -17,9 +17,9 @@ typedef struct export{
 	int running;
 	std::string fileName;
 	std::string originalFileName;
-}export;
+}StreamedExport;
 
-extern struct export export;
+extern struct StreamedExport streamedExport;
 
 extern const int mp3_bitrates[16];
 

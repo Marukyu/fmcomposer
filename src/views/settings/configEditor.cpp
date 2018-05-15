@@ -143,7 +143,7 @@ wasapiExclusive(420, 325, "Exclusive mode")
 
 
 
-	if (!stricmp(ini_config.GetValue("config", "firstStart", "1"), "1"))
+	if (equalsIgnoreCase(ini_config.GetValue("config", "firstStart", "1"), "1"))
 	{
 #ifdef _WIN32
 		HKL lang = GetKeyboardLayout(0);
@@ -289,7 +289,9 @@ void ConfigEditor::draw()
 	wasapiExclusive.draw();
 }
 
+#ifdef _WIN32
 #include "pa_win_wasapi.h"
+#endif
 
 static const string hostnames[15];
 
@@ -316,7 +318,7 @@ void ConfigEditor::refresh()
 	soundDeviceIds.clear();
 
 	bool skipDirectXdevices=false;
-	if (stricmp(lastRunVersion.c_str(), "1.4") == 0())
+	if (equalsIgnoreCase(lastRunVersion.c_str(), "1.4"))
 	{
 		skipDirectXdevices=true;
 	}
@@ -335,7 +337,7 @@ void ConfigEditor::refresh()
 
 		if (p->maxOutputChannels>0)
 		{
-			soundDevicesList.add(string(hostnames[phost->type]) + " " + utf8_to_string(p->name, locale(".1252")));
+			soundDevicesList.add(string(hostnames[phost->type]) + " " + utf8_to_string(p->name, locale("")));
 
 			
 

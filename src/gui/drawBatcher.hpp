@@ -3,11 +3,11 @@
 
 #include <SFML/Graphics.hpp>
 #include <vector>
-#include "button\button.hpp"
+#include "button/button.hpp"
 #include "slider/dataslider.hpp"
-#include "vumeter\vumeter.hpp"
-#include "scrollbar\scrollbar.hpp"
-#include "textfield\textfield.hpp"
+#include "vumeter/vumeter.hpp"
+#include "scrollbar/scrollbar.hpp"
+#include "textfield/textfield.hpp"
 #include "operator/operator.hpp"
 #include "list/list.hpp"
 

@@ -30,14 +30,14 @@ void ConfigEditor::saveRecentSongs()
 
 void ConfigEditor::loadLastSong()
 {
-	if (!stricmp(ini_config.GetValue("config", "firstStart", "1"), "1"))
+	if (equalsIgnoreCase(ini_config.GetValue("config", "firstStart", "1"), "1"))
 	{
 
 		song_load(string(appdir + "songs" + pathSeparator + "AnotherThing.fmcs").c_str(), true);
 		popup->show(POPUP_FIRSTSTART);
 	}
 
-	if (!stricmp(ini_config.GetValue("config", "openLastFileAtStart", "1"), "1") && recentSongs->text.size() > 0)
+	if (equalsIgnoreCase(ini_config.GetValue("config", "openLastFileAtStart", "1"), "1") && recentSongs->text.size() > 0)
 	{
 		song_load(recentSongs->text[0].getString().toAnsiString().c_str(), true);
 	}

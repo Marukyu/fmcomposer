@@ -8,10 +8,14 @@
 #include "libs/tinyfiledialogs/tinyfiledialogs.h"
 #include "libs/simpleini/SimpleIni.h"
 #include "gui/mainmenu.hpp"
-#include <direct.h>
 #include "portaudio.h"
 #include "gui/sidebar.hpp"
 
+#ifdef _WIN32
+#include <direct.h>
+#else
+#include <sys/stat.h>
+#endif
 
 
 extern CSimpleIniA ini_gmlist;
@@ -144,10 +148,15 @@ bool appInFocus(sf::RenderWindow* app)
 {
 	if (app == NULL)
 		return false;
+#ifdef _WIN32
 	HWND handle = app->getSystemHandle();
 	bool one = handle == GetFocus();
 	bool two = handle == GetForegroundWindow();
 	return one && two;
+#else
+	// TODO: proper focus implementation on non-win32 systems
+	return true;
+#endif
 }
 
 extern List *instrList;
@@ -211,17 +220,36 @@ void updateViews(int width, int height)
 }
 
 
+bool equalsIgnoreCase(const string & a, const string & b)
+{
+	size_t size = a.size();
+
+	if (size != b.size())
+	{
+		return false;
+	}
+
+	for (size_t i = 0; i < size; ++i)
+	{
+		if (tolower(a[i]) != tolower(b[i]))
+		{
+			return false;
+		}
+	}
+	return true;
+}
+
 
 int checkExtension(string filename, string extension)
 {
-	return stricmp(filename.substr(filename.length() - extension.length()).c_str(), extension.c_str()) == 0;
+	return equalsIgnoreCase(filename.substr(filename.length() - extension.length()).c_str(), extension.c_str());
 }
 
 
 
 string forceExtension(string filename, string extension)
 {
-	if (stricmp(filename.substr(filename.length() - extension.length() - 1).c_str(), string("." + extension).c_str()) == 0)
+	if (equalsIgnoreCase(filename.substr(filename.length() - extension.length() - 1).c_str(), string("." + extension).c_str()))
 	{
 		return filename;
 	}
@@ -393,7 +421,7 @@ void global_initialize()
 		audioInitialized = true;
 	}
 
-	callbackFunc = &patestCallback;
+	callbackFunc = (void*)&patestCallback;
 
 	computeNoteNames();
 
