@@ -1,5 +1,6 @@
 /* ptwinmm.c -- portable timer implementation for win32 */
 
+#ifdef _WIN32
 
 #include "porttime.h"
 #include "windows.h"
@@ -68,3 +69,5 @@ PMEXPORT void Pt_Sleep(int32_t duration)
 {
     Sleep(duration);
 }
+
+#endif

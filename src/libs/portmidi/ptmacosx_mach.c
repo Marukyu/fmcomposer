@@ -1,5 +1,7 @@
 /* ptmacosx.c -- portable timer implementation for mac os x */
 
+#ifdef __APPLE__
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <CoreAudio/HostTime.h>
@@ -129,3 +131,5 @@ void Pt_Sleep(int32_t duration)
 {
     usleep(duration * 1000);
 }
+
+#endif

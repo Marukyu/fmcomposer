@@ -12,6 +12,8 @@
 
  */
 
+#ifdef _WIN32
+
 #include "stdlib.h"
 #include "portmidi.h"
 #include "pmutil.h"
@@ -140,4 +142,5 @@ void pm_free(void *ptr) {
     free(ptr); 
 }
 
+#endif
 

@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include "portmidi.h"
+#include "../portmidi.h"
 
 #define STRING_MAX 256
 

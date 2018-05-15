@@ -11,9 +11,9 @@
  */
 
 #include "stdlib.h"
-#include "portmidi.h"
-#include "pmutil.h"
-#include "pminternal.h"
+#include "../portmidi.h"
+#include "../pmutil.h"
+#include "../pminternal.h"
 
 #ifdef PMALSA
   #include "pmlinuxalsa.h"

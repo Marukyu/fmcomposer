@@ -1,5 +1,7 @@
 /* pmwinmm.c -- system specific definitions */
 
+#ifdef _WIN32
+
 #ifdef _MSC_VER
  #pragma warning(disable: 4133) // stop warnings about implicit typecasts
 #endif
@@ -1462,3 +1464,5 @@ void pm_winmm_term( void )
 #endif
     pm_descriptor_index = 0;
 }
+
+#endif

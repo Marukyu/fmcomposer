@@ -8,12 +8,12 @@
  */ 
 
 #include "stdlib.h"
-#include "portmidi.h"
-#include "pmutil.h"
-#include "pminternal.h"
+#include "../portmidi.h"
+#include "../pmutil.h"
+#include "../pminternal.h"
 #include "pmlinuxalsa.h"
 #include "string.h"
-#include "porttime.h"
+#include "../porttime.h"
 #include "pmlinux.h"
 
 #include <alsa/asoundlib.h>

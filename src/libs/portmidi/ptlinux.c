@@ -24,6 +24,9 @@ CHANGE LOG
 /* stdlib, stdio, unistd, and sys/types were added because they appeared
  * in a Gentoo patch, but I'm not sure why they are needed. -RBD
  */
+ 
+#ifdef __linux__
+ 
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
@@ -134,5 +137,5 @@ void Pt_Sleep(int32_t duration)
     usleep(duration * 1000);
 }
 
-
+#endif
 
