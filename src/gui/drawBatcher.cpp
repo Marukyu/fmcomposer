@@ -1,6 +1,8 @@
 #include "drawBatcher.hpp"
 #include "../globalFunctions.hpp"
 
+#include <math.h>
+
 DrawBatcher drawBatcher;
 
 
@@ -57,14 +59,14 @@ void DrawBatcher::addItemBicolor(float x, float y, float w, float h, sf::Color c
 
 void DrawBatcher::addItem(Operator *o)
 {
-	
+
 
 	addItemSingleColor(o->bg.getPosition().x-1, o->bg.getPosition().y-1, OP_SIZE+2, OP_SIZE+2, o->bg.getOutlineColor());
 
 	addItemSingleColor(o->bg.getPosition().x, o->bg.getPosition().y, OP_SIZE, OP_SIZE, (o->active || o->highlighted || o->hovered ) ? colors[OPERATORBGHOVER] : colors[o->muted ? OPERATORBGMUTED : OPERATORBG]);
 
 	addItemSingleColor(o->bgValue.getPosition().x, o->bgValue.getPosition().y, OP_SIZE, o->bgValue.getSize().y, o->bgValue.getFillColor());
-	
+
 
 	if (o->active || o->highlighted || o->hovered)
 	{
@@ -97,7 +99,7 @@ void DrawBatcher::addItem(DataSlider *d)
 		{
 			addItemSingleColor(d->x, d->y, d->width, 19, d->focused ? colors[SLIDERBGHOVER] : colors[SLIDERBG]);
 		}
-	
+
 
 		addItemSingleColor(d->bgValue.getPosition().x, d->y, d->bgValue.getSize().x, 19, d->focused ? colors[SLIDERBARHOVER] : colors[SLIDERBAR]);
 		addItem(&d->name);
@@ -192,13 +194,13 @@ void DrawBatcher::addItem(List *l)
 		addItem(&l->s2);
 
 	if (l->selectionVisible()) {
-		
+
 		for (unsigned i = 0; i < l->selecteds_s.size(); i++)
 		{
 			if ((int)round(l->selecteds_s[i].getPosition().y)>=l->y && (int)round(l->selecteds_s[i].getPosition().y)<l->y+(int)round(l->bg.getSize().y))
 				addItem(&l->selecteds_s[i]);
 		}
-	
+
 	}
 
 
@@ -229,7 +231,7 @@ void DrawBatcher::addItem(RectangleShape *r)
 	{
 		addItemSingleColor(r->getPosition().x, r->getPosition().y, r->getSize().x, r->getSize().y, r->getFillColor());
 	}
-	
+
 }
 
 
@@ -254,7 +256,7 @@ void DrawBatcher::draw()
 	window->draw(lines);
 	for (unsigned i=0; i<textCount; i++)
 		window->draw(*texts[i]);
-	
+
 }
 
 void DrawBatcher::addItem(sf::Text* text)

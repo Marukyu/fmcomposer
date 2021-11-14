@@ -1,5 +1,8 @@
 #include "list.hpp"
 #include "../contextmenu/contextmenu.hpp"
+
+#include <math.h>
+
 extern void *focusedElement;
 
 
@@ -110,14 +113,14 @@ bool List::clicked(int mouseButton)
 			scrollbar.setValue((float)scroll / ((int)text.size() - maxrows) * 100);
 		}
 		updateView();
-		
+
 	}
 
 
 
 	if (hover())
 	{
-		
+
 			hovered = 1;
 			s2.setPosition(x, y + min(text.size() - 1 - scroll, (mouse.pos.y - y) / 17) * 17);
 			if (mouse.scroll != 0)
@@ -138,7 +141,7 @@ bool List::clicked(int mouseButton)
 				selected = 1;
 				return true;
 			}
-		
+
 	}
 	else
 	{
@@ -189,13 +192,13 @@ void List::draw()
 		window->draw(s2);
 
 	if (selectionVisible()) {
-		
+
 		for (unsigned i = 0; i < selecteds_s.size(); i++)
 		{
 			if ((int)round(selecteds_s[i].getPosition().y)>=y && (int)round(selecteds_s[i].getPosition().y)<y+(int)round(bg.getSize().y))
 				window->draw(selecteds_s[i]);
 		}
-	
+
 	}
 
 	for (unsigned i = scroll; i<min<int>(scroll + maxrows, text.size()); ++i)
@@ -234,7 +237,7 @@ void List::selectAll()
 void List::select(int index, bool updateScroll, bool hold)
 {
 
-	
+
 	if (multiple && keyboard.shift)
 	{
 		for (unsigned i = value; i <= index; i++)
@@ -248,7 +251,7 @@ void List::select(int index, bool updateScroll, bool hold)
 	}
 
 	value = clamp(index, 0, (int)text.size() - 1);
-	
+
 	if (multiple && (keyboard.ctrl || hold))
 	{
 		selecteds[value]=!selecteds[value];
@@ -273,12 +276,12 @@ void List::select(int index, bool updateScroll, bool hold)
 			scroll = 0;
 		setScroll(scroll);
 	}
-	
+
 	s.setPosition(x, y + (value - scroll) * 17);
 
-	
+
 	updateView();
-	
+
 }
 
 void List::remove(int index)
@@ -290,7 +293,7 @@ void List::remove(int index)
 		value = text.size() - 1;
 		selecteds[text.size() - 1]=true;
 	}
-	
+
 	updateView();
 }
 
@@ -381,11 +384,11 @@ void List::updateView()
 		selecteds_s[selecteds_s.size()-1].setPosition(x, y + (value - scroll) * 17);
 		selecteds_s[selecteds_s.size()-1].setFillColor(colors[LISTITEMBGFOCUS]);
 	}
-		
+
 	for (int i = 0; i < text.size(); i++)
 	{
 		text[i].setColor(colors[selecteds[i] ? LISTITEMTEXTFOCUS : LISTITEMTEXT]);
 	}
 
-	
+
 }
