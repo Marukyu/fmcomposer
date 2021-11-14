@@ -1,5 +1,8 @@
 #include "textfield.hpp"
 #include "../contextmenu/contextmenu.hpp"
+
+#include <math.h>
+
 extern void *focusedElement;
 
 // very primitive text input, quite sucking atm
@@ -38,7 +41,7 @@ int TextInput::getSelectionStart()
 {
 	if (pos2 < selectionBegin)
 	{
-		
+
 		return max(0, selectionBegin - selectionCount);
 	}
 	else
@@ -62,7 +65,7 @@ int TextInput::getCursorIndex(int &stringPosLastLine)
 	{
 		stringPosLastLine += charCountLine[i];
 	}
-	
+
 	int pos22 = stringPosLastLine;
 	int pos = 0;
 	while (pos < mouse.pos.x - 8 && pos22 < stringPosLastLine + charCountLine[currentLine] && (int)round((text.findCharacterPos(pos22+1).y - y) / font.getLineSpacing(charSize)) == currentLine && text.getString()[pos22] != '\n')
@@ -91,13 +94,13 @@ void TextInput::removeLine()
 void TextInput::newLine()
 {
 
-	
+
 	currentLine++;
 	charCountLine.insert(charCountLine.begin() + currentLine, 0);
 	charCountLine[currentLine]++;
 	text.setString(string(text.getString()).insert(selectionBegin, "\n"));
 	selectionBegin++;
-	
+
 }
 
 void TextInput::createNewLine()
@@ -108,7 +111,7 @@ void TextInput::createNewLine()
 		cutSelection();
 		if (text.getString()[selectionBegin] != '\n')
 		{
-								
+
 
 			int cpt = selectionBegin;
 			while (cpt < text.getString().toAnsiString().size() && text.getString()[cpt] != '\n')
@@ -119,7 +122,7 @@ void TextInput::createNewLine()
 				cpt++;
 
 			cpt -= selectionBegin;
-								
+
 			charCountLine[currentLine] -= cpt;
 			charCountLine[currentLine]=max(0,charCountLine[currentLine]+1);
 			currentLine++;
@@ -168,11 +171,11 @@ bool TextInput::modified()
 				editing = true;
 				cursorBlink = 0;
 				currentLine = min(charCountLine.size() - 1, (mouse.pos.y - bg.getPosition().y) / font.getLineSpacing(charSize));
-				
+
 				int stringPos = 0;
 
 				sIndex = getCursorIndex(stringPos);
-				
+
 				selectionBegin = mouse.pos.x < x + title.getLocalBounds().width + 8 ? stringPos : sIndex;
 				recalcCursorPos();
 				mouseLock = 1;
@@ -180,8 +183,8 @@ bool TextInput::modified()
 			int stringPosLastLine;
 			pos2 = getCursorIndex(stringPosLastLine);
 
-			
-			
+
+
 			if (mouse.pos.x < text.getPosition().x)
 			{
 
@@ -189,7 +192,7 @@ bool TextInput::modified()
 
 				cursor.setPosition(text.getPosition().x, text.findCharacterPos(selectionBegin).y);
 
-				
+
 				while (pos2 > 0 && text.getString()[pos2 - 1] != '\n') {
 					pos2--;
 				}
@@ -235,7 +238,7 @@ bool TextInput::modified()
 			unselect();
 		}
 		bg.setFillColor(colors[TEXTINPUTBG]);
-		
+
 	}
 
 
@@ -278,7 +281,7 @@ bool TextInput::modified()
 					charCountLine[currentLine]--;
 					text.setString(string(text.getString()).erase(selectionBegin, 1));
 				}
-				
+
 			}
 			else
 			{
@@ -295,11 +298,11 @@ bool TextInput::modified()
 				if (textEntered[textEnteredCount] == 8)
 				{ // backspace
 
-					
+
 
 						if ((int)round(selection.getSize().x) == 0)
 						{
-							
+
 							if (selectionBegin > 0) {
 								if (text.getString().toAnsiString()[selectionBegin - 1] == '\n')
 								{
@@ -325,14 +328,14 @@ bool TextInput::modified()
 									text.setString(string(text.getString()).erase(selectionBegin, 1));
 								}
 							}
-								
-							
+
+
 						}
 						else
 						{
 							cutSelection();
 						}
-					
+
 					recalcCursorPos();
 					return true;
 				}
@@ -353,7 +356,7 @@ bool TextInput::modified()
 							{
 								createNewLine();
 							}
-							
+
 							int start=selectionBegin;
 							float ssize=0;
 							while (text.getString()[start] != '\n' && start < (int)text.getString().toAnsiString().length()-1)
@@ -361,7 +364,7 @@ bool TextInput::modified()
 								start++;
 							}
 							int lineSize = text.findCharacterPos(start).x;
-							
+
 							if (lineSize - bg.getPosition().x < bg.getSize().x) {
 
 
@@ -371,7 +374,7 @@ bool TextInput::modified()
 								pos2++;
 								recalcCursorPos();
 							}
-							
+
 						}
 						return true;
 					}
@@ -392,15 +395,15 @@ bool TextInput::modified()
 			{
 				canChangeLine=false;
 			}
-			
+
 			while (text.findCharacterPos(selectionBegin).x > text.findCharacterPos(old).x)
 			{
-				
+
 				selectionBegin--;
 				if (text.getString()[selectionBegin] == '\n' && !canChangeLine)
 					break;
 			}
-			
+
 
 			currentLine = max(0, currentLine - 1);
 			cursorBlink = 0;

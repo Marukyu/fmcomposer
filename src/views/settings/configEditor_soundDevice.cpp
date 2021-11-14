@@ -6,12 +6,14 @@
 #include "pa_win_ds.h"
 #endif
 
+#include <math.h>
+
 
 extern PaStream *stream;
 extern PaStreamParameters out;
 
 int nearestPow2( int aSize ){
-  return round(pow( 2, round( log( aSize ) / log( 2 ) ) )); 
+  return round(pow( 2, round( log( aSize ) / log( 2 ) ) ));
 }
 
 int ConfigEditor::selectSoundDevice(int soundDeviceId, int _samplerate, int _latency, bool force)
@@ -138,7 +140,7 @@ void ConfigEditor::selectBestSoundDevice()
 	int soundDeviceId = atoi(ini_config.GetValue("config", "soundDeviceId", "-1"));
 	if (equalsIgnoreCase(lastRunVersion.c_str(), "1.4"))
 	{
-		
+
 		soundDeviceId+=directXdevicesCount;
 	}
 	int sampleRate = atoi(ini_config.GetValue("config", "sampleRate", "-1"));

@@ -4,6 +4,8 @@
 #include "../views/settings/configEditor.hpp"
 #include "../libs/simpleini/SimpleIni.h"
 
+#include <math.h>
+
 extern ConfigEditor* config;
 extern CSimpleIniA ini_gmlist;
 
@@ -1058,7 +1060,7 @@ int parseMidiRows(unsigned short delta_time_ticks)
 					}
 				}
 				else
-				{// meta 
+				{// meta
 					eventType = midifile.get();
 					switch (eventType)
 					{
